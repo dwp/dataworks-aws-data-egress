@@ -2,18 +2,17 @@ jobs:
 - name: preprod
   max_in_flight: 1
   plan:
-  - in_parallel:
-      - get: dataworks-aws-data-egress
-        passed:
-          - integration
-        trigger: true
-  - .: (( inject meta.plan.terraform-bootstrap ))
-  - .: (( inject meta.plan.get-al2-hardened-ami ))
-    passed:
-      - integration
-  - .: (( inject meta.plan.terraform-apply ))
-    params:
-      TF_WORKSPACE: preprod
-  - .: (( inject meta.plan.terraform-plan ))
-    params:
-      TF_WORKSPACE: preprod
+    - get: dataworks-aws-data-egress
+      passed:
+        - integration
+      trigger: true
+    - .: (( inject meta.plan.terraform-bootstrap ))
+    - .: (( inject meta.plan.get-al2-hardened-ami ))
+      passed:
+        - integration
+    - .: (( inject meta.plan.terraform-apply ))
+      params:
+        TF_WORKSPACE: preprod
+    - .: (( inject meta.plan.terraform-plan ))
+      params:
+        TF_WORKSPACE: preprod
