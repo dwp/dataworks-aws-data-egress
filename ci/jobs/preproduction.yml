@@ -6,8 +6,8 @@ jobs:
       passed:
         - integration
       trigger: true
-    - .: (( inject meta.plan.terraform-bootstrap ))
     - .: (( inject meta.plan.get-al2-hardened-ami ))
+    - .: (( inject meta.plan.terraform-bootstrap ))
       passed:
         - integration
     - .: (( inject meta.plan.terraform-apply ))

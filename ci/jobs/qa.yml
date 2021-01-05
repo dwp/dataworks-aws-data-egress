@@ -6,9 +6,9 @@ jobs:
         trigger: true
         passed:
           - development
+      - .: (( inject meta.plan.get-al2-hardened-ami ))
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
-      - .: (( inject meta.plan.get-al2-hardened-ami ))
         params:
           TF_WORKSPACE: qa
       - .: (( inject meta.plan.terraform-plan ))
