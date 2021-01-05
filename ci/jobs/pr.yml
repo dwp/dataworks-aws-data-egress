@@ -1,5 +1,5 @@
 jobs:
-- name: pull-request
+- name: dataworks-aws-data-egress-pr
   plan:
   - in_parallel:
       - get: dataworks-aws-data-egress-pr
