@@ -6,6 +6,7 @@ jobs:
         resource: dataworks-aws-data-egress-pr
         trigger: true
         version: every
+      - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.get-al2-hardened-ami ))
   - put: dataworks-aws-data-egress-pr
     resource: dataworks-aws-data-egress-pr

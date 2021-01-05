@@ -7,6 +7,7 @@ jobs:
         passed:
           - qa
         trigger: true
+  - .: (( inject meta.plan.terraform-bootstrap ))
   - .: (( inject meta.plan.get-al2-hardened-ami ))
     passed:
       - qa
