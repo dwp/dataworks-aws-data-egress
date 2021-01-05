@@ -6,13 +6,15 @@ jobs:
         resource: dataworks-aws-data-egress-pr
         trigger: true
         version: every
-      - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.get-al2-hardened-ami ))
   - put: dataworks-aws-data-egress-pr
     resource: dataworks-aws-data-egress-pr
     params:
       path: dataworks-aws-data-egress-pr
       status: pending
+  - .: (( inject meta.plan.terraform-bootstrap ))
+    input_mapping:
+      dataworks-aws-data-egress: dataworks-aws-data-egress-pr
   - task: terraform-plan
     config:
       platform: linux
