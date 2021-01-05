@@ -1,57 +1,31 @@
 jobs:
-- name: dataworks-aws-data-egress-pr
-  plan:
-  - in_parallel:
+  - name: dataworks-aws-data-egress-pr
+    plan:
       - get: dataworks-aws-data-egress-pr
-        resource: dataworks-aws-data-egress-pr
         trigger: true
         version: every
-      - .: (( inject meta.plan.get-al2-hardened-ami ))
-  - put: dataworks-aws-data-egress-pr
-    resource: dataworks-aws-data-egress-pr
-    params:
-      path: dataworks-aws-data-egress-pr
-      status: pending
-  - .: (( inject meta.plan.terraform-bootstrap ))
-    input_mapping:
-      dataworks-aws-data-egress: dataworks-aws-data-egress-pr
-  - task: terraform-plan
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: ((dataworks.terraform_repository))
-          version: ((dataworks.terraform_version))
-          tag: ((dataworks.terraform_version))
-      run:
-        path: sh
-        args:
-          - -exc
-          - |
-            terraform fmt -recursive -check=true
-            export TF_VAR_al2_hardened_ami_id=$(cat ../dw-al2-hardened-ami/id)
-            terraform workspace show
-            terraform init
-            terraform plan
-        dir: dataworks-aws-data-egress-pr
-      inputs:
-        - name: dataworks-aws-data-egress-pr
-          optional: false
-        - name: dw-al2-hardened-ami
-    params:
-      TF_WORKSPACE: qa
-      TF_CLI_ARGS_plan: -lock-timeout=300s
-      TF_INPUT: "false"
-    on_failure:
-      put: dataworks-aws-data-egress-pr
-      resource: dataworks-aws-data-egress-pr
-      params:
-        path: dataworks-aws-data-egress-pr
-        status: failure
-    on_success:
-      put: dataworks-aws-data-egress-pr
-      resource: dataworks-aws-data-egress-pr
-      params:
-        path: dataworks-aws-data-egress-pr
-        status: success
+      - put: dataworks-aws-data-egress-pr
+        params:
+          path: dataworks-aws-data-egress-pr
+          status: pending
+      - get: dw-al2-hardened-ami
+        trigger: false
+      - .: (( inject meta.plan.terraform-bootstrap ))
+        input_mapping:
+          dataworks-aws-data-egress: dataworks-aws-data-egress-pr
+      - .: (( inject meta.plan.terraform-plan ))
+        input_mapping:
+          dataworks-aws-data-egress: dataworks-aws-data-egress-pr
+        params:
+          TF_WORKSPACE: "qa"
+          DETAILED_EXITCODE: ""
+        on_failure:
+          put: dataworks-aws-data-egress-pr
+          params:
+            path: dataworks-aws-data-egress-pr
+            status: failure
+        on_success:
+          put: dataworks-aws-data-egress-pr
+          params:
+            path: dataworks-aws-data-egress-pr
+            status: success

@@ -57,6 +57,8 @@
           - name: dataworks-aws-data-egress
           - name: terraform-bootstrap
           - name: dw-al2-hardened-ami
+      params:
+        AWS_REGION: eu-west-2
     terraform-plan:
       task: terraform-plan
       .: (( inject meta.plan.terraform-common-config ))
@@ -78,6 +80,7 @@
           - name: dw-al2-hardened-ami
       params:
         DETAILED_EXITCODE: -detailed-exitcode
+        AWS_REGION: eu-west-2
 
     get-al2-hardened-ami:
       get: dw-al2-hardened-ami
