@@ -17,7 +17,7 @@ jobs:
         input_mapping:
           dataworks-aws-data-egress: dataworks-aws-data-egress-pr
         params:
-          TF_WORKSPACE: "qa"
+          TF_WORKSPACE: qa
           DETAILED_EXITCODE: ""
         on_failure:
           put: dataworks-aws-data-egress-pr
