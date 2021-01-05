@@ -3,7 +3,7 @@ jobs:
   max_in_flight: 1
   plan:
     - in_parallel:
-        - get: aws-sdx
+        - get: dataworks-aws-data-egress
           trigger: true
     - .: (( inject meta.plan.get-al2-hardened-ami ))
     - .: (( inject meta.plan.terraform-apply ))

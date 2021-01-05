@@ -78,3 +78,8 @@
           - name: dw-al2-hardened-ami
       params:
         DETAILED_EXITCODE: -detailed-exitcode
+
+    get-al2-hardened-ami:
+      get: dw-al2-hardened-ami
+      trigger: true
+
