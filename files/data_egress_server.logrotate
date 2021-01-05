@@ -1,0 +1,9 @@
+/var/log/data_egress_server/data_egress_server.out {
+    copytruncate
+    missingok
+    notifempty
+    maxsize 1024k
+    rotate 10
+    daily
+    create 0640 data_egress_server dip_export
+}

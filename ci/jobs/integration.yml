@@ -1,0 +1,18 @@
+jobs:
+- name: integration
+  max_in_flight: 1
+  plan:
+  - in_parallel:
+      - get: aws-sdx
+        passed:
+          - qa
+        trigger: true
+  - .: (( inject meta.plan.get-al2-hardened-ami ))
+    passed:
+      - qa
+  - .: (( inject meta.plan.terraform-apply ))
+    params:
+      TF_WORKSPACE: integration
+  - .: (( inject meta.plan.terraform-plan ))
+    params:
+      TF_WORKSPACE: integration
