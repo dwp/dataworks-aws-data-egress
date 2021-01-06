@@ -63,6 +63,16 @@ locals {
     management     = "management"
   }
 
+  management_account = {
+    development    = "management-dev"
+    qa             = "management-dev"
+    integration    = "management-dev"
+    management-dev = "management-dev"
+    preprod        = "management"
+    production     = "management"
+    management     = "management"
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
