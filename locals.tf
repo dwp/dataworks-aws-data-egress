@@ -1,61 +1,41 @@
 locals {
 
-  is_mgmt_env = {
-    development    = false
-    qa             = false
-    integration    = false
-    preprod        = false
-    production     = false
-    management     = true
-    management-dev = true
-  }
-
   env_prefix = {
-    development    = "dev."
-    qa             = "qa."
-    stage          = "stg."
-    integration    = "int."
-    preprod        = "pre."
-    production     = ""
-    management-dev = "mgt-dev."
-    management     = "mgt."
+    development = "dev."
+    qa          = "qa."
+    stage       = "stg."
+    integration = "int."
+    preprod     = "pre."
+    production  = ""
   }
 
   data_egress_server_asg_min = {
-    development    = 1
-    qa             = 1
-    integration    = 1
-    preprod        = 1
-    production     = 1
-    management-dev = 0
-    management     = 0
+    development = 1
+    qa          = 1
+    integration = 1
+    preprod     = 1
+    production  = 1
   }
   data_egress_server_asg_desired = {
-    development    = 1
-    qa             = 1
-    integration    = 1
-    preprod        = 1
-    production     = 1
-    management-dev = 0
-    management     = 0
+    development = 1
+    qa          = 1
+    integration = 1
+    preprod     = 1
+    production  = 1
   }
   data_egress_server_asg_max = {
-    development    = 1
-    qa             = 1
-    integration    = 1
-    preprod        = 1
-    production     = 1
-    management-dev = 0
-    management     = 0
+    development = 1
+    qa          = 1
+    integration = 1
+    preprod     = 1
+    production  = 1
   }
   data_egress_server_ssmenabled = {
-    development    = "True"
-    qa             = "True"
-    integration    = "True"
-    preprod        = "False"
-    production     = "False"
-    management-dev = "False"
-    management     = "False"
+    development = "True"
+    qa          = "True"
+    integration = "True"
+    preprod     = "False"
+    production  = "False"
   }
 
   crypto_workspace = {
