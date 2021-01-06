@@ -134,7 +134,7 @@ resource "aws_security_group" "data_egress_server" {
   count       = local.is_mgmt_env[local.environment] ? 0 : 1
   name        = "data_egress_server"
   description = "Control access to and from data egress server"
-  vpc_id      = data.terraform_remote_state.sdx.vpc.vpc.id
+  vpc_id      = data.terraform_remote_state.sdx.outputs.vpc.vpc.id
 
   tags = merge(
     local.common_tags,
@@ -153,7 +153,7 @@ resource "aws_autoscaling_group" "data_egress_server" {
   health_check_grace_period = 600
   health_check_type         = "EC2"
   force_delete              = true
-  vpc_zone_identifier       = data.terraform_remote_state.sdx.subnet_sdx_connectivity.*.id
+  vpc_zone_identifier       = data.terraform_remote_state.sdx.outputs.subnet_sdx_connectivity.*.id
 
   launch_template {
     id      = aws_launch_template.data_egress_server[0].id
@@ -188,8 +188,8 @@ resource "aws_launch_template" "data_egress_server" {
     truststore_aliases                               = join(",", var.truststore_aliases)
     truststore_certs                                 = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
     private_key_alias                                = "data-egress"
-    internet_proxy                                   = data.terraform_remote_state.sdx.internet_proxy.host
-    non_proxied_endpoints                            = join(",", data.terraform_remote_state.sdx.no_proxy_list)
+    internet_proxy                                   = data.terraform_remote_state.sdx.outputs.internet_proxy.host
+    non_proxied_endpoints                            = join(",", data.terraform_remote_state.sdx.outputs.no_proxy_list)
     dks_fqdn                                         = local.dks_fqdn
     cwa_namespace                                    = local.cw_data_egress_server_agent_namespace
     cwa_metrics_collection_interval                  = local.cw_agent_metrics_collection_interval
@@ -450,7 +450,7 @@ resource "aws_security_group_rule" "data_egress_server_s3" {
   count             = local.is_mgmt_env[local.environment] ? 0 : 1
   description       = "Allow data egress server to reach S3"
   type              = "egress"
-  prefix_list_ids   = [data.terraform_remote_state.sdx.prefix_list_ids.s3]
+  prefix_list_ids   = [data.terraform_remote_state.sdx.outputs.prefix_list_ids.s3]
   protocol          = "tcp"
   from_port         = 443
   to_port           = 443
@@ -461,7 +461,7 @@ resource "aws_security_group_rule" "data_egress_server_dynamodb" {
   count             = local.is_mgmt_env[local.environment] ? 0 : 1
   description       = "Allow data egress server to reach DynamoDB"
   type              = "egress"
-  prefix_list_ids   = [data.terraform_remote_state.sdx.prefix_list_ids.dynamodb]
+  prefix_list_ids   = [data.terraform_remote_state.sdx.outputs.prefix_list_ids.dynamodb]
   protocol          = "tcp"
   from_port         = 443
   to_port           = 443
@@ -472,7 +472,7 @@ resource "aws_security_group_rule" "egress_data_egress_server_internet" {
   count                    = local.is_mgmt_env[local.environment] ? 0 : 1
   description              = "Allow data egress server access to Internet Proxy (for ACM-PCA)"
   type                     = "egress"
-  source_security_group_id = data.terraform_remote_state.sdx.internet_proxy.sg
+  source_security_group_id = data.terraform_remote_state.sdx.outputs.internet_proxy.sg
   protocol                 = "tcp"
   from_port                = 3128
   to_port                  = 3128
@@ -487,14 +487,14 @@ resource "aws_security_group_rule" "ingress_data_egress_server_internet" {
   protocol                 = "tcp"
   from_port                = 3128
   to_port                  = 3128
-  security_group_id        = data.terraform_remote_state.sdx.internet_proxy.sg
+  security_group_id        = data.terraform_remote_state.sdx.outputs.internet_proxy.sg
 }
 
 resource "aws_security_group_rule" "egress_data_egress_server_vpc_endpoint" {
   count                    = local.is_mgmt_env[local.environment] ? 0 : 1
   description              = "Allow data egress server access to VPC endpoints"
   type                     = "egress"
-  source_security_group_id = data.terraform_remote_state.sdx.vpc.interface_vpce_sg_id
+  source_security_group_id = data.terraform_remote_state.sdx.outputs.vpc.interface_vpce_sg_id
   protocol                 = "tcp"
   from_port                = 443
   to_port                  = 443
@@ -509,7 +509,7 @@ resource "aws_security_group_rule" "ingress_data_egress_server_vpc_endpoint" {
   protocol                 = "tcp"
   from_port                = 443
   to_port                  = 443
-  security_group_id        = data.terraform_remote_state.sdx.interface_vpce_sg_id
+  security_group_id        = data.terraform_remote_state.sdx.outputs.interface_vpce_sg_id
 }
 
 resource "aws_security_group_rule" "data_egress_dks" {
