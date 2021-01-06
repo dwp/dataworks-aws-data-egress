@@ -1,8 +1,12 @@
 groups:
-  - name: master
-    jobs:
-      - development
-      - qa
-  - name: pull-request
-    jobs:
-      - dataworks-aws-data-egress-pr
+- name: master
+  jobs:
+    - development
+    - qa
+    - integration
+    - preprod
+    - production
+
+- name: pull-request
+  jobs:
+    - dataworks-aws-data-egress-pr
