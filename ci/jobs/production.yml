@@ -7,6 +7,8 @@ jobs:
       passed:
         - preprod
     - .: (( inject meta.plan.get-al2-hardened-ami ))
+      passed:
+        - preprod
     - .: (( inject meta.plan.terraform-bootstrap ))
     - .: (( inject meta.plan.terraform-apply ))
       params:
