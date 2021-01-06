@@ -91,7 +91,7 @@ data "terraform_remote_state" "crypto" {
 
 data "terraform_remote_state" "aws_sdx" {
   backend   = "s3"
-  workspace = local.crypto_workspace[local.management_account[local.environment]]
+  workspace = terraform.workspace
   config = {
     bucket         = "{{terraform.state_file_bucket}}"
     key            = "terraform/dataworks/aws-sdx.tfstate"
