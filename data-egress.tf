@@ -198,7 +198,7 @@ resource "aws_launch_template" "data_egress_server" {
     cwa_disk_io_metrics_collection_interval          = local.cw_agent_disk_io_metrics_collection_interval
     cwa_mem_metrics_collection_interval              = local.cw_agent_mem_metrics_collection_interval
     cwa_netstat_metrics_collection_interval          = local.cw_agent_netstat_metrics_collection_interval
-    cwa_log_group_name                               = aws_cloudwatch_log_group.data_egress_server_logs[0].name
+    cwa_log_group_name                               = aws_cloudwatch_log_group.data_egress_server_logs.name
     s3_scripts_bucket                                = data.terraform_remote_state.common.outputs.config_bucket.id
     s3_file_data_egress_server_logrotate             = aws_s3_bucket_object.data_egress_server_logrotate_script[0].id
     s3_file_data_egress_server_logrotate_md5         = md5(data.local_file.data_egress_server_logrotate_script[0].content)
@@ -283,7 +283,6 @@ resource "aws_iam_instance_profile" "data_egress_server" {
 }
 
 resource "aws_cloudwatch_log_group" "data_egress_server_logs" {
-  count             = local.is_mgmt_env[local.environment] ? 0 : 1
   name              = "/app/data-egress-server"
   retention_in_days = 180
   tags              = local.common_tags
@@ -390,7 +389,7 @@ data "aws_iam_policy_document" "data_egress_server" {
       "logs:PutLogEvents",
       "logs:DescribeLogStreams"
     ]
-    resources = [aws_cloudwatch_log_group.data_egress_server_logs[0].arn]
+    resources = [aws_cloudwatch_log_group.data_egress_server_logs.arn]
   }
 
 }
