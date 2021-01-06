@@ -57,6 +57,12 @@ locals {
     management-dev = "False"
     management     = "False"
   }
+
+  crypto_workspace = {
+    management-dev = "management-dev"
+    management     = "management"
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
