@@ -450,7 +450,7 @@ resource "aws_security_group_rule" "data_egress_server_s3" {
   count             = local.is_mgmt_env[local.environment] ? 0 : 1
   description       = "Allow data egress server to reach S3"
   type              = "egress"
-  prefix_list_ids   = [data.terraform_remote_state.aws_sdx.outputs.prefix_list_ids.s3]
+  prefix_list_ids   = [data.terraform_remote_state.aws_sdx.outputs.vpc.prefix_list_ids.s3]
   protocol          = "tcp"
   from_port         = 443
   to_port           = 443
@@ -461,7 +461,7 @@ resource "aws_security_group_rule" "data_egress_server_dynamodb" {
   count             = local.is_mgmt_env[local.environment] ? 0 : 1
   description       = "Allow data egress server to reach DynamoDB"
   type              = "egress"
-  prefix_list_ids   = [data.terraform_remote_state.aws_sdx.outputs.prefix_list_ids.dynamodb]
+  prefix_list_ids   = [data.terraform_remote_state.aws_sdx.outputs.vpc.prefix_list_ids.dynamodb]
   protocol          = "tcp"
   from_port         = 443
   to_port           = 443
