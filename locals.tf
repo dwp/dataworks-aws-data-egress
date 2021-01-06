@@ -1,5 +1,13 @@
 locals {
 
+  is_mgmt_env = {
+    development    = false
+    qa             = false
+    integration    = false
+    preprod        = false
+    production     = false
+  }
+
   env_prefix = {
     development = "dev."
     qa          = "qa."
