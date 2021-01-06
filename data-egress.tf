@@ -509,7 +509,7 @@ resource "aws_security_group_rule" "ingress_data_egress_server_vpc_endpoint" {
   protocol                 = "tcp"
   from_port                = 443
   to_port                  = 443
-  security_group_id        = data.terraform_remote_state.aws_sdx.outputs.interface_vpce_sg_id
+  security_group_id        = data.terraform_remote_state.aws_sdx.outputs.vpc.interface_vpce_sg_id
 }
 
 resource "aws_security_group_rule" "data_egress_dks" {
