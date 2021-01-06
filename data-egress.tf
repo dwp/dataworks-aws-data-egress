@@ -110,7 +110,7 @@ data "aws_iam_policy_document" "published_non_sensitive_bucket_s3" {
 }
 
 resource "aws_acm_certificate" "data_egress_server" {
-  count      = local.is_mgmt_env[local.environment] ? 0 : 1
+  count                     = local.is_mgmt_env[local.environment] ? 0 : 1
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "${local.data_egress_server_name}.${local.env_prefix[local.environment]}dataworks.dwp.gov.uk"
 
