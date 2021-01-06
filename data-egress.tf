@@ -110,7 +110,6 @@ data "aws_iam_policy_document" "published_non_sensitive_bucket_s3" {
 }
 
 resource "aws_acm_certificate" "data_egress_server" {
-  count                     = local.is_mgmt_env[local.environment] ? 0 : 1
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "${local.data_egress_server_name}.${local.env_prefix[local.environment]}dataworks.dwp.gov.uk"
 
@@ -177,7 +176,7 @@ resource "aws_launch_template" "data_egress_server" {
   vpc_security_group_ids = [aws_security_group.data_egress_server.id]
   user_data = base64encode(templatefile("files/data_egress_server_userdata.tpl", {
     environment_name                                 = local.environment
-    acm_cert_arn                                     = aws_acm_certificate.data_egress_server[0].arn
+    acm_cert_arn                                     = aws_acm_certificate.data_egress_server.arn
     truststore_aliases                               = join(",", var.truststore_aliases)
     truststore_certs                                 = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
     private_key_alias                                = "data-egress"
@@ -337,7 +336,7 @@ data "aws_iam_policy_document" "data_egress_server" {
     actions = [
       "acm:ExportCertificate",
     ]
-    resources = [aws_acm_certificate.data_egress_server[0].arn]
+    resources = [aws_acm_certificate.data_egress_server.arn]
   }
 
   statement {
