@@ -1,6 +1,7 @@
 from data_egress import sqs_listener
 import json
 import pytest
+from data_egress.sqs_listener import S3PrefixAndDynamoRecord
 
 
 def test_process_message():
@@ -33,23 +34,23 @@ def test_process_message_wrong_formatted_prefix_2():
 
 
 def test_process_dynamo_db_response():
-    records = []
+    records = [S3PrefixAndDynamoRecord("data-egress-testing/", [])]
     with pytest.raises(Exception) as ex:
-        sqs_listener.process_dynamo_db_response('data-egress-testing/', records)
+        sqs_listener.process_dynamo_db_response(records)
     assert str(ex.value) == "No records found in dynamo db for the s3_prefix data-egress-testing/"
 
 
 def test_process_dynamo_db_response_1():
-    records = [{'source_bucket': '123'}, {'source_bucket': '456'}]
+    records = [S3PrefixAndDynamoRecord("data-egress-testing/", [{'source_bucket': '123'}, {'source_bucket': '456'}])]
     with pytest.raises(Exception) as ex:
-        sqs_listener.process_dynamo_db_response('data-egress-testing/', records)
+        sqs_listener.process_dynamo_db_response(records)
     assert str(ex.value) == "More than 1 record for the s3_prefix data-egress-testing/"
 
 
 def test_process_dynamo_db_response_2():
-    records = [{'destination_bucket': '1221', 'source_prefix': 'data-egress-testing/', 'destination_prefix': '/abc/', 'transfer_type': 's3'}]
+    records = [S3PrefixAndDynamoRecord("data-egress-testing/", [{'destination_bucket': '123'}])]
     with pytest.raises(KeyError) as ex:
-        sqs_listener.process_dynamo_db_response('data-egress-testing/', records)
+        sqs_listener.process_dynamo_db_response(records)
     assert str(ex.value) == '"Key: \'source_bucket\' not found when retrieving from dynamodb response"'
 
 
