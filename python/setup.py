@@ -12,7 +12,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     entry_points={
         "console_scripts": [
-            "sqs_listener=sqs_listener:main"
+            "sqs-listener=data_egress.sqs_listener:main"
         ]
     },
     package_dir={"": "src"},

@@ -1,0 +1,40 @@
+# To use the same mirroring approach in a new repo, copy 'ci' directory and aviator.yml,
+# then replace references to Github repo in:
+# - resources.yml
+# - aviator.yml
+# - jobs/mirror-job.yml
+
+jobs:
+  - name: mirror-data-egress
+    plan:
+      - get: aws-management-infrastructure
+      - get: dataworks-aws-data-egress
+        trigger: true
+        params:
+          globs:
+            - "*.tar.gz"
+      - .: (( inject meta.plan.terraform-output ))
+      - task: mirror-data-egress
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ((dataworks.docker_awscli_repository))
+              version: ((dataworks.docker_awscli_version))
+              tag: ((dataworks.docker_awscli_version))
+          inputs:
+            - name: bucket_name
+            - name: data-egress
+          params:
+            ARTEFACT_DIR: "data-egress"
+            AWS_ROLE_ARN: arn:aws:iam::((dataworks.aws_management_acc)):role/ci
+            AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          run:
+            path: sh
+            args:
+              - -exc
+              - |
+                source /assume-role
+                export BUCKET=`cat bucket_name/bucket_name`
+                aws s3 cp ${ARTEFACT_DIR}/*.tar.gz s3://${BUCKET}/${ARTEFACT_DIR}/

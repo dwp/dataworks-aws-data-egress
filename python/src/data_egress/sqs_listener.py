@@ -1,5 +1,3 @@
-from data_egress import aws_helper
-import boto3
 from boto3.dynamodb.conditions import Key
 import uuid
 import requests
@@ -9,6 +7,7 @@ from Crypto.Util import Counter
 import zlib
 import logging
 import re
+import boto3
 
 DATA_ENCRYPTION_KEY_ID = "datakeyencryptionkeyid"
 
@@ -37,10 +36,10 @@ keys_map = []
 
 
 def receive_message_from_sqs():
-    sqs_client = aws_helper.get_client(service_name="sqs")
+    sqs_client = get_client(service_name="sqs")
     while True:
         sqs_count = sqs_count + 1
-        response = client.get_queue_attributes(
+        response = sqs_client.get_queue_attributes(
             QueueUrl="string", AttributeNames=["ApproximateNumberOfMessages"]
         )
         available_msg_coumt = response["Attributes"]["ApproximateNumberOfMessages"]
@@ -96,7 +95,7 @@ def query_dymodb(s3_prefix):
     Arguments:
         s3_prefix (string): source bucket prefix to query dynamo db table
     """
-    dynamodb_client = aws_helper.get_client(service_name="dynamodb")
+    dynamodb_client = get_client(service_name="dynamodb")
     table = dynamodb_client.Table(DATA_EGRESS_DYNAMO_DB_TABLE)
     response = table.query(KeyConditionExpression=Key("source_prefix").eq(s3_prefix))
     return response["Items"]
@@ -137,7 +136,7 @@ def process_dynamo_db_response(s3_prefix, records):
 def start_processing(
     source_bucket, source_prefix, destination_bucket, destination_prefix
 ):
-    s3_client = aws_helper.get_client(service="s3")
+    s3_client = get_client(service="s3")
     keys = get_all_s3_keys(source_bucket, source_prefix)
     for key in keys:
         s3_object = s3_client.get_object(Bucket=source_bucket, Key=key)
@@ -160,7 +159,7 @@ def start_processing(
 
 
 def get_all_s3_keys(source_bucket, source_prefix):
-    s3_client = aws_helper.get_client(service="s3")
+    s3_client = get_client(service="s3")
     keys = []
     paginator = s3_client.get_paginator("list_objects_v2")
     pages = paginator.paginate(Bucket=source_bucket, Prefix=source_prefix)
@@ -247,6 +246,10 @@ def assume_role():
 
     return assume_role_dict["Credentials"]
 
+
+def get_client(service_name):
+    client = boto3.client(service_name)
+    return client
 
 if __name__ == "__main__":
     try:
