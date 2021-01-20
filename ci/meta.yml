@@ -48,7 +48,7 @@
           args:
             - -exc
             - |
-              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id
+              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
               export TF_VAR_data_egress_image_version="$DATA_EGRESS_IMAGE_VERSION"
               terraform workspace show
               terraform init
