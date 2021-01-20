@@ -79,3 +79,4 @@ variable "parent_domain_name" {
   description = "parent domain name for monitoring"
   type        = string
 }
+
