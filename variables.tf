@@ -62,6 +62,7 @@ variable "receiver_memory" {
 }
 
 variable "data_egress_port" {
+  default = 8080
 }
 
 variable "data_egress_image_version" {
@@ -78,5 +79,6 @@ variable "name" {
 variable "parent_domain_name" {
   description = "parent domain name for monitoring"
   type        = string
+  default = "dataworks.dwp.gov.uk"
 }
 

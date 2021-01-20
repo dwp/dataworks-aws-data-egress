@@ -29,7 +29,9 @@
             - -exc
             - |
               python bootstrap_terraform.py
+              sed -i '/^assume_role/ d' terraform.tfvars
               cp terraform.tf ../terraform-bootstrap
+              cp terraform.tfvars ../terraform-bootstrap
           dir: dataworks-aws-data-egress
         inputs:
           - name: dataworks-aws-data-egress
@@ -47,8 +49,7 @@
             - -exc
             - |
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id
-              export TF_VAR_data_egress_image_version="((data_egress_image_version))"
-              cp ../terraform-bootstrap/terraform.tf .
+              export TF_VAR_data_egress_image_version="$DATA_EGRESS_IMAGE_VERSION"
               terraform workspace show
               terraform init
               terraform plan -out terraform.plan
@@ -70,7 +71,7 @@
             - -exc
             - |
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
-              export TF_VAR_data_egress_image_version="$DATA_EGRESS_IMAGE_VERSION"
+              export TF_VAR_data_egress_image_version=$DATA_EGRESS_IMAGE_VERSION
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
               terraform init
