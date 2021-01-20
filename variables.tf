@@ -64,11 +64,9 @@ variable "receiver_memory" {
 variable "data_egress_port" {
 }
 
-variable "image_versions" {
+variable "data_egress_image_version" {
   description = "pinned image versions to use"
-  default = {
-    data-egress = "0.0.1"
-  }
+  default = "0.0.1"
 }
 
 variable "name" {

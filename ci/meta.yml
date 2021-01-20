@@ -46,7 +46,8 @@
           args:
             - -exc
             - |
-              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
+              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id
+              export TF_VAR_data_egress_image_version="((data_egress_image_version))"
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
               terraform init
@@ -69,6 +70,7 @@
             - -exc
             - |
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
+              export TF_VAR_data_egress_image_version="((data_egress_image_version))"
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
               terraform init
