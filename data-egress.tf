@@ -139,10 +139,11 @@ resource "aws_security_group" "data_egress_server" {
 }
 
 resource "aws_autoscaling_group" "data_egress_server" {
-  name_prefix               = "${aws_launch_template.data_egress_server.name}-lt_ver${aws_launch_template.data_egress_server.latest_version}_"
+  name                      = local.data_egress_friendly_name
   min_size                  = local.data_egress_server_asg_min[local.environment]
   desired_capacity          = local.data_egress_server_asg_desired[local.environment]
   max_size                  = local.data_egress_server_asg_max[local.environment]
+  protect_from_scale_in     = false
   health_check_grace_period = 600
   health_check_type         = "EC2"
   force_delete              = true
@@ -150,7 +151,7 @@ resource "aws_autoscaling_group" "data_egress_server" {
 
   launch_template {
     id      = aws_launch_template.data_egress_server.id
-    version = "$Latest"
+    version = aws_launch_template.data_egress_server.latest_version
   }
 
   dynamic "tag" {
@@ -163,17 +164,28 @@ resource "aws_autoscaling_group" "data_egress_server" {
     }
   }
 
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+  }
+
   lifecycle {
     create_before_destroy = true
-    ignore_changes        = [desired_capacity]
   }
 }
 
 resource "aws_launch_template" "data_egress_server" {
-  name_prefix            = "data_egress_server_"
-  image_id               = var.al2_hardened_ami_id
-  instance_type          = var.data_egress_server_ec2_instance_type[local.environment]
-  vpc_security_group_ids = [aws_security_group.data_egress_server.id]
+  name          = local.data_egress_friendly_name
+  image_id      = var.ecs_hardened_ami_id
+  instance_type = var.data_egress_server_ec2_instance_type[local.environment]
+  network_interfaces {
+    associate_public_ip_address = false
+    delete_on_termination       = true
+
+    security_groups = [aws_security_group.data_egress_server.id]
+  }
   user_data = base64encode(templatefile("files/data_egress_server_userdata.tpl", {
     environment_name                                 = local.environment
     acm_cert_arn                                     = aws_acm_certificate.data_egress_server.arn
@@ -214,10 +226,6 @@ resource "aws_launch_template" "data_egress_server" {
     }
   }
 
-  monitoring {
-    enabled = true
-  }
-
   lifecycle {
     create_before_destroy = true
   }
@@ -225,7 +233,7 @@ resource "aws_launch_template" "data_egress_server" {
   tags = merge(
     local.common_tags,
     {
-      Name = "data_egress_server"
+      Name = local.data_egress_friendly_name
     }
   )
 
@@ -250,7 +258,7 @@ data "aws_iam_policy_document" "data_egress_server_assume_role" {
   statement {
     sid = "EC2AssumeRole"
     principals {
-      identifiers = ["ec2.amazonaws.com"]
+      identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
     }
     actions = [

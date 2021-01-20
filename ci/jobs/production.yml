@@ -6,7 +6,7 @@ jobs:
       trigger: true
       passed:
         - preprod
-    - .: (( inject meta.plan.get-al2-hardened-ami ))
+    - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
       passed:
         - preprod
     - .: (( inject meta.plan.terraform-bootstrap ))
