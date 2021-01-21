@@ -96,28 +96,8 @@ resource "aws_launch_template" "data_egress_server" {
     security_groups = [aws_security_group.data_egress_server.id]
   }
   user_data = base64encode(templatefile("files/data_egress_server_userdata.tpl", {
-    environment_name                                 = local.environment
-    acm_cert_arn                                     = aws_acm_certificate.data_egress_server.arn
-    truststore_aliases                               = join(",", var.truststore_aliases)
-    truststore_certs                                 = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
-    private_key_alias                                = "data-egress"
-    internet_proxy                                   = data.terraform_remote_state.aws_sdx.outputs.internet_proxy.host
-    non_proxied_endpoints                            = join(",", data.terraform_remote_state.aws_sdx.outputs.vpc.no_proxy_list)
-    dks_fqdn                                         = local.dks_fqdn
-    cwa_namespace                                    = local.cw_data_egress_server_agent_namespace
-    cwa_metrics_collection_interval                  = local.cw_agent_metrics_collection_interval
-    cwa_cpu_metrics_collection_interval              = local.cw_agent_cpu_metrics_collection_interval
-    cwa_disk_measurement_metrics_collection_interval = local.cw_agent_disk_measurement_metrics_collection_interval
-    cwa_disk_io_metrics_collection_interval          = local.cw_agent_disk_io_metrics_collection_interval
-    cwa_mem_metrics_collection_interval              = local.cw_agent_mem_metrics_collection_interval
-    cwa_netstat_metrics_collection_interval          = local.cw_agent_netstat_metrics_collection_interval
-    cwa_log_group_name                               = aws_cloudwatch_log_group.data_egress_server_logs.name
-    s3_scripts_bucket                                = data.terraform_remote_state.common.outputs.config_bucket.id
-    s3_file_data_egress_server_logrotate             = aws_s3_bucket_object.data_egress_server_logrotate_script.id
-    s3_file_data_egress_server_logrotate_md5         = md5(data.local_file.data_egress_server_logrotate_script.content)
-    s3_file_data_egress_server_cloudwatch_sh         = aws_s3_bucket_object.data_egress_server_cloudwatch_script.id
-    s3_file_data_egress_server_cloudwatch_sh_md5     = md5(data.local_file.data_egress_server_cloudwatch_script.content)
-  }))
+    cluster_name = local.cluster_name # Referencing the cluster resource causes a circular dependency
+     }))
   instance_initiated_shutdown_behavior = "terminate"
 
   iam_instance_profile {
