@@ -254,11 +254,29 @@ resource "aws_launch_template" "data_egress_server" {
 
 }
 
+resource "aws_iam_role" "data_egress_server_task" {
+  name               = "data_egress_server_task"
+  assume_role_policy = data.aws_iam_policy_document.data_egress_server_task_assume_role.json
+}
+
+data "aws_iam_policy_document" "data_egress_server_task_assume_role" {
+  statement {
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
 data "aws_iam_policy_document" "data_egress_server_assume_role" {
   statement {
-    sid = "EC2AssumeRole"
+    sid = "ECSAssumeRole"
     principals {
-      identifiers = ["ecs-tasks.amazonaws.com"]
+      identifiers = ["ec2.amazonaws.com"]
       type        = "Service"
     }
     actions = [
@@ -308,6 +326,11 @@ resource "aws_iam_role_policy_attachment" "data_egress_server_ebs_cmk_instance_e
 resource "aws_iam_role_policy_attachment" "data_egress_server_amazon_ssm_managed_instance_core" {
   role       = aws_iam_role.data_egress_server.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy_attachment" "data_egress_cluster_ecs" {
+  role       = aws_iam_role.data_egress_server.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
 }
 
 data "aws_iam_policy_document" "data_egress_server" {
