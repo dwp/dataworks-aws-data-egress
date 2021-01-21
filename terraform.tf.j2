@@ -46,6 +46,14 @@ locals {
           {{ key }} = "{{ value }}"{% endfor %}
       } {%- endfor %}
   }
+
+  opsmi = {
+  {%- for environment, ranges in opsmi.items() %}
+      {{ environment }} = {
+        {%- for key, value in ranges.items() %}
+          {{ key }} = "{{ value }}"{% endfor %}
+      } {%- endfor %}
+  }
 }
 
 data "terraform_remote_state" "common" {

@@ -366,6 +366,25 @@ data "aws_iam_policy_document" "data_egress_server" {
   }
 
   statement {
+    sid = "OpsMIBucketObjectPut"
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectAcl"
+    ]
+    resources = ["arn:aws:s3:::${local.opsmi[local.environment].bucket_name}/*"]
+  }
+
+  statement {
+    sid = "OpsMIBucketKMSDecrypt"
+    actions = [
+      "kms:Decrypt",
+      "kms:GenerateDataKey",
+      "kms:DescribeKey"
+    ]
+    resources = ["arn:aws:kms:eu-west-2:${local.opsmi[local.environment].account_id}:key/*"]
+  }
+
+  statement {
     sid = "CloudWatchLogsWrite"
     actions = [
       "logs:CreateLogStream",
