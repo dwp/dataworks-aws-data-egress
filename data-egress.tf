@@ -11,18 +11,18 @@ resource "aws_sqs_queue" "data_egress" {
 
 resource "aws_dynamodb_table" "data_egress" {
   name           = "data-egress"
-  hash_key       = "pipeline_name"
-  range_key      = "recipient_name"
+  hash_key       = "source_prefix"
+  range_key      = "pipeline_name"
   read_capacity  = 20
   write_capacity = 20
 
   attribute {
-    name = "pipeline_name"
+    name = "source_prefix"
     type = "S"
   }
 
   attribute {
-    name = "recipient_name"
+    name = "pipeline_name"
     type = "S"
   }
 
@@ -41,13 +41,15 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
 
   item = <<ITEM
   {
-    "pipeline_name":          {"S": "OpsMI"},
-    "recipient_name":         {"S": "OpsMI"},
-    "transfer_type":          {"S": "S3"},
-    "source_bucket":          {"S": "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "source_prefix":          {"S": "opsmi/"},
-    "destination_bucket":     {"S": "TBD"},
-    "destination_prefix":     {"S": "TBD/"}
+    "source_prefix":          {"S":     "opsmi/"},
+    "pipeline_name":          {"S":     "OpsMI"},
+    "recipient_name":         {"S":     "OpsMI"},
+    "transfer_type":          {"S":     "S3"},
+    "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
+    "destination_bucket":     {"S":     "TBD"},
+    "destination_prefix":     {"S":     "TBD/"},
+    "compress":               {"Bool":  1},
+    "compression_fmt":        {"S":     "gzip"}
   }
   ITEM
 }
@@ -59,13 +61,15 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
 
   item = <<ITEM
   {
-    "pipeline_name":          {"S": "data-egress-testing"},
-    "recipient_name":         {"S": "DataWorks"},
-    "transfer_type":          {"S": "S3"},
-    "source_bucket":          {"S": "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "source_prefix":          {"S": "dataworks-egress-testing-input/"},
-    "destination_bucket":     {"S": "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "destination_prefix":     {"S": "data-egress-testing-output/"}
+    "source_prefix":          {"S":    "dataworks-egress-testing-input/"},
+    "pipeline_name":          {"S":    "data-egress-testing"},
+    "recipient_name":         {"S":    "DataWorks"},
+    "transfer_type":          {"S":    "S3"},
+    "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
+    "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
+    "destination_prefix":     {"S":    "data-egress-testing-output/"},
+    "compress":               {"Bool": 1},
+    "compression_fmt":        {"S":    "gzip"}
   }
   ITEM
 }
