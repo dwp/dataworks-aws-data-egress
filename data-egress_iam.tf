@@ -46,7 +46,8 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       # When tf/AWS bug fixed, this should work correctly.
       "sqs:ChangeMessageVisibility",
       "sqs:DeleteMessage",
-      "sqs:ReceiveMessage"
+      "sqs:ReceiveMessage",
+      "sqs:GetQueueAttributes"
     ]
     resources = [aws_sqs_queue.data_egress.arn]
   }
@@ -100,14 +101,14 @@ data "aws_iam_policy_document" "data_egress_server_task" {
 
 }
 
-resource "aws_iam_policy" "data_egress_server" {
-  name        = "DataEgressServer"
+resource "aws_iam_policy" "data_egress_server_task" {
+  name        = "DataEgressServerTask"
   description = "Custom policy for data egress server"
   policy      = data.aws_iam_policy_document.data_egress_server_task.json
 }
 resource "aws_iam_role_policy_attachment" "data_egress_server" {
   role       = aws_iam_role.data_egress_server_task.name
-  policy_arn = aws_iam_policy.data_egress_server.arn
+  policy_arn = aws_iam_policy.data_egress_server_task.arn
 }
 
 resource "aws_iam_role_policy_attachment" "data_egress_server_export_certificate_bucket_read" {
