@@ -79,6 +79,6 @@ variable "name" {
 variable "parent_domain_name" {
   description = "parent domain name for monitoring"
   type        = string
-  default = "dataworks.dwp.gov.uk"
+  default     = "dataworks.dwp.gov.uk"
 }
 

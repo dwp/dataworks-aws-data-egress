@@ -25,7 +25,7 @@ data "template_file" "data_egress_definition" {
     name               = "data-egress"
     group_name         = "data-egress"
     cpu                = var.fargate_cpu
-    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, "latest")
+    image_url          = format("%s:%s", data.terraform_remote_state.management_dev.outputs.dataworks_data_egress_url, "latest")
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
     user               = "nobody"
@@ -43,6 +43,14 @@ data "template_file" "data_egress_definition" {
     ])
 
     environment_variables = jsonencode([
+      {
+        name  = "sqs_url",
+        value = aws_sqs_queue.data_egress.id
+      },
+      {
+        name  = "dks_url",
+        value = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
+      }
     ])
   }
 }

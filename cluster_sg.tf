@@ -48,6 +48,7 @@ resource "aws_security_group_rule" "server_egress" {
   security_group_id        = aws_security_group.data_egress_server.id
 }
 
+//The below rules are to pull docker image from ecr
 resource "aws_security_group_rule" "data_egress_server_s3_https" {
   description       = "Access to S3 https"
   type              = "egress"

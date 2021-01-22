@@ -95,9 +95,9 @@ resource "aws_launch_template" "data_egress_server" {
 
     security_groups = [aws_security_group.data_egress_server.id]
   }
-  user_data = base64encode(templatefile("files/data_egress_server_userdata.tpl", {
+  user_data = base64encode(templatefile("files/data_egress_cluster_userdata.tpl", {
     cluster_name = local.cluster_name # Referencing the cluster resource causes a circular dependency
-     }))
+  }))
   instance_initiated_shutdown_behavior = "terminate"
 
   iam_instance_profile {
