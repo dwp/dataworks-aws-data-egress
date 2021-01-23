@@ -50,7 +50,44 @@ data "template_file" "data_egress_definition" {
       {
         name  = "dks_url",
         value = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
+      },
+      {
+        name = "acm_cert_arn",
+        value = aws_acm_certificate.data_egress_server.arn
+      },
+      {
+        name = "truststore_aliases",
+        value = join(",", var.truststore_aliases)
+      },
+      {
+        name = "truststore_certs",
+        value = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
+      },
+      {
+        name = "private_key_alias",
+        value = "data_egress"
+      },
+      {
+        name = "internet_proxy",
+        value = data.terraform_remote_state.aws_sdx.outputs.internet_proxy.host
+      },
+      {
+        name = "non_proxied_endpoints",
+        value = join(",", data.terraform_remote_state.aws_sdx.outputs.vpc.no_proxy_list)
+      },
+      {
+        name = "dks_fqdn",
+        value = local.dks_fqdn
+      },
+      {
+        name = "AWS_REGION",
+        value = var.region
+      },
+      {
+        name: "AWS_DEFAULT_REGION",
+        value: var.region
       }
+
     ])
   }
 }

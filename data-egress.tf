@@ -47,9 +47,7 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
     "transfer_type":          {"S":     "S3"},
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
     "destination_bucket":     {"S":     "TBD"},
-    "destination_prefix":     {"S":     "TBD/"},
-    "compress":               {"Bool":  1},
-    "compression_fmt":        {"S":     "gzip"}
+    "destination_prefix":     {"S":     "TBD/"}
   }
   ITEM
 }
@@ -67,9 +65,7 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
     "transfer_type":          {"S":    "S3"},
     "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
     "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "destination_prefix":     {"S":    "data-egress-testing-output/"},
-    "compress":               {"Bool": 1},
-    "compression_fmt":        {"S":    "gzip"}
+    "destination_prefix":     {"S":    "data-egress-testing-output/"}
   }
   ITEM
 }

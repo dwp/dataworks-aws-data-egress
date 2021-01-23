@@ -96,7 +96,21 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     actions = [
       "s3:GetObject"
     ]
-    resources = ["${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/opsmi/*"]
+    resources = ["${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/opsmi/*", "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/dataworks-egress-testing-input/*"]
+  }
+
+  statement {
+    sid = "PublishedNonSensitiveBucketObjectPut"
+    actions = [
+      "s3:PutObject"
+    ]
+    resources = ["${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/data-egress-testing-output/*"]
+  }
+  statement {
+    sid       = "DataEgressGetCAMgmtCertS3"
+    effect    = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.arn}/*"]
   }
 
 }
