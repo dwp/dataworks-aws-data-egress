@@ -76,8 +76,11 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   statement {
     sid = "PublishedNonSensitiveBucketKMSDecrypt"
     actions = [
+      "kms:Encrypt",
       "kms:Decrypt",
-      "kms:DescribeKey",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
     ]
     resources = [data.terraform_remote_state.common.outputs.published_nonsensitive_cmk.arn]
   }
