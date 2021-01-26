@@ -8,7 +8,7 @@ jobs:
         params:
           path: dataworks-aws-data-egress-pr
           status: pending
-      - get: dw-al2-hardened-ami
+      - get: dw-al2-ecs-ami
         trigger: false
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
@@ -19,6 +19,7 @@ jobs:
         params:
           TF_WORKSPACE: qa
           DETAILED_EXITCODE: ""
+          DATA_EGRESS_IMAGE_VERSION: ((data_egress_image_version))
         on_failure:
           put: dataworks-aws-data-egress-pr
           params:

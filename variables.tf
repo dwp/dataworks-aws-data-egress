@@ -10,6 +10,7 @@ variable "region" {
 }
 
 variable "data_egress_server_ec2_instance_type" {
+  type = map(string)
   default = {
     development = "m5.large"
     qa          = "m5.large"
@@ -19,6 +20,7 @@ variable "data_egress_server_ec2_instance_type" {
   }
 }
 variable "data_egress_server_ebs_volume_size" {
+  type = map(string)
   default = {
     development = "15000"
     qa          = "15000"
@@ -28,6 +30,7 @@ variable "data_egress_server_ebs_volume_size" {
   }
 }
 variable "data_egress_server_ebs_volume_type" {
+  type = map(string)
   default = {
     development = "gp2"
     qa          = "gp2"
@@ -36,8 +39,8 @@ variable "data_egress_server_ebs_volume_type" {
     production  = "gp2"
   }
 }
-variable "al2_hardened_ami_id" {
-  description = "The AMI ID of the latest/pinned Hardened AMI AL2 Image"
+variable "ecs_hardened_ami_id" {
+  description = "The AMI ID of the latest/pinned ECS Hardened AMI Image"
   type        = string
 }
 variable "truststore_aliases" {
@@ -45,3 +48,46 @@ variable "truststore_aliases" {
   type        = list(string)
   default     = ["dataworks_root_ca", "dataworks_mgt_root_ca"]
 }
+variable "fargate_cpu" {
+  type    = string
+  default = "512"
+}
+
+variable "fargate_memory" {
+  type    = string
+  default = "512"
+}
+
+variable "receiver_cpu" {
+  type    = string
+  default = "512"
+}
+
+variable "receiver_memory" {
+  default = "1024"
+  type    = string
+}
+
+variable "data_egress_port" {
+  type    = number
+  default = 8080
+}
+
+variable "data_egress_image_version" {
+  description = "pinned image versions to use"
+  type        = string
+  default     = "latest"
+}
+
+variable "name" {
+  description = "cluster name, used in dns"
+  type        = string
+  default     = "data-egress"
+}
+
+variable "parent_domain_name" {
+  description = "parent domain name for monitoring"
+  type        = string
+  default     = "dataworks.dwp.gov.uk"
+}
+

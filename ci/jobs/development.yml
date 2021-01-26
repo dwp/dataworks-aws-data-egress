@@ -5,6 +5,6 @@ jobs:
     - get: dataworks-aws-data-egress
       trigger: true
     - .: (( inject meta.plan.terraform-bootstrap ))
-    - .: (( inject meta.plan.get-al2-hardened-ami ))
+    - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
     - .: (( inject meta.plan.terraform-apply ))
     - .: (( inject meta.plan.terraform-plan ))

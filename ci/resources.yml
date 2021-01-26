@@ -16,14 +16,14 @@ resources:
     webhook_token: ((dataworks.concourse_github_webhook_token))
     check_every: 720h
 
-  - name: dw-al2-hardened-ami
+  - name: dw-al2-ecs-ami
     type: ami
     check_every: 1h
     source:
-      aws_role_arn: arn:aws:iam::((dataworks.aws_management_acc)):role/ci
+      aws_role_arn: "arn:aws:iam::((aws_account.management)):role/ci"
       region: ((dataworks.aws_region))
       filters:
-        owner-id: ((dataworks.aws_management_acc))
+        owner-id: "((aws_account.management))"
         is-public: false
         state: available
-        name: dw-al2-hardened-ami-*
+        name: dw-al2-ecs-ami-*
