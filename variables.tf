@@ -10,6 +10,7 @@ variable "region" {
 }
 
 variable "data_egress_server_ec2_instance_type" {
+  type = map(string)
   default = {
     development = "m5.large"
     qa          = "m5.large"
@@ -19,6 +20,7 @@ variable "data_egress_server_ec2_instance_type" {
   }
 }
 variable "data_egress_server_ebs_volume_size" {
+  type = map(string)
   default = {
     development = "15000"
     qa          = "15000"
@@ -28,6 +30,7 @@ variable "data_egress_server_ebs_volume_size" {
   }
 }
 variable "data_egress_server_ebs_volume_type" {
+  type = map(string)
   default = {
     development = "gp2"
     qa          = "gp2"
@@ -46,28 +49,34 @@ variable "truststore_aliases" {
   default     = ["dataworks_root_ca", "dataworks_mgt_root_ca"]
 }
 variable "fargate_cpu" {
+  type    = string
   default = "512"
 }
 
 variable "fargate_memory" {
+  type    = string
   default = "512"
 }
 
 variable "receiver_cpu" {
+  type    = string
   default = "512"
 }
 
 variable "receiver_memory" {
   default = "1024"
+  type    = string
 }
 
 variable "data_egress_port" {
+  type    = number
   default = 8080
 }
 
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
-  default     = "0.0.1"
+  type        = string
+  default     = "latest"
 }
 
 variable "name" {

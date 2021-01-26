@@ -1,4 +1,1 @@
-parent_domain_name: "dataworks.dwp.gov.uk"
-data_egress_port: 8080
-ecs_hardened_ami_id: "ami-049bba1a08b31ff8e"
 data_egress_image_version: "latest"
