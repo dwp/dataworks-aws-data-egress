@@ -89,6 +89,30 @@
       get: dw-al2-ecs-ami
       trigger: true
 
+    terraform-output-ingest:
+      task: terraform-output-ingest
+      .: (( inject meta.plan.terraform-common-config ))
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            tag: ((dataworks.terraform_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              terraform workspace show
+              terraform init
+              terraform output --json > ../terraform-output-ingest/outputs.json
+          dir: aws-ingestion
+        inputs:
+          - name: aws-ingestion
+        outputs:
+          - name: terraform-output-ingest
+
     terraform-output-common-infra:
       task: terraform-output-common-infra
       .: (( inject meta.plan.terraform-common-config ))
@@ -131,6 +155,8 @@
               cd src/runners
               ./run-ci.sh \
               "../../../meta" \
+              "../../../terraform-output-ingest/outputs.json" \
+              "" \
               "" \
               "" \
               "" \
@@ -140,9 +166,8 @@
               "../../../terraform-output-common-infra/outputs.json"
         inputs:
           - name: aws-dataworks-e2e-framework
-          - name: aws-analytical-dataset-generation
+          - name: dataworks-aws-data-egress
           - name: meta
           - name: terraform-output-ingest
-          - name: terraform-output-internal-compute
-          - name: terraform-output-adg
+          - name: terraform-output-common-infra
 
