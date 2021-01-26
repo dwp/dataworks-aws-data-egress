@@ -1,5 +1,5 @@
 resource "aws_iam_role" "data_egress_server_task" {
-  name               = "data_egress_server_task"
+  name               = "DataEgressServer"
   assume_role_policy = data.aws_iam_policy_document.data_egress_server_task_assume_role.json
 }
 
@@ -119,7 +119,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
 }
 
 resource "aws_iam_policy" "data_egress_server_task" {
-  name        = "DataEgressServerTask"
+  name        = "DataEgressServer"
   description = "Custom policy for data egress server"
   policy      = data.aws_iam_policy_document.data_egress_server_task.json
 }

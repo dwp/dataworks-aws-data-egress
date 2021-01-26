@@ -1,11 +1,11 @@
 resource "aws_iam_role" "data_egress_server" {
-  name               = "DataEgressServer"
+  name               = "DataEgressCluster"
   assume_role_policy = data.aws_iam_policy_document.data_egress_server_assume_role.json
   tags               = local.common_tags
 }
 
 resource "aws_iam_instance_profile" "data_egress_server" {
-  name = "DataEgressServer"
+  name = "DataEgressCluster"
   role = aws_iam_role.data_egress_server.name
 }
 
