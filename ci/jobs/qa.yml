@@ -4,11 +4,10 @@ jobs:
     plan:
       - get: dataworks-aws-data-egress
         trigger: true
-        passed:
-          - development
       - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
+      - .: (( inject meta.plan.e2e-tests))
         params:
           TF_WORKSPACE: qa
       - .: (( inject meta.plan.terraform-plan ))
