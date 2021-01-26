@@ -25,7 +25,7 @@ data "template_file" "data_egress_definition" {
     name               = "data-egress"
     group_name         = "data-egress"
     cpu                = var.fargate_cpu
-    image_url          = format("%s:%s", data.terraform_remote_state.management_dev.outputs.dataworks_data_egress_url, var.data_egress_image_version)
+    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, var.data_egress_image_version)
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
     user               = "nobody"
