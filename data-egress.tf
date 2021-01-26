@@ -46,8 +46,8 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
     "recipient_name":         {"S":     "OpsMI"},
     "transfer_type":          {"S":     "S3"},
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "destination_bucket":     {"S":     "TBD"},
-    "destination_prefix":     {"S":     "TBD/"}
+    "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
+    "destination_prefix":     {"S":     "/"}
   }
   ITEM
 }
