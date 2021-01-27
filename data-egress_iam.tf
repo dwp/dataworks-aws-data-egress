@@ -107,7 +107,10 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     actions = [
       "s3:PutObject"
     ]
-    resources = ["${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/data-egress-testing-output/*"]
+    resources = [
+      "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/data-egress-testing-output/*",
+      "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/dataworks-egress-testing-input/*"
+    ]
   }
   statement {
     sid       = "DataEgressGetCAMgmtCertS3"
