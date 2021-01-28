@@ -101,7 +101,7 @@ resource "aws_launch_template" "data_egress_server" {
     region        = data.aws_region.current.name
     folder        = "/mnt/config"
     mnt_bucket    = data.terraform_remote_state.common.outputs.config_bucket.id
-    name          = local.server_name
+    name          = local.data_egress_server_name
   }))
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -137,8 +137,8 @@ resource "aws_launch_template" "data_egress_server" {
     tags = merge(
       local.common_tags,
       {
-        Name         = local.server_name
-        Application  = local.server_name
+        Application  = local.data_egress_server_name
+        Name         = local.data_egress_server_name
         Persistence  = "Ignore"
         AutoShutdown = "False"
         SSMEnabled   = local.data_egress_server_ssmenabled[local.environment]

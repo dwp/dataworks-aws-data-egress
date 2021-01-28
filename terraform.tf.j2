@@ -59,7 +59,6 @@ locals {
     cluster_name              = replace(local.data_egress_ecs_friendly_name, "-ecs-cluster", "")
     cw_agent_log_group_name_data_egress_ecs = "/app/${local.data_egress_ecs_friendly_name}"
     data_egress_friendly_name = "data-egress-cluster"
-    server_name               = "data-egress-server"
 
     opsmi = {
      {%- for environment, ranges in opsmi.items() %}
