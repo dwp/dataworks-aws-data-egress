@@ -96,7 +96,12 @@ resource "aws_launch_template" "data_egress_server" {
     security_groups = [aws_security_group.data_egress_server.id]
   }
   user_data = base64encode(templatefile("files/data_egress_cluster_userdata.tpl", {
-    cluster_name = local.cluster_name # Referencing the cluster resource causes a circular dependency
+    cluster_name  = local.cluster_name # Referencing the cluster resource causes a circular dependency
+    instance_role = aws_iam_instance_profile.data_egress_server.name
+    region        = data.aws_region.current.name
+    folder        = "/mnt/config"
+    mnt_bucket    = data.terraform_remote_state.common.outputs.config_bucket.id
+    name          = local.server_name
   }))
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -132,8 +137,8 @@ resource "aws_launch_template" "data_egress_server" {
     tags = merge(
       local.common_tags,
       {
-        Name         = "data_egress_server"
-        Application  = "data_egress_server"
+        Name         = local.server_name
+        Application  = local.server_name
         Persistence  = "Ignore"
         AutoShutdown = "False"
         SSMEnabled   = local.data_egress_server_ssmenabled[local.environment]
