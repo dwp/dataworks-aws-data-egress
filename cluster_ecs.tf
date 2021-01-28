@@ -137,8 +137,8 @@ resource "aws_launch_template" "data_egress_server" {
     tags = merge(
       local.common_tags,
       {
-        Application  = local.data_egress_server_name
-        Name         = local.data_egress_server_name
+        Application  = "data_egress_server"
+        Name         = "data_egress_server"
         Persistence  = "Ignore"
         AutoShutdown = "False"
         SSMEnabled   = local.data_egress_server_ssmenabled[local.environment]
