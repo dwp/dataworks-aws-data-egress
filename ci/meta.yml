@@ -49,7 +49,6 @@
             - -exc
             - |
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
-              export TF_VAR_data_egress_image_version="$DATA_EGRESS_IMAGE_VERSION"
               terraform workspace show
               cp ../terraform-bootstrap/terraform.tf .
               terraform init
@@ -72,7 +71,6 @@
             - -exc
             - |
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
-              export TF_VAR_data_egress_image_version=$DATA_EGRESS_IMAGE_VERSION
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
               terraform init
@@ -89,4 +87,86 @@
     get-dw-al2-ecs-ami:
       get: dw-al2-ecs-ami
       trigger: true
+
+    terraform-output-ingest:
+      task: terraform-output-ingest
+      .: (( inject meta.plan.terraform-common-config ))
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            tag: ((dataworks.terraform_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              terraform workspace show
+              terraform init
+              terraform output --json > ../terraform-output-ingest/outputs.json
+          dir: aws-ingestion
+        inputs:
+          - name: aws-ingestion
+        outputs:
+          - name: terraform-output-ingest
+
+    terraform-output-common-infra:
+      task: terraform-output-common-infra
+      .: (( inject meta.plan.terraform-common-config ))
+      config:
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              terraform workspace show
+              terraform init
+              terraform output --json > ../terraform-output-common-infra/outputs.json
+          dir: aws-common-infrastructure
+        inputs:
+          - name: aws-common-infrastructure
+        outputs:
+          - name: terraform-output-common-infra
+
+    e2e-tests:
+      task: e2e-tests
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_python_boto_behave_repository))
+            tag: ((dataworks.docker_python_boto_behave_version))
+        params:
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          NUMBER_OF_TOPICS_TO_USE: "3"
+          E2E_TEST_TIMEOUT: 300
+          E2E_FEATURE_TAG_FILTER: "@data-egress-s3"
+          ASSUME_DURATION: 3600
+        run:
+          path: sh
+          dir: aws-dataworks-e2e-framework
+          args:
+            - -exc
+            - |
+              cd src/runners
+              ./run-ci.sh \
+              "../../../meta" \
+              "../../../terraform-output-ingest/outputs.json" \
+              "" \
+              "" \
+              "" \
+              "" \
+              "" \
+              "" \
+              "" \
+              "../../../terraform-output-common-infra/outputs.json"
+        inputs:
+          - name: aws-dataworks-e2e-framework
+          - name: dataworks-aws-data-egress
+          - name: meta
+          - name: terraform-output-ingest
+          - name: terraform-output-common-infra
 
