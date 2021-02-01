@@ -99,6 +99,7 @@ resource "aws_ecs_service" "data-egress" {
   desired_count   = 1
   launch_type     = "EC2"
 
+
   network_configuration {
     security_groups = [aws_security_group.data_egress_service.id]
     subnets         = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.*.id
