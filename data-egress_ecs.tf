@@ -96,7 +96,7 @@ resource "aws_ecs_service" "data-egress" {
   name            = "data-egress"
   cluster         = aws_ecs_cluster.data_egress_cluster.id
   task_definition = aws_ecs_task_definition.data-egress.arn
-  desired_count   = 1
+  desired_count   = 0
   launch_type     = "EC2"
 
   network_configuration {
