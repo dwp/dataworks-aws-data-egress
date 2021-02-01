@@ -140,3 +140,7 @@ resource "aws_iam_role_policy_attachment" "data_egress_server_ebs_cmk_instance_e
   role       = aws_iam_role.data_egress_server_task.name
   policy_arn = "arn:aws:iam::${local.account[local.environment]}:policy/EBSCMKInstanceEncryptDecrypt"
 }
+
+
+
+

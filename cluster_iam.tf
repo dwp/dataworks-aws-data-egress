@@ -70,27 +70,5 @@ resource "aws_iam_role_policy_attachment" "data_egress_server_ecs_cwasp" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
-resource "aws_iam_role_policy_attachment" "data_egress_tagging_attachment" {
-  role       = aws_iam_role.data_egress_server.name
-  policy_arn = aws_iam_policy.data_egress_server_tagging.arn
-}
 
-resource "aws_iam_policy" "data_egress_server_tagging" {
-  name        = "DataEgressEC2TaggingItself"
-  description = "Allow Data Egress EC2s modify their tags"
-  policy      = data.aws_iam_policy_document.data_egress_server_tagging_policy.json
-}
 
-data "aws_iam_policy_document" "data_egress_server_tagging_policy" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "ec2:*Tags",
-    ]
-
-    resources = [
-      "*"
-    ]
-  }
-}
