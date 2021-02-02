@@ -166,7 +166,6 @@
         inputs:
           - name: aws-dataworks-e2e-framework
           - name: dataworks-aws-data-egress
-          - name: meta
           - name: terraform-output-ingest
           - name: terraform-output-common-infra
 
