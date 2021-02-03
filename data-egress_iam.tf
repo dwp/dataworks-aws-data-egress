@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
-    sid = "PublishedNonSensitiveBucketKMSDecrypt"
+    sid = "PublishedBucketKMSDecrypt"
     actions = [
       "kms:Encrypt",
       "kms:Decrypt",
@@ -82,34 +82,34 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "kms:GenerateDataKey*",
       "kms:DescribeKey"
     ]
-    resources = [data.terraform_remote_state.common.outputs.published_nonsensitive_cmk.arn]
+    resources = [data.terraform_remote_state.common.outputs.published_bucket_cmk.arn]
   }
 
   statement {
-    sid = "PublishedNonSensitiveBucketRead"
+    sid = "PublishedBucketRead"
     actions = [
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = [data.terraform_remote_state.common.outputs.published_nonsensitive.arn]
+    resources = [data.terraform_remote_state.common.outputs.published_bucket.arn]
   }
 
   statement {
-    sid = "PublishedNonSensitiveBucketObjectRead"
+    sid = "PublishedBucketObjectRead"
     actions = [
       "s3:GetObject"
     ]
-    resources = ["${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/opsmi/*", "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/dataworks-egress-testing-input/*"]
+    resources = ["${data.terraform_remote_state.common.outputs.published_bucket.arn}/opsmi/*", "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"]
   }
 
   statement {
-    sid = "PublishedNonSensitiveBucketObjectPut"
+    sid = "PublishedBucketObjectPut"
     actions = [
       "s3:PutObject"
     ]
     resources = [
-      "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/data-egress-testing-output/*",
-      "${data.terraform_remote_state.common.outputs.published_nonsensitive.arn}/dataworks-egress-testing-input/*"
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/data-egress-testing-output/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"
     ]
   }
   statement {
