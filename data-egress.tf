@@ -45,7 +45,7 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
     "pipeline_name":          {"S":     "OpsMI"},
     "recipient_name":         {"S":     "OpsMI"},
     "transfer_type":          {"S":     "S3"},
-    "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
+    "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
     "destination_prefix":     {"S":     "/"}
   }
@@ -63,8 +63,8 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
     "pipeline_name":          {"S":    "data-egress-testing"},
     "recipient_name":         {"S":    "DataWorks"},
     "transfer_type":          {"S":    "S3"},
-    "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
-    "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_nonsensitive.id}"},
+    "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":     {"S":    "data-egress-testing-output/"}
   }
   ITEM
@@ -72,14 +72,14 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
 
 resource "aws_sqs_queue_policy" "published_non_sensitive_bucket_notification_policy" {
   # Note - this is a permissive policy (in addition to everything allowed by IAM)
-  policy    = data.aws_iam_policy_document.published_non_sensitive_bucket_s3.json
+  policy    = data.aws_iam_policy_document.published_bucket_s3.json
   queue_url = aws_sqs_queue.data_egress.id
 }
 
-data "aws_iam_policy_document" "published_non_sensitive_bucket_s3" {
+data "aws_iam_policy_document" "published_bucket_s3" {
 
   statement {
-    sid       = "AllowPublishedNonSensitiveBucketToSendSQSMessage"
+    sid       = "AllowPublishedBucketToSendSQSMessage"
     effect    = "Allow"
     resources = [aws_sqs_queue.data_egress.arn]
 
@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "published_non_sensitive_bucket_s3" {
     condition {
       test     = "ArnEquals"
       variable = "aws:SourceArn"
-      values   = [data.terraform_remote_state.common.outputs.published_nonsensitive.arn]
+      values   = [data.terraform_remote_state.common.outputs.published_bucket.arn]
     }
 
     condition {
