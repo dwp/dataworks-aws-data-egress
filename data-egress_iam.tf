@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
-    sid = "PublishedBucketObjectPut"
+    sid = "PublishedBucketTestingObjectPut"
     actions = [
       "s3:PutObject"
     ]
