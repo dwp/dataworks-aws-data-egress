@@ -95,7 +95,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
-    sid = "PublishedBucketObjectRead"
+    sid = "PublishedBucketOpsMiObjectRead"
     actions = [
       "s3:GetObject"
     ]
