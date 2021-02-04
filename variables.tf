@@ -22,21 +22,21 @@ variable "data_egress_server_ec2_instance_type" {
 variable "data_egress_server_ebs_volume_size" {
   type = map(string)
   default = {
-    development = "15000"
-    qa          = "15000"
-    integration = "15000"
-    preprod     = "15000"
+    development = "1000"
+    qa          = "1000"
+    integration = "1000"
+    preprod     = "1000"
     production  = "15000"
   }
 }
 variable "data_egress_server_ebs_volume_type" {
   type = map(string)
   default = {
-    development = "gp2"
-    qa          = "gp2"
-    integration = "gp2"
-    preprod     = "gp2"
-    production  = "gp2"
+    development = "gp3"
+    qa          = "gp3"
+    integration = "gp3"
+    preprod     = "gp3"
+    production  = "gp3"
   }
 }
 variable "ecs_hardened_ami_id" {
