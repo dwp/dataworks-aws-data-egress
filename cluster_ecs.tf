@@ -145,4 +145,16 @@ resource "aws_launch_template" "data_egress_server" {
       }
     )
   }
+
+  tag_specifications {
+    resource_type = "volume"
+
+    tags = merge(
+      local.common_tags,
+      {
+        Application  = "data_egress_server"
+        Name         = "data_egress_server"
+      }
+    )
+  }
 }
