@@ -5,7 +5,7 @@ jobs:
       - get: dataworks-aws-data-egress
         trigger: true
       - get: dataworks-behavioural-framework
-        trigger: true
+        trigger: false
       - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
       - .: (( inject meta.plan.terraform-bootstrap ))
       - .: (( inject meta.plan.terraform-apply ))
