@@ -86,14 +86,15 @@ resource "aws_autoscaling_group" "data_egress_server" {
 }
 
 resource "aws_launch_template" "data_egress_server" {
-  name          = local.data_egress_friendly_name
-  image_id      = var.ecs_hardened_ami_id
-  instance_type = var.data_egress_server_ec2_instance_type[local.environment]
+  name                   = local.data_egress_friendly_name
+  image_id               = var.ecs_hardened_ami_id
+  instance_type          = var.data_egress_server_ec2_instance_type[local.environment]
   network_interfaces {
     associate_public_ip_address = false
     delete_on_termination       = true
 
     security_groups = [aws_security_group.data_egress_server.id]
+    subnet_id       = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.0.id
   }
   user_data = base64encode(templatefile("files/data_egress_cluster_userdata.tpl", {
     cluster_name  = local.cluster_name # Referencing the cluster resource causes a circular dependency
@@ -152,8 +153,8 @@ resource "aws_launch_template" "data_egress_server" {
     tags = merge(
       local.common_tags,
       {
-        Application  = "data_egress_server"
-        Name         = "data_egress_server"
+        Application = "data_egress_server"
+        Name        = "data_egress_server"
       }
     )
   }
