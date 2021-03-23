@@ -4,7 +4,18 @@ jobs:
   plan:
     - get: dataworks-aws-data-egress
       trigger: true
+    - get: dataworks-behavioural-framework
+      trigger: false
     - .: (( inject meta.plan.terraform-bootstrap ))
     - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
     - .: (( inject meta.plan.terraform-apply ))
+      params:
+        TF_WORKSPACE: default
     - .: (( inject meta.plan.terraform-plan ))
+      params:
+        TF_WORKSPACE: default
+    - .: (( inject meta.plan.e2e-tests))
+      params:
+        TF_WORKSPACE: development
+        AWS_ACC: ((aws_account.development))
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
