@@ -23,7 +23,7 @@ data "template_file" "data_egress_definition" {
   template = file("${path.module}/reserved_container_definition.tpl")
   vars = {
     name               = "data-egress"
-    group_name         = "data-egress"
+    group_name         = local.data-egress_group_name
     cpu                = var.fargate_cpu
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, var.data_egress_image_version)
     memory             = var.receiver_memory
@@ -34,6 +34,7 @@ data "template_file" "data_egress_definition" {
     log_group          = aws_cloudwatch_log_group.data_egress_cluster.name
     region             = data.aws_region.current.name
     config_bucket      = data.terraform_remote_state.common.outputs.config_bucket.id
+    s3_prefix          = local.data-egress_config_s3_prefix
 
     mount_points = jsonencode([
       {
@@ -134,4 +135,3 @@ resource "aws_service_discovery_private_dns_namespace" "data-egress" {
   vpc  = data.terraform_remote_state.aws_sdx.outputs.vpc.vpc.id
   tags = merge(local.tags, { Name = var.name })
 }
-

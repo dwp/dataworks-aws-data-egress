@@ -91,3 +91,13 @@ variable "parent_domain_name" {
   default     = "dataworks.dwp.gov.uk"
 }
 
+variable "sft_agent_port" {
+  description = "port for accessing the SFT agent"
+  type        = string
+  default     = "9091"
+}
+
+variable "sft_agent_image_version" {
+  description = "image version for the SFT agent"
+  type        = string
+}
