@@ -10,25 +10,25 @@ locals {
   }
 
   data_egress_server_asg_min = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 0
+    qa          = 0
+    integration = 0
+    preprod     = 0
+    production  = 0
   }
   data_egress_server_asg_desired = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 2
+    qa          = 2
+    integration = 2
+    preprod     = 2
+    production  = 2
   }
   data_egress_server_asg_max = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 2
+    qa          = 2
+    integration = 2
+    preprod     = 2
+    production  = 2
   }
   data_egress_server_ssmenabled = {
     development = "True"
