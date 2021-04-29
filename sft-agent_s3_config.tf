@@ -15,13 +15,13 @@ resource "aws_s3_bucket_object" "data_egress_sft_agent_application_config" {
 data "template_file" "data_egress_sft_agent_config_tpl" {
   template = file("${path.module}/agent-config.tpl")
   vars = {
-    apiKey = var.sft_agent_api_key
+    apiKey = local.data_egress[local.environment].sft_agent_api_key
   }
 }
 
 data "template_file" "data_egress_sft_agent_application_config_tpl" {
   template = file("${path.module}/agent-application-config.tpl")
   vars = {
-    destinationIP = var.sft_agent_destination_ip
+    destinationIP = local.data_egress[local.environment].sft_agent_destination_ip
   }
 }
