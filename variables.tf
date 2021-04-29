@@ -101,13 +101,3 @@ variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = string
 }
-
-variable "sft_agent_destination_ip" {
-  description = "destination IP for the SFT agent to send to"
-  type        = string
-}
-
-variable "sft_agent_api_key" {
-  description = "API key for the SFT agent"
-  type        = string
-}
