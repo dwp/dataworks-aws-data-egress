@@ -35,8 +35,8 @@ resource "aws_security_group_rule" "sft_agent_service_to_crown" {
   description       = "Allow SFT agent to access crown"
   type              = "egress"
   protocol          = "tcp"
-  from_port         = 8091
-  to_port           = 8091
+  from_port         = var.sft_agent_port
+  to_port           = var.sft_agent_port
   security_group_id = aws_security_group.sft_agent_service.id
   cidr_blocks       = [data.terraform_remote_state.aws_sdx.outputs.vpc.vpc.cidr_block]
 }

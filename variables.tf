@@ -94,7 +94,7 @@ variable "parent_domain_name" {
 variable "sft_agent_port" {
   description = "port for accessing the SFT agent"
   type        = string
-  default     = "9091"
+  default     = "8091"
 }
 
 variable "sft_agent_image_version" {
