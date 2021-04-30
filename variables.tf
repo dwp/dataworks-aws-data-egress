@@ -97,4 +97,8 @@ variable "sft_agent_port" {
   default     = "8091"
 }
 
-variable "sft_agent_image_version" {}
+variable "sft_agent_image_version" {
+  description = "image version for the SFT agent"
+  type        = string
+  default     = ""
+}
