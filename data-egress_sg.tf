@@ -11,21 +11,6 @@ resource "aws_security_group" "data_egress_service" {
   )
 }
 
-locals {
-  service_security_group_rules = [
-    {
-      name : "VPC endpoints"
-      port : 443
-      destination : data.terraform_remote_state.aws_sdx.outputs.vpc.interface_vpce_sg_id
-    },
-    {
-      name : "Internet proxy endpoints"
-      port : 3128
-      destination : data.terraform_remote_state.aws_sdx.outputs.internet_proxy.sg
-    },
-  ]
-}
-
 resource "aws_security_group_rule" "service_ingress" {
   for_each                 = { for security_group_rule in local.service_security_group_rules : security_group_rule.name => security_group_rule }
   description              = "Allow inbound requests from ${each.value.name}"

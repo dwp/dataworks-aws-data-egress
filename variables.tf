@@ -12,11 +12,11 @@ variable "region" {
 variable "data_egress_server_ec2_instance_type" {
   type = map(string)
   default = {
-    development = "m5.large"
-    qa          = "m5.large"
-    integration = "m5.large"
-    preprod     = "m5.large"
-    production  = "m5.large"
+    development = "m5.xlarge"
+    qa          = "m5.xlarge"
+    integration = "m5.xlarge"
+    preprod     = "m5.xlarge"
+    production  = "m5.xlarge"
   }
 }
 variable "data_egress_server_ebs_volume_size" {
@@ -91,3 +91,14 @@ variable "parent_domain_name" {
   default     = "dataworks.dwp.gov.uk"
 }
 
+variable "sft_agent_port" {
+  description = "port for accessing the SFT agent"
+  type        = string
+  default     = "8091"
+}
+
+variable "sft_agent_image_version" {
+  description = "image version for the SFT agent"
+  type        = string
+  default     = ""
+}

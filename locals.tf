@@ -10,25 +10,25 @@ locals {
   }
 
   data_egress_server_asg_min = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 0
+    qa          = 0
+    integration = 0
+    preprod     = 0
+    production  = 0
   }
   data_egress_server_asg_desired = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 2
+    qa          = 2
+    integration = 2
+    preprod     = 2
+    production  = 2
   }
   data_egress_server_asg_max = {
-    development = 1
-    qa          = 1
-    integration = 1
-    preprod     = 1
-    production  = 1
+    development = 2
+    qa          = 2
+    integration = 2
+    preprod     = 2
+    production  = 2
   }
   data_egress_server_ssmenabled = {
     development = "True"
@@ -71,4 +71,23 @@ locals {
   cw_agent_netstat_metrics_collection_interval          = 60
   dks_endpoint                                          = data.terraform_remote_state.crypto.outputs.dks_endpoint[local.environment]
   dks_fqdn                                              = data.terraform_remote_state.crypto.outputs.dks_fqdn[local.environment]
+
+  service_security_group_rules = [
+    {
+      name : "VPC endpoints"
+      port : 443
+      destination : data.terraform_remote_state.aws_sdx.outputs.vpc.interface_vpce_sg_id
+    },
+    {
+      name : "Internet proxy endpoints"
+      port : 3128
+      destination : data.terraform_remote_state.aws_sdx.outputs.internet_proxy.sg
+    },
+  ]
+
+  sft_agent_group_name       = "sft_agent"
+  sft_agent_config_s3_prefix = "component/data-egress-sft"
+
+  data-egress_group_name       = "data-egress"
+  data-egress_config_s3_prefix = "monitoring/${local.data-egress_group_name}"
 }

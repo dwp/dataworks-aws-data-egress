@@ -67,6 +67,14 @@ locals {
              {{ key }} = "{{ value }}"{% endfor %}
          } {%- endfor %}
      }
+
+    data_egress = {
+     {%- for environment, ranges in data_egress.items() %}
+         {{ environment }} = {
+           {%- for key, value in ranges.items() %}
+             {{ key }} = "{{ value }}"{% endfor %}
+         } {%- endfor %}
+     }
 }
 
 data "terraform_remote_state" "common" {
