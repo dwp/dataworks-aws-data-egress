@@ -86,7 +86,7 @@ locals {
   ]
 
   sft_agent_group_name       = "sft_agent"
-  sft_agent_config_s3_prefix = "monitoring/${local.sft_agent_group_name}"
+  sft_agent_config_s3_prefix = "component/data-egress-sft"
 
   data-egress_group_name       = "data-egress"
   data-egress_config_s3_prefix = "monitoring/${local.data-egress_group_name}"

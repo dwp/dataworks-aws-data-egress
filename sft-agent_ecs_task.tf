@@ -19,7 +19,7 @@ data "template_file" "sft_agent_definition" {
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_sft_agent_url, var.sft_agent_image_version)
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
-    user               = "nobody"
+    user               = "root"
     ports              = jsonencode([parseint(var.sft_agent_port, 10)])
     ulimits            = jsonencode([])
     log_group          = aws_cloudwatch_log_group.data_egress_cluster.name
@@ -50,6 +50,10 @@ data "template_file" "sft_agent_definition" {
       {
         name : "AWS_DEFAULT_REGION",
         value : var.region
+      },
+      {
+        name : "LOG_LEVEL",
+        value : "DEBUG"
       }
 
     ])
