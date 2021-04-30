@@ -14,6 +14,8 @@ from dateutil.tz import tzlocal
 def main():
     if 'AWS_PROFILE' in os.environ:
         boto3.setup_default_session(profile_name=os.environ['AWS_PROFILE'])
+        secrets_session = boto3.Session(
+            profile_name=os.environ['AWS_PROFILE'])
     if 'AWS_PROFILE_MGT_DEV' in os.environ:
         secrets_session = boto3.Session(
             profile_name=os.environ['AWS_PROFILE_MGT_DEV'])
