@@ -13,6 +13,7 @@
           TF_CLI_ARGS_apply: -lock-timeout=300s
           TF_CLI_ARGS_plan: -lock-timeout=300s
           TF_VAR_costcode: ((dataworks.costcode))
+
     terraform-bootstrap:
       task: terraform-bootstrap
       config:
@@ -32,6 +33,7 @@
               sed -i '/^assume_role/ d' terraform.tfvars
               cp terraform.tf ../terraform-bootstrap
               cp terraform.tfvars ../terraform-bootstrap
+              cat ../terraform-bootstrap/terraform.tfvars
           dir: dataworks-aws-data-egress
         inputs:
           - name: dataworks-aws-data-egress
@@ -39,6 +41,7 @@
           - name: terraform-bootstrap
       params:
         AWS_REGION: eu-west-2
+
     terraform-apply:
       task: terraform-apply
       .: (( inject meta.plan.terraform-common-config ))
@@ -61,6 +64,7 @@
           - name: dw-al2-ecs-ami
       params:
         AWS_REGION: eu-west-2
+
     terraform-plan:
       task: terraform-plan
       .: (( inject meta.plan.terraform-common-config ))
@@ -109,10 +113,11 @@
           args:
             - -exc
             - |
+              source /assume-role
               cd src/runners
               ./run-ci.sh \
               "../../../meta"
         inputs:
-          - name: aws-dataworks-e2e-framework
+          - name: dataworks-behavioural-framework
           - name: dataworks-aws-data-egress
 
