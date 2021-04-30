@@ -29,8 +29,8 @@ data "aws_iam_policy_document" "sft_agent_task" {
   }
 
   statement {
-    sid = "AllowKMSDecrypt"
-    actions = ["kms:Decrypt"]
+    sid       = "AllowKMSDecrypt"
+    actions   = ["kms:Decrypt"]
     resources = [data.terraform_remote_state.common.outputs.config_bucket_cmk.arn]
   }
 
@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "sft_agent_task" {
     resources = [
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${aws_s3_bucket_object.data_egress_sft_agent_config.key}",
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${aws_s3_bucket_object.data_egress_sft_agent_application_config.key}",
-      ]
+    ]
   }
 
   statement {
