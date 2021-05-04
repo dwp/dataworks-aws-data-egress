@@ -64,7 +64,7 @@ resource "aws_ecs_service" "sft-agent" {
   name            = "sft-agent"
   cluster         = aws_ecs_cluster.data_egress_cluster.id
   task_definition = aws_ecs_task_definition.sft-agent.arn
-  desired_count   = 1
+  desired_count   = local.sft_agent_service_desired_count[local.environment]
   launch_type     = "EC2"
 
 
