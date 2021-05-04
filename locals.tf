@@ -16,6 +16,7 @@ locals {
     preprod     = 0
     production  = 0
   }
+
   data_egress_server_asg_desired = {
     development = 2
     qa          = 2
@@ -23,6 +24,7 @@ locals {
     preprod     = 2
     production  = 2
   }
+
   data_egress_server_asg_max = {
     development = 2
     qa          = 2
@@ -30,6 +32,7 @@ locals {
     preprod     = 2
     production  = 2
   }
+
   data_egress_server_ssmenabled = {
     development = "True"
     qa          = "True"
@@ -84,6 +87,14 @@ locals {
       destination : data.terraform_remote_state.aws_sdx.outputs.internet_proxy.sg
     },
   ]
+
+  sft_agent_service_desired_count = {
+    development    = "1"
+    qa             = "1"
+    integration    = "1"
+    preprod        = "1"
+    production     = "1"
+  }
 
   sft_agent_group_name       = "sft_agent"
   sft_agent_config_s3_prefix = "component/data-egress-sft"
