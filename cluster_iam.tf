@@ -57,7 +57,7 @@ data "aws_iam_policy_document" "data_egress_cluster_monitoring_logging" {
 
 resource "aws_iam_role_policy_attachment" "ec2_for_ssm_attachment" {
   role       = aws_iam_role.data_egress_server.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMManagedInstanceCore"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_role_policy_attachment" "data_egress_cluster_ecs" {
