@@ -89,11 +89,11 @@ locals {
   ]
 
   sft_agent_service_desired_count = {
-    development    = "1"
-    qa             = "1"
-    integration    = "1"
-    preprod        = "1"
-    production     = "1"
+    development = "1"
+    qa          = "1"
+    integration = "1"
+    preprod     = "1"
+    production  = "1"
   }
 
   sft_agent_group_name       = "sft_agent"
