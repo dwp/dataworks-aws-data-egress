@@ -111,10 +111,10 @@ data "template_file" "sft_agent_definition" {
     s3_prefix          = local.sft_agent_config_s3_prefix
 
     mount_points = jsonencode([
-      # {
-      #   "container_path" : "/data-egress",
-      #   "source_volume" : "data-egress"
-      # }
+      {
+        "container_path" : "/data-egress",
+        "source_volume" : "data-egress"
+      }
     ])
 
     environment_variables = jsonencode([
