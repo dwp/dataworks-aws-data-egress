@@ -38,7 +38,7 @@ data "template_file" "data_egress_definition" {
 
     mount_points = jsonencode([
       {
-        "container_path" : "/data-egress",
+        "container_path" : "/data",
         "source_volume" : "data-egress"
       }
     ])
@@ -112,7 +112,7 @@ data "template_file" "sft_agent_definition" {
 
     mount_points = jsonencode([
       {
-        "container_path" : "/data-egress",
+        "container_path" : "/data",
         "source_volume" : "data-egress"
       }
     ])
