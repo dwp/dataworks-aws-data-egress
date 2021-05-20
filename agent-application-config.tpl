@@ -1,34 +1,34 @@
 sender:
   routes:
     - name: DA/Dataworks_UCFS_data
-      source: /data-egress/warehouse/
+      source: /data/warehouse/
       actions:
         - name: httpRequest
           properties:
             destination: https://${destinationIP}:8091/DA/Dataworks_UCFS_data
-      errorFolder: /data-egress/error/warehouse
+      errorFolder: /data/error/warehouse
       threadPoolSize: 5
       maxThreadPoolSize: 5
       deleteOnSend: true
       filenameRegex: .*
     - name: DA/Dataworks_UCFS_tactical
-      source: /data-egress/sas/
+      source: /data/sas/
       actions:
         - name: httpRequest
           properties:
             destination: https://${destinationIP}:8091/DA/Dataworks_UCFS_tactical
-      errorFolder: /data-egress/error/sas
+      errorFolder: /data/error/sas
       threadPoolSize: 5
       maxThreadPoolSize: 5
       deleteOnSend: true
       filenameRegex: .*
     - name: DSP/Dataworks_UCFS_data
-      source: /data-egress/RIS/
+      source: /data/RIS/
       actions:
         - name: httpRequest
           properties:
             destination: https://${destinationIP}:8091/DSP/Dataworks_UCFS_data
-      errorFolder: /data-egress/error/RIS
+      errorFolder: /data/error/RIS
       threadPoolSize: 5
       maxThreadPoolSize: 5
       deleteOnSend: true
