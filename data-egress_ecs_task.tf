@@ -38,7 +38,7 @@ data "template_file" "data_egress_definition" {
 
     mount_points = jsonencode([
       {
-        "container_path" : "/data",
+        "container_path" : "/data-egress",
         "source_volume" : "data-egress"
       }
     ])
@@ -111,10 +111,10 @@ data "template_file" "sft_agent_definition" {
     s3_prefix          = local.sft_agent_config_s3_prefix
 
     mount_points = jsonencode([
-      {
-        "container_path" : "/data",
-        "source_volume" : "data-egress"
-      }
+      # {
+      #   "container_path" : "/data-egress",
+      #   "source_volume" : "data-egress"
+      # }
     ])
 
     environment_variables = jsonencode([
@@ -152,7 +152,7 @@ resource "aws_ecs_service" "data-egress" {
 
 
   network_configuration {
-    security_groups = [aws_security_group.data_egress_service.id,aws_security_group.sft_agent_service.id ]
+    security_groups = [aws_security_group.data_egress_service.id, aws_security_group.sft_agent_service.id ]
     subnets         = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.*.id
   }
   #TODO load balancer needed?
