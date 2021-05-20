@@ -2,8 +2,8 @@ resource "aws_ecs_task_definition" "data-egress" {
   family                   = "data-egress"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  cpu                      = "4096"
-  memory                   = "8192"
+  cpu                      = "8192"
+  memory                   = "16000"
   task_role_arn            = aws_iam_role.data_egress_server_task.arn
   execution_role_arn       = data.terraform_remote_state.common.outputs.ecs_task_execution_role.arn
   container_definitions    = "[${data.template_file.data_egress_definition.rendered}, ${data.template_file.sft_agent_definition.rendered}]"
@@ -152,7 +152,7 @@ resource "aws_ecs_service" "data-egress" {
 
 
   network_configuration {
-    security_groups = [aws_security_group.data_egress_service.id ]
+    security_groups = [aws_security_group.data_egress_service.id, aws_security_group.sft_agent_service.id ]
     subnets         = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.*.id
   }
   #TODO load balancer needed?
