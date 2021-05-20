@@ -100,5 +100,5 @@ variable "sft_agent_port" {
 variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = string
-  default     = ""
+  default     = "latest"
 }
