@@ -63,7 +63,7 @@ resource "aws_iam_policy" "sft_agent_task" {
   policy      = data.aws_iam_policy_document.sft_agent_task.json
 }
 resource "aws_iam_role_policy_attachment" "sft_agent" {
-  role       = aws_iam_role.sft_agent_task.name
+  role       = aws_iam_role.data_egress_server_task.name
   policy_arn = aws_iam_policy.sft_agent_task.arn
 }
 
