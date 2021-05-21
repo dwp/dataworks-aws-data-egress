@@ -152,7 +152,7 @@ resource "aws_ecs_service" "data-egress" {
 
 
   network_configuration {
-    security_groups = [aws_security_group.data_egress_service.id, aws_security_group.sft_agent_service.id ]
+    security_groups = [aws_security_group.data_egress_service.id, aws_security_group.sft_agent_service.id]
     subnets         = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.*.id
   }
   #TODO load balancer needed?
