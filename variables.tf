@@ -76,7 +76,7 @@ variable "data_egress_port" {
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = string
-  default     = "latest"
+  default     = "0.0.13"
 }
 
 variable "name" {
@@ -100,5 +100,5 @@ variable "sft_agent_port" {
 variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = string
-  default     = ""
+  default     = "0.0.5"
 }
