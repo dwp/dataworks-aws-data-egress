@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "data_egress_server_task_assume_role" {
 
     principals {
       identifiers = ["arn:aws:iam::${local.account[local.environment]}:role/DataEgressServer"]
-      type = "AWS"
+      type        = "AWS"
     }
   }
 }
