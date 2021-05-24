@@ -5,7 +5,7 @@ sender:
       actions:
         - name: httpRequest
           properties:
-            destination: https://${destinationIP}:8091/DA/Dataworks_UCFS_data
+            destination: ${destination_url}
       errorFolder: /data-egress/error/warehouse
       threadPoolSize: 5
       maxThreadPoolSize: 5
@@ -16,7 +16,7 @@ sender:
       actions:
         - name: httpRequest
           properties:
-            destination: https://${destinationIP}:8091/DA/Dataworks_UCFS_tactical
+            destination: ${destination_url}
       errorFolder: /data-egress/error/sas
       threadPoolSize: 5
       maxThreadPoolSize: 5
@@ -27,7 +27,7 @@ sender:
       actions:
         - name: httpRequest
           properties:
-            destination: https://${destinationIP}:8091/DSP/Dataworks_UCFS_data
+            destination: ${destination_url}
       errorFolder: /data-egress/error/RIS
       threadPoolSize: 5
       maxThreadPoolSize: 5

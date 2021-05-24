@@ -22,6 +22,6 @@ data "template_file" "data_egress_sft_agent_config_tpl" {
 data "template_file" "data_egress_sft_agent_application_config_tpl" {
   template = file("${path.module}/agent-application-config.tpl")
   vars = {
-    destinationIP = local.data_egress[local.environment].sft_agent_destination_ip
+    destination_url = data.terraform_remote_state.snapshot_sender.outputs.nifi_endpoint_url
   }
 }
