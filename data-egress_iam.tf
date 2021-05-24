@@ -13,6 +13,11 @@ data "aws_iam_policy_document" "data_egress_server_task_assume_role" {
       type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]
     }
+
+    principals {
+      identifiers = ["arn:aws:iam::${local.account[local.environment]}:role/DataEgressServer"]
+      type = "AWS"
+    }
   }
 }
 
@@ -24,7 +29,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "s3:PutObject",
       "s3:PutObjectAcl"
     ]
-    resources = ["arn:aws:s3:::${local.opsmi[local.environment].bucket_name}/*"]
+    resources = ["arn:aws:s3:::${local.opsmi[local.environment].bucket_name}/*", "arn:aws:s3:::${local.opsmi[local.environment].bucket_name}"]
   }
 
   statement {
@@ -91,7 +96,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = [data.terraform_remote_state.common.outputs.published_bucket.arn]
+    resources = [data.terraform_remote_state.common.outputs.published_bucket.arn, "arn:aws:s3:::${local.opsmi[local.environment].bucket_name}"]
   }
 
   statement {
@@ -99,7 +104,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     actions = [
       "s3:GetObject"
     ]
-    resources = ["${data.terraform_remote_state.common.outputs.published_bucket.arn}/opsmi/*", "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"]
+    resources = ["${data.terraform_remote_state.common.outputs.published_bucket.arn}/opsmi/*", "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/cbol-report/*", "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"]
   }
 
   statement {
