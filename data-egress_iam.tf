@@ -41,6 +41,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     ]
     resources = ["arn:aws:kms:eu-west-2:${local.opsmi[local.environment].account_id}:key/*"]
   }
+
   statement {
     sid = "AllowDataEgressEC2ToPollSQS"
     actions = [
@@ -116,16 +117,17 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     ]
     resources = [
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/data-egress-testing-output/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/cbol/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"
     ]
   }
+
   statement {
     sid       = "DataEgressGetCAMgmtCertS3"
     effect    = "Allow"
     actions   = ["s3:GetObject"]
     resources = ["${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.arn}/*"]
   }
-
 }
 
 resource "aws_iam_policy" "data_egress_server_task" {
