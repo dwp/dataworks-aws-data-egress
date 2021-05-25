@@ -23,5 +23,6 @@ data "template_file" "data_egress_sft_agent_application_config_tpl" {
   template = file("${path.module}/agent-application-config.tpl")
   vars = {
     destination_url = data.terraform_remote_state.snapshot_sender.outputs.nifi_endpoint_url
+    hmm = local.snapshot_sender_use_stub_nifi[local.environment] ? "${local.stub_nifi_alb_fqdn}" : "${data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]}"
   }
 }
