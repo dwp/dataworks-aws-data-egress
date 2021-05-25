@@ -66,6 +66,14 @@ locals {
     management     = "management"
   }
 
+    snapshot_sender_use_stub_nifi = {
+    development = true
+    qa          = true
+    integration = true
+    preprod     = false
+    production  = false
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
