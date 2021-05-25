@@ -60,23 +60,6 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
-    sid    = "AllowKMSEncryptionOfSQSMessages"
-    effect = "Allow"
-
-    actions = [
-      "kms:Decrypt",
-      "kms:DescribeKey",
-      "kms:Encrypt",
-      "kms:GenerateDataKey*",
-      "kms:ReEncrypt*",
-    ]
-
-    resources = [
-      data.terraform_remote_state.common.outputs.data_egress_sqs.key_arn
-    ]
-  }
-
-  statement {
     sid = "AllowDataEgressEC2ToReadDynamoDB"
     actions = [
       "dynamodb:BatchGetItem",

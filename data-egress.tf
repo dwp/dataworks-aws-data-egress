@@ -77,45 +77,6 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
   ITEM
 }
 
-resource "aws_sqs_queue_policy" "published_non_sensitive_bucket_notification_policy" {
-  # Note - this is a permissive policy (in addition to everything allowed by IAM)
-  policy    = data.aws_iam_policy_document.published_bucket_s3.json
-  queue_url = data.terraform_remote_state.common.outputs.data_egress_sqs.id
-}
-
-data "aws_iam_policy_document" "published_bucket_s3" {
-
-  statement {
-    sid       = "AllowPublishedBucketToSendSQSMessage"
-    effect    = "Allow"
-    resources = [data.terraform_remote_state.common.outputs.data_egress_sqs.arn]
-
-    actions = [
-      # Due to a tf/AWS bug, currently requires SQS to be capitalised.
-      "SQS:SendMessage",
-      # When tf/AWS bug fixed, this should work correctly.
-      "sqs:SendMessage",
-    ]
-
-    principals {
-      identifiers = ["*"]
-      type        = "AWS"
-    }
-
-    condition {
-      test     = "ArnEquals"
-      variable = "aws:SourceArn"
-      values   = [data.terraform_remote_state.common.outputs.published_bucket.arn]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = [local.account[local.environment]]
-    }
-  }
-}
-
 resource "aws_acm_certificate" "data_egress_server" {
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "${local.data_egress_server_name}.${local.env_prefix[local.environment]}dataworks.dwp.gov.uk"
