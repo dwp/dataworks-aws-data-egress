@@ -66,7 +66,20 @@ locals {
     management     = "management"
   }
 
-    snapshot_sender_use_stub_nifi = {
+  dataworks_root_domain = "dataworks.dwp.gov.uk"
+
+  dataworks_domain_env_prefix = {
+    development = "dev."
+    qa          = "qa."
+    integration = "int."
+    preprod     = "pre."
+    production  = ""
+  }
+
+  stub_nifi_friendly_name = "stub-nifi"
+  stub_nifi_alb_fqdn      = "${local.stub_nifi_friendly_name}.${local.dataworks_domain_env_prefix[local.environment]}${local.dataworks_root_domain}"
+
+  snapshot_sender_use_stub_nifi = {
     development = true
     qa          = true
     integration = true
