@@ -1,14 +1,3 @@
-resource "aws_sqs_queue" "data_egress" {
-  name = "data-egress"
-
-  tags = merge(
-    local.common_tags,
-    {
-      Name = "data-egress"
-    },
-  )
-}
-
 resource "aws_dynamodb_table" "data_egress" {
   name           = "data-egress"
   hash_key       = "source_prefix"
@@ -91,7 +80,7 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
 resource "aws_sqs_queue_policy" "published_non_sensitive_bucket_notification_policy" {
   # Note - this is a permissive policy (in addition to everything allowed by IAM)
   policy    = data.aws_iam_policy_document.published_bucket_s3.json
-  queue_url = aws_sqs_queue.data_egress.id
+  queue_url = data.terraform_remote_state.common.outputs.data_egress_sqs.id
 }
 
 data "aws_iam_policy_document" "published_bucket_s3" {
@@ -99,7 +88,7 @@ data "aws_iam_policy_document" "published_bucket_s3" {
   statement {
     sid       = "AllowPublishedBucketToSendSQSMessage"
     effect    = "Allow"
-    resources = [aws_sqs_queue.data_egress.arn]
+    resources = [data.terraform_remote_state.common.outputs.data_egress_sqs.arn]
 
     actions = [
       # Due to a tf/AWS bug, currently requires SQS to be capitalised.

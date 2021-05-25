@@ -54,7 +54,26 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "sqs:ReceiveMessage",
       "sqs:GetQueueAttributes"
     ]
-    resources = [aws_sqs_queue.data_egress.arn]
+    resources = [
+        data.terraform_remote_state.common.outputs.data_egress_sqs.arn
+    ]
+  }
+
+  statement {
+    sid    = "AllowKMSEncryptionOfSQSMessages"
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:Encrypt",
+      "kms:GenerateDataKey*",
+      "kms:ReEncrypt*",
+    ]
+
+    resources = [
+      data.terraform_remote_state.common.outputs.data_egress_sqs.key_arn
+    ]
   }
 
   statement {

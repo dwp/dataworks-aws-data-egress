@@ -1,12 +1,9 @@
-output "data_egress" {
-  value = aws_sqs_queue.data_egress
-}
-
 output "security_group" {
   value = {
     data_egress_server = aws_security_group.data_egress_server.id
   }
 }
+<<<<<<< Updated upstream
 
 output "sft_agent_service" {
   value = {
@@ -14,3 +11,5 @@ output "sft_agent_service" {
     desired_count  = local.sft_agent_service_desired_count[local.environment]
   }
 }
+=======
+>>>>>>> Stashed changes
