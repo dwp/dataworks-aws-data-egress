@@ -3,6 +3,10 @@ sender:
     - name: DA/Dataworks_UCFS_data
       source: /data/warehouse/
       actions:
+        - name: renameFile
+           properties:
+              rename_regex: (.+)
+              rename_replacement: AWS_$1
         - name: httpRequest
           properties:
             destination: https://${destination_url}:8091/DA/Dataworks_UCFS_data
@@ -14,6 +18,10 @@ sender:
     - name: DA/Dataworks_UCFS_tactical
       source: /data/sas/
       actions:
+        - name: renameFile
+           properties:
+              rename_regex: (.+)
+              rename_replacement: AWS_$1
         - name: httpRequest
           properties:
             destination: https://${destination_url}:8091/DA/Dataworks_UCFS_tactical
@@ -25,6 +33,10 @@ sender:
     - name: DSP/Dataworks_UCFS_data
       source: /data/RIS/
       actions:
+        - name: renameFile
+           properties:
+              rename_regex: (.+)
+              rename_replacement: AWS_$1
         - name: httpRequest
           properties:
             destination: https://${destination_url}:8091/DSP/Dataworks_UCFS_data
