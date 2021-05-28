@@ -76,8 +76,8 @@ resource "aws_security_group_rule" "data_egress_dks" {
 resource "aws_security_group_rule" "data_egress_nifi_egress" {
   description              = "Allow outbound requests to nifi"
   type                     = "egress"
-  from_port                = 8091
-  to_port                  = 8091
+  from_port                = var.sft_agent_port
+  to_port                  = var.sft_agent_port
   protocol                 = "tcp"
   source_security_group_id = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_sg_id
   security_group_id        = aws_security_group.data_egress_service.id
@@ -86,8 +86,8 @@ resource "aws_security_group_rule" "data_egress_nifi_egress" {
 resource "aws_security_group_rule" "data_egress_nifi_ingress" {
   description              = "Allow outbound requests to nifi"
   type                     = "ingress"
-  from_port                = 8091
-  to_port                  = 8091
+  from_port                = var.sft_agent_port
+  to_port                  = var.sft_agent_port
   protocol                 = "tcp"
   source_security_group_id = aws_security_group.data_egress_service.id
   security_group_id        = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_sg_id
