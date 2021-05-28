@@ -1,14 +1,3 @@
-resource "aws_sqs_queue" "data_egress" {
-  name = "data-egress"
-
-  tags = merge(
-    local.common_tags,
-    {
-      Name = "data-egress"
-    },
-  )
-}
-
 resource "aws_dynamodb_table" "data_egress" {
   name           = "data-egress"
   hash_key       = "source_prefix"
@@ -86,45 +75,6 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
     "destination_prefix":     {"S":    "data-egress-testing-output/"}
   }
   ITEM
-}
-
-resource "aws_sqs_queue_policy" "published_non_sensitive_bucket_notification_policy" {
-  # Note - this is a permissive policy (in addition to everything allowed by IAM)
-  policy    = data.aws_iam_policy_document.published_bucket_s3.json
-  queue_url = aws_sqs_queue.data_egress.id
-}
-
-data "aws_iam_policy_document" "published_bucket_s3" {
-
-  statement {
-    sid       = "AllowPublishedBucketToSendSQSMessage"
-    effect    = "Allow"
-    resources = [aws_sqs_queue.data_egress.arn]
-
-    actions = [
-      # Due to a tf/AWS bug, currently requires SQS to be capitalised.
-      "SQS:SendMessage",
-      # When tf/AWS bug fixed, this should work correctly.
-      "sqs:SendMessage",
-    ]
-
-    principals {
-      identifiers = ["*"]
-      type        = "AWS"
-    }
-
-    condition {
-      test     = "ArnEquals"
-      variable = "aws:SourceArn"
-      values   = [data.terraform_remote_state.common.outputs.published_bucket.arn]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:SourceAccount"
-      values   = [local.account[local.environment]]
-    }
-  }
 }
 
 resource "aws_acm_certificate" "data_egress_server" {

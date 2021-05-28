@@ -46,7 +46,7 @@ data "template_file" "data_egress_definition" {
     environment_variables = jsonencode([
       {
         name  = "sqs_url",
-        value = aws_sqs_queue.data_egress.id
+        value = data.terraform_remote_state.common.outputs.data_egress_sqs.id
       },
       {
         name  = "dks_url",
