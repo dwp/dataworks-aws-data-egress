@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "sqs:GetQueueAttributes"
     ]
     resources = [
-        data.terraform_remote_state.common.outputs.data_egress_sqs.arn
+      data.terraform_remote_state.common.outputs.data_egress_sqs.arn
     ]
   }
 
