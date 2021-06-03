@@ -66,6 +66,35 @@ locals {
     management     = "management"
   }
 
+  dataworks_root_domain = "dataworks.dwp.gov.uk"
+
+  dataworks_domain_env_prefix = {
+    development = "dev."
+    qa          = "qa."
+    integration = "int."
+    preprod     = "pre."
+    production  = ""
+  }
+
+  stub_nifi_friendly_name = "stub-nifi"
+  stub_nifi_alb_fqdn      = "${local.stub_nifi_friendly_name}.${local.dataworks_domain_env_prefix[local.environment]}${local.dataworks_root_domain}"
+
+  use_stub_nifi = {
+    development = true
+    qa          = true
+    integration = true
+    preprod     = false
+    production  = false
+  }
+
+  config_file = {
+    development = "agent-application-config.tpl"
+    qa          = "agent-application-config.tpl"
+    integration = "agent-application-config.tpl"
+    preprod     = "agent-application-config.tpl"
+    production  = "agent-application-config-prod-test.tpl"
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
