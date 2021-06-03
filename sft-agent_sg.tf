@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "sft_agent_service_s3_http" {
   security_group_id = aws_security_group.sft_agent_service.id
 }
 
-resource "aws_security_group_rule" "sft_agent_service_to_crown" {
+resource "aws_security_group_rule" "sft_agent_service_to_sdx" {
   description       = "Allow SFT agent to access SDX VIP for Crown Data Transfers"
   type              = "egress"
   protocol          = "tcp"
