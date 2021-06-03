@@ -156,7 +156,7 @@ data "template_file" "sft_agent_definition" {
       },
       {
         name  = "private_key_alias",
-        value = "data_egress"
+        value = "data_egress_sft"
       }
 
     ])
