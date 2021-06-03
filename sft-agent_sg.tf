@@ -38,7 +38,7 @@ resource "aws_security_group_rule" "sft_agent_service_to_crown" {
   from_port         = var.sft_agent_port
   to_port           = var.sft_agent_port
   security_group_id = aws_security_group.sft_agent_service.id
-  cidr_blocks       = [data.terraform_remote_state.aws_sdx.outputs.vpc.vpc.cidr_block]
+  cidr_blocks       = ["${data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_vip}/32"]
 }
 
 # resource "aws_security_group_rule" "data_egress_nifi_egress" {
