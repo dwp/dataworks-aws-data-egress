@@ -30,6 +30,7 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
 
   item = <<ITEM
   {
+    "do_not_decrypt":         {"B":     "True"},
     "source_prefix":          {"S":     "opsmi/"},
     "pipeline_name":          {"S":     "OpsMI"},
     "recipient_name":         {"S":     "OpsMI"},
@@ -41,24 +42,24 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "rtg_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
+# resource "aws_dynamodb_table_item" "rtg_data_egress_config" {
+#   table_name = aws_dynamodb_table.data_egress.name
+#   hash_key   = aws_dynamodb_table.data_egress.hash_key
+#   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  item = <<ITEM
-  {
-    "do_not_decrypt":         {"B":     "True"},
-    "source_prefix":          {"S":     "rtg/"},
-    "pipeline_name":          {"S":     "RTG"},
-    "recipient_name":         {"S":     "RTG"},
-    "transfer_type":          {"S":     "S3"},
-    "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_bucket":     {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_prefix":     {"S":     "rtg/"}
-  }
-  ITEM
-}
+#   item = <<ITEM
+#   {
+#     "do_not_decrypt":         {"B":     "True"},
+#     "source_prefix":          {"S":     "rtg/"},
+#     "pipeline_name":          {"S":     "RTG"},
+#     "recipient_name":         {"S":     "RTG"},
+#     "transfer_type":          {"S":     "S3"},
+#     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+#     "destination_bucket":     {"S":     "${local.rtg[local.environment].bucket_name}"},
+#     "destination_prefix":     {"S":     "rtg/"}
+#   }
+#   ITEM
+# }
 
 
 
