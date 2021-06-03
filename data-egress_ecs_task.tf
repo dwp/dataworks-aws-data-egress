@@ -137,6 +137,26 @@ data "template_file" "sft_agent_definition" {
       {
         name : "LOG_LEVEL",
         value : "DEBUG"
+      },
+      {
+        name : "SFT_USE_SSL",
+        value : local.use_ssl[local.environment]
+      },
+      {
+        name  = "acm_cert_arn",
+        value = aws_acm_certificate.data_egress_server.arn
+      },
+      {
+        name  = "truststore_aliases",
+        value = join(",", var.truststore_aliases)
+      },
+      {
+        name  = "truststore_certs",
+        value = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
+      },
+      {
+        name  = "private_key_alias",
+        value = "data_egress"
       }
 
     ])
