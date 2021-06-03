@@ -32,7 +32,7 @@ resource "aws_security_group_rule" "sft_agent_service_s3_http" {
 }
 
 resource "aws_security_group_rule" "sft_agent_service_to_crown" {
-  description       = "Allow SFT agent to access crown"
+  description       = "Allow SFT agent to access SDX VIP for Crown Data Transfers"
   type              = "egress"
   protocol          = "tcp"
   from_port         = var.sft_agent_port
