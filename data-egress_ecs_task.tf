@@ -35,6 +35,7 @@ data "template_file" "data_egress_definition" {
     region             = data.aws_region.current.name
     config_bucket      = data.terraform_remote_state.common.outputs.config_bucket.id
     s3_prefix          = local.data-egress_config_s3_prefix
+    essential          = true
 
     mount_points = jsonencode([
       {
@@ -109,6 +110,7 @@ data "template_file" "sft_agent_definition" {
     region             = data.aws_region.current.name
     config_bucket      = data.terraform_remote_state.common.outputs.config_bucket.id
     s3_prefix          = local.sft_agent_config_s3_prefix
+    essential          = false
 
     mount_points = jsonencode([
       {
