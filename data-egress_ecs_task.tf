@@ -133,10 +133,6 @@ data "template_file" "sft_agent_definition" {
         value : "DEBUG"
       },
       {
-        name : "SFT_USE_SSL",
-        value : local.use_ssl[local.environment]
-      },
-      {
         name  = "acm_cert_arn",
         value = aws_acm_certificate.data_egress_server.arn
       },

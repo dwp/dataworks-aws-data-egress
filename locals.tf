@@ -87,15 +87,6 @@ locals {
     production  = false
   }
 
-  use_ssl = {
-    development = "false"
-    qa          = "false"
-    integration = "false"
-    preprod     = "false"
-    production  = "true"
-
-  }
-
   config_file = {
     development = "agent-application-config.tpl"
     qa          = "agent-application-config.tpl"
