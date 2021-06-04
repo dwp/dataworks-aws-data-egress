@@ -159,8 +159,19 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "private_key_alias",
         value = "data_egress_sft"
+      },
+      {
+        name  = "internet_proxy",
+        value = data.terraform_remote_state.aws_sdx.outputs.internet_proxy.host
+      },
+      {
+        name  = "non_proxied_endpoints",
+        value = join(",", data.terraform_remote_state.aws_sdx.outputs.vpc.no_proxy_list)
+      },
+      {
+        name  = "dks_fqdn",
+        value = local.dks_fqdn
       }
-
     ])
   }
 }
