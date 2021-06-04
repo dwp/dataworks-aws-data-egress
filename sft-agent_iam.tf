@@ -56,6 +56,15 @@ data "aws_iam_policy_document" "sft_agent_task" {
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*"
     ]
   }
+
+  statement {
+    sid    = "CertificateExport"
+    effect = "Allow"
+    actions = [
+      "acm:ExportCertificate",
+    ]
+    resources = [aws_acm_certificate.data_egress_server.arn]
+  }
 }
 
 resource "aws_iam_policy" "sft_agent_task" {
