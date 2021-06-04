@@ -125,10 +125,6 @@ data "template_file" "sft_agent_definition" {
         value = data.terraform_remote_state.aws_sdx.outputs.internet_proxy.host
       },
       {
-        name  = "non_proxied_endpoints",
-        value = join(",", data.terraform_remote_state.aws_sdx.outputs.vpc.no_proxy_list)
-      },
-      {
         name  = "AWS_REGION",
         value = var.region
       },
