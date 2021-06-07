@@ -48,7 +48,7 @@ resource "aws_dynamodb_table_item" "rtg_tbl_config" {
 
   item = <<ITEM
   {
-    "do_not_decrypt":         {"B":     "True"},
+    "decrypt":                {"B":     "True"},
     "source_prefix":          {"S":     "rtg/"},
     "pipeline_name":          {"S":     "RTG"},
     "recipient_name":         {"S":     "RTG"},
