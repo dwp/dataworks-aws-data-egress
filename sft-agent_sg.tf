@@ -82,3 +82,13 @@ resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb" {
   source_security_group_id = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_lb_sg_id
   security_group_id        = aws_security_group.sft_agent_service.id
 }
+
+resource "aws_security_group_rule" "stub_nifi_lb_from_sft" {
+  description              = "Allow ingress from Sft"
+  type                     = "ingress"
+  from_port                = 8091
+  to_port                  = 8091
+  protocol                 = "tcp"
+  security_group_id        = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_lb_sg_id
+  source_security_group_id = aws_security_group.sft_agent_service.id
+}

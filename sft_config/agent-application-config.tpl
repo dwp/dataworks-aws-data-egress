@@ -77,3 +77,21 @@ sender:
       name: e2eTest
       source: /data-egress/data-egress-testing-output/
       threadPoolSize: 5
+    - 
+      actions: 
+        - 
+          name: renameFile
+          properties: 
+            rename_regex: (.+)
+            rename_replacement: AWS_$1
+        - 
+          name: httpRequest
+          properties: 
+            destination: "https://${destination_url}:8091/DA"
+      deleteOnSend: true
+      errorFolder: /data-egress/error/test
+      filenameRegex: .*
+      maxThreadPoolSize: 5
+      name: startupTest
+      source: /data-egress/test/
+      threadPoolSize: 5
