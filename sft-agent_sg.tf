@@ -31,15 +31,14 @@ resource "aws_security_group_rule" "sft_agent_service_s3_http" {
   security_group_id = aws_security_group.sft_agent_service.id
 }
 
-resource "aws_security_group_rule" "sft_agent_service_to_crown" {
-  description       = "Allow SFT agent to access crown"
+resource "aws_security_group_rule" "sft_agent_service_to_sdx" {
+  description       = "Allow SFT agent to access SDX VIP for Crown Data Transfers"
   type              = "egress"
   protocol          = "tcp"
   from_port         = var.sft_agent_port
   to_port           = var.sft_agent_port
   security_group_id = aws_security_group.sft_agent_service.id
-  cidr_blocks       = [data.terraform_remote_state.aws_sdx.outputs.vpc.vpc.cidr_block]
-  data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]
+  cidr_blocks       = ["${data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_vip}/32"]
 }
 
 #Stub nifi routes

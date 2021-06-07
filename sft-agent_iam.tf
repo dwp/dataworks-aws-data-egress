@@ -42,6 +42,7 @@ data "aws_iam_policy_document" "sft_agent_task" {
     resources = [
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${aws_s3_bucket_object.data_egress_sft_agent_config.key}",
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/${aws_s3_bucket_object.data_egress_sft_agent_application_config.key}",
+      "${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.arn}/*"
     ]
   }
 
@@ -54,6 +55,15 @@ data "aws_iam_policy_document" "sft_agent_task" {
       data.terraform_remote_state.common.outputs.config_bucket.arn,
       "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*"
     ]
+  }
+
+  statement {
+    sid    = "CertificateExport"
+    effect = "Allow"
+    actions = [
+      "acm:ExportCertificate",
+    ]
+    resources = [aws_acm_certificate.data_egress_server.arn]
   }
 }
 
