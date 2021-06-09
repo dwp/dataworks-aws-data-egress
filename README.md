@@ -26,7 +26,7 @@ In addition, you may want to do the following:
 The SFT Agent reads files written to disk by the data egress service and sends these to configured destinations via HTTPS. 
 It is deployed as a sidecar to the data egress service, and a volume mounted to /data-egress is 
 shared between the containers.  
-Which files are read and where they are sent to is determined by  [config](sft_config/agent-application-config.tpl)
+Which files are read and where they are sent to is determined by [config](sft_config/agent-application-config.tpl)
 
 ## Testing
 In non production environments files are send to stub nifi, which is a container running nifi. This listens for
