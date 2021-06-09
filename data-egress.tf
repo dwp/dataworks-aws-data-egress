@@ -77,24 +77,6 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "dataworks_data_egress_sft_test_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
-
-  item = <<ITEM
-  {
-    "source_prefix":          {"S":    "dataworks-egress-testing-sft-input/"},
-    "pipeline_name":          {"S":    "data-egress-testing"},
-    "recipient_name":         {"S":    "DataWorks"},
-    "transfer_type":          {"S":    "SFT"},
-    "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_prefix":     {"S":    "data-egress-testing-output/"}
-  }
-  ITEM
-}
-
 resource "aws_acm_certificate" "data_egress_server" {
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "${local.data_egress_server_name}.${local.env_prefix[local.environment]}dataworks.dwp.gov.uk"
