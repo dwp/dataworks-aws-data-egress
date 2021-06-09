@@ -120,4 +120,4 @@
         inputs:
           - name: dataworks-behavioural-framework
           - name: dataworks-aws-data-egress
-
+          - name: meta
