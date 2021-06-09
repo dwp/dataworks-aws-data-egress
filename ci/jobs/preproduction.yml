@@ -2,13 +2,14 @@ jobs:
 - name: preprod
   max_in_flight: 1
   plan:
-    - get: dataworks-aws-data-egress
-      trigger: true
-      passed:
-        - integration
-    - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
-      passed:
-        - integration
+    - in_parallel:
+      - get: dataworks-aws-data-egress
+        trigger: true
+        passed:
+          - qa
+      - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
+        passed:
+          - qa
     - .: (( inject meta.plan.terraform-bootstrap ))
     - .: (( inject meta.plan.terraform-apply ))
       params:
