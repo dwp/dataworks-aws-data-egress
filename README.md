@@ -36,5 +36,3 @@ The files it receives will be saved to the s3 bucket
 stub-hdfs-****
 
 ```
-
-
