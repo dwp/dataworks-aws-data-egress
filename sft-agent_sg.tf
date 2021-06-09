@@ -43,6 +43,7 @@ resource "aws_security_group_rule" "sft_agent_service_to_sdx" {
 
 #Stub nifi routes
 resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb" {
+  count                    = local.use_stub_nifi[local.environment] ? 1 : 0
   description              = "Allow outbound requests to stub Nifi load balancer"
   type                     = "egress"
   from_port                = var.sft_agent_port
@@ -53,6 +54,7 @@ resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb" {
 }
 
 resource "aws_security_group_rule" "stub_nifi_lb_from_sft" {
+  count                    = local.use_stub_nifi[local.environment] ? 1 : 0
   description              = "Allow ingress from Sft"
   type                     = "ingress"
   from_port                = var.sft_agent_port
