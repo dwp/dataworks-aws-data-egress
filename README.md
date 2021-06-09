@@ -29,11 +29,12 @@ shared between the containers.
 Which files are read and where they are sent to is determined by [config](sft_config/agent-application-config.tpl)
 
 ## Testing
-In non production environments files are send to stub nifi, which is a container running nifi. This listens for
+In non production environments files are send to stub nifi, which is a container running nifi deployed by snapshot sender. This listens for
 files sent on port 8091 on path /DA. 
 The files it receives will be saved to the s3 bucket 
 ```
 stub-hdfs-****
+
 ```
 
 
