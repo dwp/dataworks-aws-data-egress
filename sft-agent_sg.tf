@@ -42,37 +42,6 @@ resource "aws_security_group_rule" "sft_agent_service_to_sdx" {
 }
 
 #Stub nifi routes
-# resource "aws_security_group_rule" "data_egress_nifi_egress" {
-#   description              = "Allow outbound requests to nifi"
-#   type                     = "egress"
-#   from_port                = var.sft_agent_port
-#   to_port                  = var.sft_agent_port
-#   protocol                 = "tcp"
-#   source_security_group_id = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_sg_id
-#   security_group_id        = aws_security_group.sft_agent_service.id
-# }
-
-# resource "aws_security_group_rule" "data_egress_nifi_ingress" {
-#   description              = "Allow outbound requests to nifi"
-#   type                     = "ingress"
-#   from_port                = var.sft_agent_port
-#   to_port                  = var.sft_agent_port
-#   protocol                 = "tcp"
-#   source_security_group_id = aws_security_group.sft_agent_service.id
-#   security_group_id        = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_sg_id
-# }
-
-# resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb_https" {
-#   description              = "Allow outbound requests to stub Nifi load balancer"
-#   type                     = "egress"
-#   from_port                = 443
-#   to_port                  = 443
-#   protocol                 = "tcp"
-#   source_security_group_id = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_lb_sg_id
-#   security_group_id        = aws_security_group.sft_agent_service.id
-# }
-
-
 resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb" {
   description              = "Allow outbound requests to stub Nifi load balancer"
   type                     = "egress"
