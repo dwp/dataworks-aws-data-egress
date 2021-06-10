@@ -166,4 +166,13 @@ locals {
     production     = "IFTS_Test"
     management     = ""
   }
+ ssl_debug = {
+    development    = "all"
+    qa             = "ssl"
+    integration    = "ssl"
+    management-dev = "ssl"
+    preprod        = "ssl"
+    production     = "all"
+    management     = "ssl"
+  }
 }

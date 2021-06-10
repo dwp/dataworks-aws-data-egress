@@ -167,6 +167,10 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "TEST_DIRECTORY",
         value = local.sft_test_dir[local.environment]
+      },
+      {
+        name  = "JAVAX_DEBUG",
+        value = local.ssl_debug[local.environment]
       }
     ])
   }
