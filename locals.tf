@@ -146,4 +146,24 @@ locals {
     "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem",
     "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
   ]
+
+ test_sft = {
+    development    = "TRUE"
+    qa             = ""
+    integration    = ""
+    management-dev = ""
+    preprod        = ""
+    production     = "TRUE"
+    management     = ""
+  }
+
+ sft_test_dir = {
+    development    = "test"
+    qa             = ""
+    integration    = ""
+    management-dev = ""
+    preprod        = ""
+    production     = "IFTS_Test"
+    management     = ""
+  }
 }
