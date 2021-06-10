@@ -149,7 +149,7 @@ locals {
 
  test_sft = {
     development    = "TRUE"
-    qa             = ""
+    qa             = "TRUE"
     integration    = ""
     management-dev = ""
     preprod        = ""
@@ -159,7 +159,7 @@ locals {
 
  sft_test_dir = {
     development    = "test"
-    qa             = ""
+    qa             = "test"
     integration    = ""
     management-dev = ""
     preprod        = ""
