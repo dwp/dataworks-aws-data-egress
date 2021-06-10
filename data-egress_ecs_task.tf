@@ -63,7 +63,7 @@ data "template_file" "data_egress_definition" {
       },
       {
         name  = "truststore_certs",
-        value = join(",", var.truststore_certs)
+        value = join(",", local.truststore_certs)
       },
       {
         name  = "private_key_alias",
@@ -142,7 +142,7 @@ data "template_file" "sft_agent_definition" {
       },
       {
         name  = "truststore_certs",
-        value = join(",", var.truststore_certs)
+        value = join(",", local.truststore_certs)
       },
       {
         name  = "private_key_alias",
