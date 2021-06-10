@@ -159,6 +159,14 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "dks_fqdn",
         value = local.dks_fqdn
+      },
+      {
+        name  = "CREATE_TEST_FILES",
+        value = local.test_sft[local.environment]
+      },
+      {
+        name  = "TEST_DIRECTORY",
+        value = local.sft_test_dir[local.environment]
       }
     ])
   }
