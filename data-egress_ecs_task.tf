@@ -63,7 +63,7 @@ data "template_file" "data_egress_definition" {
       },
       {
         name  = "truststore_certs",
-        value = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
+        value = join(",", var.truststore_certs)
       },
       {
         name  = "private_key_alias",
@@ -142,13 +142,11 @@ data "template_file" "sft_agent_definition" {
       },
       {
         name  = "truststore_certs",
-        value = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
-
-        
+        value = join(",", var.truststore_certs)
       },
       {
         name  = "private_key_alias",
-        value = "data_egress_sft"
+        value = "data_egress"
       },
       {
         name  = "internet_proxy",
