@@ -46,7 +46,7 @@ variable "ecs_hardened_ami_id" {
 variable "truststore_aliases" {
   description = "comma seperated truststore aliases"
   type        = list(string)
-  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1","sdx2"]
+  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2"]
 }
 variable "fargate_cpu" {
   type    = string
@@ -100,5 +100,5 @@ variable "sft_agent_port" {
 variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = string
-  default     = "0.0.19"
+  default     = "0.0.21"
 }

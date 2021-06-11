@@ -147,7 +147,7 @@ locals {
     "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
   ]
 
- test_sft = {
+  test_sft = {
     development    = "TRUE"
     qa             = "TRUE"
     integration    = ""
@@ -157,7 +157,7 @@ locals {
     management     = ""
   }
 
- sft_test_dir = {
+  sft_test_dir = {
     development    = "test"
     qa             = "test"
     integration    = ""
@@ -166,7 +166,8 @@ locals {
     production     = "IFTS_Test"
     management     = ""
   }
- ssl_debug = {
+
+  ssl_debug = {
     development    = "all"
     qa             = "ssl"
     integration    = "ssl"
@@ -174,5 +175,15 @@ locals {
     preprod        = "ssl"
     production     = "all"
     management     = "ssl"
+  }
+
+  configure_ssl = {
+    development    = ""
+    qa             = ""
+    integration    = ""
+    management-dev = ""
+    preprod        = ""
+    production     = "true"
+    management     = ""
   }
 }

@@ -171,6 +171,10 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "JAVAX_DEBUG",
         value = local.ssl_debug[local.environment]
+      },
+      {
+        name  = "CONFIGURE_SSL",
+        value = local.configure_ssl[local.environment]
       }
     ])
   }
