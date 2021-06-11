@@ -1,5 +1,5 @@
 terraform {
-  required_version = "{{terraform.terraform_12_version}}"
+  required_version = "{{terraform.terraform_13_version}}"
 
   backend "s3" {
     bucket         = "{{terraform.state_file_bucket}}"
@@ -175,14 +175,11 @@ data "terraform_remote_state" "snapshot_sender" {
 }
 
 provider "aws" {
-  version = "~> 3.25.0"
+  version = "~> 3.42.0"
   region  = var.region
 
   assume_role {
     role_arn = "arn:aws:iam::${lookup(local.account, local.environment)}:role/${var.assume_role}"
   }
-
-
-
 }
 
