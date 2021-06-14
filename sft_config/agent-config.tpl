@@ -31,6 +31,6 @@ logging:
       archivedFileCount: 7
       timeZone: UTC
 ​
-apikey: Te5tAp1Key
+apikey: ${apiKey}
 ​
 <#include "agent-application-config.yml">
