@@ -3,10 +3,14 @@ httpClient:
   connectionTimeout: 20000ms
   connectionRequestTimeout: 20000ms
   tls:
+    verifyHostname: false
+    trustSelfSignedCertificates: true
     keyStorePath: KEY_STORE_PATH
     keyStorePassword: KEY_STORE_PASSWORD
+    keyStoreType: PKCS12
     trustStorePath: TRUST_STORE_PATH
     trustStorePassword: TRUST_STORE_PASSWORD
+    trustStoreType: JKS
     supportedProtocols: [TLSv1.2]
     supportedCiphers: [TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
       TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
