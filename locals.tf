@@ -95,6 +95,14 @@ locals {
     production  = "agent-application-config-prod-test.tpl"
   }
 
+  agent_config_file = {
+    development = "agent-config.tpl"
+    qa          = "agent-config.tpl"
+    integration = "agent-config.tpl"
+    preprod     = "agent-config.tpl"
+    production  = "agent-config-with-tls.tpl"
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
