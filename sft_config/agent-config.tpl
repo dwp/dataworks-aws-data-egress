@@ -6,10 +6,10 @@ httpClient:
     verifyHostname: false
     trustSelfSignedCertificates: true
     keyStorePath: KEY_STORE_PATH
-    keyStorePassword: KEY_STORE_PASSWORD
-    keyStoreType: PKCS12
+    keyStorePassword: KEYSTORE_PASSWORD
+    keyStoreType: JKS
     trustStorePath: TRUST_STORE_PATH
-    trustStorePassword: TRUST_STORE_PASSWORD
+    trustStorePassword: TRUSTSTORE_PASSWORD
     trustStoreType: JKS
     supportedProtocols: [TLSv1.2]
     supportedCiphers: [TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
