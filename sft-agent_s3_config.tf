@@ -13,7 +13,7 @@ resource "aws_s3_bucket_object" "data_egress_sft_agent_application_config" {
 }
 
 data "template_file" "data_egress_sft_agent_config_tpl" {
-  template = file("${path.module}/sft_config/agent-config.tpl")
+  template = file("${path.module}/sft_config/${local.agent_config_file[local.environment]}")")
   vars = {
     apiKey = local.data_egress[local.environment].sft_agent_api_key
   }
