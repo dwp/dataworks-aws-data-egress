@@ -9,7 +9,7 @@ httpClient:
     keyStorePassword: KEYSTORE_PASSWORD
     keyStoreType: JKS
     trustStorePath: TRUST_STORE_PATH
-    trustStorePassword: TRUSTSTORE_PASSWORD
+    trustStorePassword: TRUST_STORE_PASSWORD
     trustStoreType: JKS
     supportedProtocols: [TLSv1.2]
     supportedCiphers: [TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
