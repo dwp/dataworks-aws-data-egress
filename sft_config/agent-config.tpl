@@ -2,7 +2,21 @@ httpClient:
   timeout: 3600000ms
   connectionTimeout: 20000ms
   connectionRequestTimeout: 20000ms
-
+  tls:
+    keyStorePath: KEY_STORE_PATH
+    keyStorePassword: KEY_STORE_PASSWORD
+    trustStorePath: TRUST_STORE_PATH
+    trustStorePassword: TRUST_STORE_PASSWORD
+    supportedProtocols: [TLSv1.2]
+    supportedCiphers: [TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+      TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+      TLS_DHE_DSS_WITH_AES_256_GCM_SHA384,
+      TLS_DHE_DSS_WITH_AES_128_GCM_SHA256,
+      TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+      TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+      TLS_RSA_WITH_AES_256_GCM_SHA384,
+      TLS_RSA_WITH_AES_128_GCM_SHA256]
+​
 logging:
   appenders:
     - type: console
@@ -16,7 +30,7 @@ logging:
       archivedLogFilenamePattern: /var/log/sft-agent-%d.log.gz
       archivedFileCount: 7
       timeZone: UTC
-
-apikey: ${apiKey}
-
+​
+apikey: Te5tAp1Key
+​
 <#include "agent-application-config.yml">
