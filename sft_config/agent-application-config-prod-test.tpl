@@ -15,7 +15,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/data-egress/IFTS_Test"
+            destination: "https://${destination_url}:8091/IFTS/testroute"
       deleteOnSend: true
       errorFolder: /data-egress/error/IFTS_Test
       filenameRegex: .*
