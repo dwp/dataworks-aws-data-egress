@@ -150,7 +150,9 @@ locals {
   data-egress_config_s3_prefix = "monitoring/${local.data-egress_group_name}"
   truststore_certs = [
     "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem",
-    "s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
+    "s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem",
+    "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem",
+    "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
   ]
 
   test_sft = {
