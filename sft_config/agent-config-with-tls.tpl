@@ -2,6 +2,21 @@ httpClient:
   timeout: 3600000ms
   connectionTimeout: 20000ms
   connectionRequestTimeout: 20000ms
+  tls:
+    verifyHostname: false
+    keyStorePath: KEY_STORE_PATH
+    keyStorePassword: KEYSTORE_PASSWORD
+    trustStorePath: TRUST_STORE_PATH
+    trustStorePassword: TRUST_STORE_PASSWORD
+    supportedProtocols: [TLSv1.2]
+    supportedCiphers: [TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+      TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+      TLS_DHE_DSS_WITH_AES_256_GCM_SHA384,
+      TLS_DHE_DSS_WITH_AES_128_GCM_SHA256,
+      TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,
+      TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+      TLS_RSA_WITH_AES_256_GCM_SHA384,
+      TLS_RSA_WITH_AES_128_GCM_SHA256]
 logging:
   appenders:
     - type: console

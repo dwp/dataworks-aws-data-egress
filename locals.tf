@@ -95,6 +95,14 @@ locals {
     production  = "agent-application-config-prod-test.tpl"
   }
 
+  agent_config_file = {
+    development = "agent-config.tpl"
+    qa          = "agent-config.tpl"
+    integration = "agent-config.tpl"
+    preprod     = "agent-config.tpl"
+    production  = "agent-config-with-tls.tpl"
+  }
+
   data_egress_server_name = "data-egress-server"
   data_egress_server_tags_asg = merge(
     local.common_tags,
@@ -142,9 +150,7 @@ locals {
   data-egress_config_s3_prefix = "monitoring/${local.data-egress_group_name}"
   truststore_certs = [
     "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem",
-    "s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem",
-    "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem",
-    "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
+    "s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem"
   ]
 
   test_sft = {
