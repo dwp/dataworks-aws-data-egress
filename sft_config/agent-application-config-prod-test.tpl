@@ -15,11 +15,9 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/IFTS/testroute"
+            destination: "https://${destination_url}:8091/data-egress/IFTS_Test"
       deleteOnSend: true
       errorFolder: /data-egress/error/IFTS_Test
       filenameRegex: .*
-      maxThreadPoolSize: 5
       name: IFTS/testroute
       source: /data-egress/IFTS_Test
-      threadPoolSize: 5
