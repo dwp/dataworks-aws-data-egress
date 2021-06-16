@@ -161,7 +161,7 @@ locals {
     integration    = ""
     management-dev = ""
     preprod        = ""
-    production     = "TRUE"
+    production     = ""
     management     = ""
   }
 
