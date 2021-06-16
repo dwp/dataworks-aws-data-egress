@@ -29,4 +29,4 @@ jobs:
         params:
           AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
           CLUSTER: data-egress
-          SERVICE: data-egress
+

@@ -17,4 +17,4 @@ routes:
             destination: https://${destination_url}:8091/IFTS/testroute
       deleteOnSend: true
       errorFolder: /data-egress/error/IFTS_Test
-      filenameRegex: .* (edited) 
+      filenameRegex: .*

@@ -144,7 +144,7 @@
               for TASK_ID in $TASK_IDS; do
                 aws ecs stop-task --cluster $CLUSTER --task $TASK_ID
               done
-
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
+        
