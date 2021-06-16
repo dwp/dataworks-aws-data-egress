@@ -147,4 +147,5 @@
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
+
         
