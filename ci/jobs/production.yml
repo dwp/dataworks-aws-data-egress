@@ -17,3 +17,11 @@ jobs:
     - .: (( inject meta.plan.terraform-plan ))
       params:
         TF_WORKSPACE: production
+
+- name: cycle-data-egress-production
+  plan:
+    - .: (( inject meta.plan.cycle-containers ))
+      params:
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
+        CLUSTER: data-egress
+        SERVICE: data-egress

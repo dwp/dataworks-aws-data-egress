@@ -121,3 +121,30 @@
           - name: dataworks-behavioural-framework
           - name: dataworks-aws-data-egress
           - name: meta
+
+    cycle-containers:
+      task: cycle-containers
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              source /assume-role
+              set +x
+              TASK_IDS=$(aws ecs list-tasks --cluster $CLUSTER --family $SERVICE | jq .taskArns | jq .[] | tr -d '\"' | sed 's|.*/||')
+              for TASK_ID in $TASK_IDS; do
+                aws ecs stop-task --cluster $CLUSTER --task $TASK_ID
+              done
+
+      params:
+        AWS_DEFAULT_REGION: ((dataworks.aws_region))
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.management)):role/ci
