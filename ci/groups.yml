@@ -14,3 +14,11 @@ groups:
 - name: update-pipeline
   jobs:
     - update-pipeline
+
+- name: cycle-containers
+  jobs:
+    - cycle-data-egress-development
+    - cycle-data-egress-qa
+    - cycle-data-egress-integration
+    - cycle-data-egress-preprod
+    - cycle-data-egress-production

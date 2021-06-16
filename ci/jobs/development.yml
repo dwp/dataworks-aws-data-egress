@@ -22,3 +22,11 @@ jobs:
         TF_WORKSPACE: development
         AWS_ACC: ((aws_account.development))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+
+- name: cycle-data-egress-development
+  plan:
+    - .: (( inject meta.plan.cycle-containers ))
+      params:
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+        CLUSTER: data-egress
+        SERVICE: data-egress
