@@ -171,7 +171,7 @@ locals {
     integration    = ""
     management-dev = ""
     preprod        = ""
-    production     = "IFTS_Test"
+    production     = ""
     management     = ""
   }
 
