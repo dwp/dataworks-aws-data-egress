@@ -75,6 +75,15 @@ locals {
              {{ key }} = "{{ value }}"{% endfor %}
          } {%- endfor %}
      }
+
+    rtg = {
+     {%- for environment,contents in rtg.items() %}
+         {{ environment }} = {
+           {%- for key, value in contents.items() %}
+             {{ key }} = "{{ value }}"{% endfor %}
+         } {%- endfor %}
+     }
+
 }
 
 data "terraform_remote_state" "common" {
