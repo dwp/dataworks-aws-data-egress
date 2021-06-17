@@ -76,7 +76,7 @@ variable "data_egress_port" {
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = string
-  default     = "0.0.14"
+  default     = "0.0.17"
 }
 
 variable "name" {
