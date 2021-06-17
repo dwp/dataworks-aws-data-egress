@@ -126,6 +126,13 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     resources = ["${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.arn}/*"]
   }
 
+  statement {
+    sid       = "DataEgressAssumeRTGRole"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = [local.rtg[local.environment].rtg_role_arn]
+  }
+
 }
 
 resource "aws_iam_policy" "data_egress_server_task" {
