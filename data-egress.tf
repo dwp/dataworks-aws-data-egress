@@ -37,7 +37,7 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
     "destination_prefix":     {"S":     "/"},
-    "decrypt":                {"B":     "true"}
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
@@ -56,7 +56,7 @@ resource "aws_dynamodb_table_item" "cbol_data_egress_config" {
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
     "destination_prefix":     {"S":     "cbol/"},
-    "decrypt":                {"B":     "true"}
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
@@ -75,7 +75,7 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
     "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":     {"S":    "data-egress-testing-output/"},
-    "decrypt":                {"B":     "true"}
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
