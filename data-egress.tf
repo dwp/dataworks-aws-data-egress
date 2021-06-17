@@ -23,11 +23,6 @@ resource "aws_dynamodb_table" "data_egress" {
   )
 }
 
-
-#   ----------------------- Note ----------------------- 
-#   As boolean DataType is not yet support by TF, Binary doesnt provide required results so using string 'true' or 'false' all small letter.
-# ------------------------------------------------------
-
 resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -42,7 +37,7 @@ resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
     "destination_prefix":     {"S":     "/"},
-    "decrypt":                {"S":     "true"} 
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
@@ -61,7 +56,7 @@ resource "aws_dynamodb_table_item" "cbol_data_egress_config" {
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
     "destination_prefix":     {"S":     "cbol/"},
-    "decrypt":                {"S":     "true"} 
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
@@ -80,7 +75,7 @@ resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
     "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":     {"S":    "data-egress-testing-output/"},
-    "decrypt":                {"S":     "true"} 
+    "decrypt":                {"bool":   true} 
   }
   ITEM
 }
