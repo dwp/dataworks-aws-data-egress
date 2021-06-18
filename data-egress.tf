@@ -49,7 +49,7 @@ resource "aws_dynamodb_table_item" "cbol_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":          {"S":     "dataegress/cbol-report/*"},
+    "source_prefix":          {"S":     "dataegress/cbol-report/$TODAYS_DATE/*"},
     "pipeline_name":          {"S":     "CBOL"},
     "recipient_name":         {"S":     "CBOL"},
     "transfer_type":          {"S":     "S3"},
