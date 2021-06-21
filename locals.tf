@@ -204,4 +204,11 @@ locals {
     production     = "true"
     management     = ""
   }
+
+  secret_name_for_rtg_full_collections        = "/concourse/dataworks/rtg/fulls"
+  secret_name_for_rtg_incremental_collections = "/concourse/dataworks/rtg/incrementals"
+
+  rtg_full_collections        = csvdecode("${data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary}")
+  rtg_incremental_collections = csvdecode("${data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary}")
+
 }
