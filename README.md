@@ -21,6 +21,29 @@ In addition, you may want to do the following:
     1. Create CI pipeline:  
 `aviator`
 
+## Data egress
+The [data egress](https://github.com/dwp/dataworks-data-egress) task is responsible for receiving messages from a SQS queue, retrieving
+a configuration DynamoDb item for the message and then sending files to a destination location (another S3 bucket or to disk).
+
+### Database items
+| Row      | Description |
+| ----------- | ----------- |
+| source_prefix      | **Partition key**. The S3 path to retrieve files for     |
+| pipeline_name   | **Sort key**: The pipeline which sent the files        |
+| decrypt   | Whether the files need to be decrypted        |
+| destination_bucket   | The S3 bucket to send files to. Blank for SFT        |
+| destination_prefix   | The folder path to save files to        |
+| recipient_name   | Team name for the receiving files        |
+| source_bucket   | S3 bucket location of the files to send        |
+| transfer_type   | How to send the files, S3 or SFT        |
+
+If source data is required to be sent via S3 and SFT, append the transfer type to pipeline_name
+```
+pipeline_name#sft
+```
+
+
+
 ## SFT Agent
 
 The SFT Agent reads files written to disk by the data egress service and sends these to configured destinations via HTTPS. 
