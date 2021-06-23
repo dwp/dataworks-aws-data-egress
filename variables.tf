@@ -12,31 +12,31 @@ variable "region" {
 variable "data_egress_server_ec2_instance_type" {
   type = map(string)
   default = {
-    development = "m5.large"
-    qa          = "m5.large"
-    integration = "m5.large"
-    preprod     = "m5.large"
-    production  = "m5.large"
+    development = "m5.xlarge"
+    qa          = "m5.xlarge"
+    integration = "m5.xlarge"
+    preprod     = "m5.xlarge"
+    production  = "m5.xlarge"
   }
 }
 variable "data_egress_server_ebs_volume_size" {
   type = map(string)
   default = {
-    development = "15000"
-    qa          = "15000"
-    integration = "15000"
-    preprod     = "15000"
+    development = "1000"
+    qa          = "1000"
+    integration = "1000"
+    preprod     = "1000"
     production  = "15000"
   }
 }
 variable "data_egress_server_ebs_volume_type" {
   type = map(string)
   default = {
-    development = "gp2"
-    qa          = "gp2"
-    integration = "gp2"
-    preprod     = "gp2"
-    production  = "gp2"
+    development = "gp3"
+    qa          = "gp3"
+    integration = "gp3"
+    preprod     = "gp3"
+    production  = "gp3"
   }
 }
 variable "ecs_hardened_ami_id" {
@@ -46,7 +46,7 @@ variable "ecs_hardened_ami_id" {
 variable "truststore_aliases" {
   description = "comma seperated truststore aliases"
   type        = list(string)
-  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca"]
+  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2"]
 }
 variable "fargate_cpu" {
   type    = string
@@ -76,7 +76,7 @@ variable "data_egress_port" {
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = string
-  default     = "latest"
+  default     = "0.0.20"
 }
 
 variable "name" {
@@ -91,3 +91,14 @@ variable "parent_domain_name" {
   default     = "dataworks.dwp.gov.uk"
 }
 
+variable "sft_agent_port" {
+  description = "port for accessing the SFT agent"
+  type        = string
+  default     = "8091"
+}
+
+variable "sft_agent_image_version" {
+  description = "image version for the SFT agent"
+  type        = string
+  default     = "0.0.28"
+}

@@ -94,6 +94,7 @@ resource "aws_launch_template" "data_egress_server" {
     delete_on_termination       = true
 
     security_groups = [aws_security_group.data_egress_server.id]
+    subnet_id       = data.terraform_remote_state.aws_sdx.outputs.subnet_sdx_connectivity.0.id
   }
   user_data = base64encode(templatefile("files/data_egress_cluster_userdata.tpl", {
     cluster_name  = local.cluster_name # Referencing the cluster resource causes a circular dependency
@@ -142,6 +143,18 @@ resource "aws_launch_template" "data_egress_server" {
         Persistence  = "Ignore"
         AutoShutdown = "False"
         SSMEnabled   = local.data_egress_server_ssmenabled[local.environment]
+      }
+    )
+  }
+
+  tag_specifications {
+    resource_type = "volume"
+
+    tags = merge(
+      local.common_tags,
+      {
+        Application = "data_egress_server"
+        Name        = "data_egress_server"
       }
     )
   }

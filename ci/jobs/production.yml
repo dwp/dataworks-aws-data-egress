@@ -2,13 +2,14 @@ jobs:
 - name: production
   max_in_flight: 1
   plan:
-    - get: dataworks-aws-data-egress
-      trigger: true
-      passed:
-        - preprod
-    - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
-      passed:
-        - preprod
+    - in_parallel:
+      - get: dataworks-aws-data-egress
+        trigger: true
+        passed:
+          - preprod
+      - .: (( inject meta.plan.get-dw-al2-ecs-ami ))
+        passed:
+          - preprod
     - .: (( inject meta.plan.terraform-bootstrap ))
     - .: (( inject meta.plan.terraform-apply ))
       params:
@@ -16,3 +17,11 @@ jobs:
     - .: (( inject meta.plan.terraform-plan ))
       params:
         TF_WORKSPACE: production
+
+- name: cycle-data-egress-production
+  plan:
+    - .: (( inject meta.plan.cycle-containers ))
+      params:
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.production)):role/ci
+        CLUSTER: data-egress
+        SERVICE: data-egress

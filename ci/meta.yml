@@ -7,12 +7,13 @@
           type: docker-image
           source:
             repository: ((dataworks.terraform_repository))
-            tag: ((dataworks.terraform_version))
+            tag: ((dataworks.terraform_13_version))
         params:
           TF_INPUT: false
           TF_CLI_ARGS_apply: -lock-timeout=300s
           TF_CLI_ARGS_plan: -lock-timeout=300s
           TF_VAR_costcode: ((dataworks.costcode))
+
     terraform-bootstrap:
       task: terraform-bootstrap
       config:
@@ -32,6 +33,7 @@
               sed -i '/^assume_role/ d' terraform.tfvars
               cp terraform.tf ../terraform-bootstrap
               cp terraform.tfvars ../terraform-bootstrap
+              cat ../terraform-bootstrap/terraform.tfvars
           dir: dataworks-aws-data-egress
         inputs:
           - name: dataworks-aws-data-egress
@@ -39,6 +41,7 @@
           - name: terraform-bootstrap
       params:
         AWS_REGION: eu-west-2
+
     terraform-apply:
       task: terraform-apply
       .: (( inject meta.plan.terraform-common-config ))
@@ -61,6 +64,7 @@
           - name: dw-al2-ecs-ami
       params:
         AWS_REGION: eu-west-2
+
     terraform-plan:
       task: terraform-plan
       .: (( inject meta.plan.terraform-common-config ))
@@ -88,48 +92,6 @@
       get: dw-al2-ecs-ami
       trigger: true
 
-    terraform-output-ingest:
-      task: terraform-output-ingest
-      .: (( inject meta.plan.terraform-common-config ))
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.terraform_repository))
-            tag: ((dataworks.terraform_version))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              terraform workspace show
-              terraform init
-              terraform output --json > ../terraform-output-ingest/outputs.json
-          dir: aws-ingestion
-        inputs:
-          - name: aws-ingestion
-        outputs:
-          - name: terraform-output-ingest
-
-    terraform-output-common-infra:
-      task: terraform-output-common-infra
-      .: (( inject meta.plan.terraform-common-config ))
-      config:
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
-              terraform workspace show
-              terraform init
-              terraform output --json > ../terraform-output-common-infra/outputs.json
-          dir: aws-common-infrastructure
-        inputs:
-          - name: aws-common-infrastructure
-        outputs:
-          - name: terraform-output-common-infra
-
     e2e-tests:
       task: e2e-tests
       config:
@@ -147,25 +109,40 @@
           ASSUME_DURATION: 3600
         run:
           path: sh
-          dir: aws-dataworks-e2e-framework
+          dir: dataworks-behavioural-framework
           args:
             - -exc
             - |
+              source /assume-role
               cd src/runners
               ./run-ci.sh \
-              "../../../meta" \
-              "../../../terraform-output-ingest/outputs.json" \
-              "" \
-              "" \
-              "" \
-              "" \
-              "" \
-              "" \
-              "" \
-              "../../../terraform-output-common-infra/outputs.json"
+              "../../../meta"
         inputs:
-          - name: aws-dataworks-e2e-framework
+          - name: dataworks-behavioural-framework
           - name: dataworks-aws-data-egress
-          - name: terraform-output-ingest
-          - name: terraform-output-common-infra
+          - name: meta
 
+    cycle-containers:
+      task: cycle-containers
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              source /assume-role
+              set +x
+              TASK_IDS=$(aws ecs list-tasks --cluster $CLUSTER --family $SERVICE | jq .taskArns | jq .[] | tr -d '\"' | sed 's|.*/||')
+              for TASK_ID in $TASK_IDS; do
+                aws ecs stop-task --cluster $CLUSTER --task $TASK_ID
+              done
+      params:
+        AWS_DEFAULT_REGION: ((dataworks.aws_region))

@@ -7,6 +7,7 @@
   "name": "${name}",
   "networkMode": "awsvpc",
   "user": "${user}",
+  "essential": ${essential},
   "portMappings": ${jsonencode([
     for port in jsondecode(ports) : {
       containerPort = port,
@@ -49,7 +50,7 @@
       },
       {
         "name": join("", [upper(group_name), "_CONFIG_S3_PREFIX"]),
-        "value": "monitoring/${group_name}"
+        "value": s3_prefix
       }
     ],
     [
