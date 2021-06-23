@@ -6,7 +6,7 @@ resource "aws_ecs_task_definition" "data-egress" {
   memory                   = "4096"
   task_role_arn            = aws_iam_role.data_egress_server_task.arn
   execution_role_arn       = data.terraform_remote_state.common.outputs.ecs_task_execution_role.arn
-  container_definitions    = "[${data.template_file.data_egress_definition.rendered}, ${data.template_file.sft_agent_definition.rendered}, ${data.template_file.hive_runner_definition.rendered}]"
+  container_definitions    = "[${data.template_file.data_egress_definition.rendered}, ${data.template_file.sft_agent_definition.rendered}]"
 
   volume {
     name = "data-egress"
@@ -200,42 +200,6 @@ resource "aws_ecs_service" "data-egress" {
   }
 
   tags = merge(local.tags, { Name = var.name })
-}
-
-data "template_file" "hive_runner_definition" {
-  template = file("${path.module}/reserved_container_definition.tpl")
-  vars = {
-    name               = "hive-runner"
-    group_name         = "hive-runner"
-    cpu                = var.fargate_cpu
-    image_url          = format("%s:%s", data.terraform_remote_state.management_dev.outputs.ecr_hive_runner_url, var.data_egress_image_version)
-    memory             = var.receiver_memory
-    memory_reservation = var.fargate_memory
-    user               = "nobody"
-    ports              = jsonencode([var.data_egress_port])
-    ulimits            = jsonencode([])
-    region             = data.aws_region.current.name
-    essential          = true
-
-    mount_points = jsonencode([
-      {
-        "container_path" : "/hive-runner",
-        "source_volume" : "hive-runner"
-      }
-    ])
-
-    environment_variables = jsonencode([
-      {
-        name  = "AWS_REGION",
-        value = var.region
-      },
-      {
-        name : "AWS_DEFAULT_REGION",
-        value : var.region
-      }
-
-    ])
-  }
 }
 
 resource "aws_service_discovery_service" "data-egress" {
