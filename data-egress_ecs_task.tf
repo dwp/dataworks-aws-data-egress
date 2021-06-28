@@ -88,6 +88,10 @@ data "template_file" "data_egress_definition" {
       {
         name : "AWS_DEFAULT_REGION",
         value : var.region
+      },
+      {
+        name : "metrics.pushgatewayHost",
+        value : "${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery.name}.${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery_dns.name}"
       }
 
     ])
