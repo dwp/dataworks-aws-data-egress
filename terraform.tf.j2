@@ -183,6 +183,36 @@ data "terraform_remote_state" "snapshot_sender" {
   }
 }
 
+data "terraform_remote_state" "internal_compute" {
+  backend   = "s3"
+  workspace = terraform.workspace
+
+  config = {
+    bucket         = "{{terraform.state_file_bucket}}"
+    key            = "terraform/dataworks/aws-internal-compute.tfstate"
+    region         = "{{terraform.state_file_region}}"
+    encrypt        = true
+    kms_key_id     = "arn:aws:kms:{{terraform.state_file_region}}:{{terraform.state_file_account}}:key/{{terraform.state_file_kms_key}}"
+    dynamodb_table = "remote_state_locks"
+  }
+}
+
+data "aws_secretsmanager_secret" "rtg_secret_full_collections" {
+  name = local.secret_name_for_rtg_full_collections
+}
+
+data "aws_secretsmanager_secret_version" "rtg_secret_full_collections" {
+  secret_id = data.aws_secretsmanager_secret.rtg_secret_full_collections.id
+}
+
+data "aws_secretsmanager_secret" "rtg_secret_incremental_collections" {
+  name = local.secret_name_for_rtg_incremental_collections
+}
+
+data "aws_secretsmanager_secret_version" "rtg_secret_incremental_collections" {
+  secret_id = data.aws_secretsmanager_secret.rtg_secret_incremental_collections.id
+}
+
 provider "aws" {
   version = "~> 3.42.0"
   region  = var.region
