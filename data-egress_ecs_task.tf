@@ -90,7 +90,7 @@ data "template_file" "data_egress_definition" {
         value : var.region
       },
       {
-        name : "metrics.pushgatewayHost",
+        name : "METRICS_PUSHGATEWAY_HOST",
         value : "${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery.name}.${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery_dns.name}"
       }
 
