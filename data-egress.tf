@@ -104,7 +104,7 @@ resource "aws_dynamodb_table_item" "cbol_data_egress_config" {
     "transfer_type":          {"S":     "S3"},
     "source_bucket":          {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":     {"S":     "${local.opsmi[local.environment].bucket_name}"},
-    "destination_prefix":     {"S":     "cbol/"},
+    "destination_prefix":     {"S":     "cbol/$TODAYS_DATE/"},
     "decrypt":                {"bool":   true} 
   }
   ITEM
