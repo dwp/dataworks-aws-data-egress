@@ -1,11 +1,6 @@
 output "security_group" {
   value = {
     data_egress_server = aws_security_group.data_egress_server.id
-  }
-}
-
-output "security_group" {
-  value = {
     data_egress_service = aws_security_group.data_egress_service.id
   }
 }
