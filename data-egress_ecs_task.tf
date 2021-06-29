@@ -91,7 +91,7 @@ data "template_file" "data_egress_definition" {
       },
       {
         name : "metrics.pushgatewayHost",
-        value : "${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery.name}.${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery_dns.name}"
+        value : "https://${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery.name}.${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery_dns.name}"
       }
 
     ])
