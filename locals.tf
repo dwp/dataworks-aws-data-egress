@@ -153,7 +153,7 @@ locals {
     development = "dataworks_root_ca,dataworks_mgt_root_ca"
     qa          = "dataworks_root_ca,dataworks_mgt_root_ca"
     integration = "dataworks_root_ca,dataworks_mgt_root_ca"
-    preprod     = "dataworks_root_ca,dataworks_mgt_root_ca"
+    preprod     = "dataworks_root_ca,dataworks_mgt_root_ca,sdx1,sdx2"
     production  = "dataworks_root_ca,dataworks_mgt_root_ca,sdx1,sdx2"
   }
 
@@ -204,6 +204,7 @@ locals {
     production     = "true"
     management     = ""
   }
+
 
   secret_name_for_rtg_full_collections        = "/concourse/dataworks/rtg/full"
   secret_name_for_rtg_incremental_collections = "/concourse/dataworks/rtg/incremental"

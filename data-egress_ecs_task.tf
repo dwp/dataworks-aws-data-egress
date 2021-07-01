@@ -88,6 +88,10 @@ data "template_file" "data_egress_definition" {
       {
         name : "AWS_DEFAULT_REGION",
         value : var.region
+      },
+      {
+        name : "METRICS_PUSHGATEWAY_HOST",
+        value : "${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery.name}.${data.terraform_remote_state.aws_sdx.outputs.private_dns.sdx_service_discovery_dns.name}"
       }
 
     ])
@@ -104,7 +108,7 @@ data "template_file" "sft_agent_definition" {
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
     user               = "root"
-    ports              = jsonencode([parseint(var.sft_agent_port, 10)])
+    ports              = jsonencode([9996])
     ulimits            = jsonencode([])
     log_group          = aws_cloudwatch_log_group.data_egress_cluster.name
     region             = data.aws_region.current.name
@@ -175,7 +179,12 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "CONFIGURE_SSL",
         value = local.configure_ssl[local.environment]
+      },
+      {
+        name = "PROMETHEUS",
+        value = "true"
       }
+
     ])
   }
 }
