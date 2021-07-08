@@ -87,13 +87,7 @@ locals {
     production  = false
   }
 
-  config_file = {
-    development = "agent-application-config.tpl"
-    qa          = "agent-application-config.tpl"
-    integration = "agent-application-config.tpl"
-    preprod     = "agent-application-config.tpl"
-    production  = "agent-application-config.tpl"
-  }
+  config_file = "agent-application-config.tpl"
 
   agent_config_file = {
     development = "agent-config.tpl"
