@@ -1,5 +1,6 @@
 jobs:
   - name: qa
+    serial_groups: [qa-applies]
     max_in_flight: 1
     plan:
       - in_parallel:

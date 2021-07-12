@@ -177,7 +177,7 @@ data "template_file" "sft_agent_definition" {
         value = local.configure_ssl[local.environment]
       },
       {
-        name = "PROMETHEUS",
+        name  = "PROMETHEUS",
         value = "true"
       }
 
