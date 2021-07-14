@@ -5,14 +5,16 @@ jobs:
     plan:
       - in_parallel:
           - put: meta
-            resource: meta
+            resource: meta-qa
           - get: dw-al2-ecs-ami
             resource: untested-dw-al2-ecs-ami
             trigger: true
+          - get: dataworks-aws-data-egress
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
             AWS_ACC: ((aws_account.qa))
+            TEST_AMI_RUN: true
       - .: (( inject meta.plan.terraform-apply ))
         config:
           params:
@@ -23,6 +25,7 @@ jobs:
           params:
             TF_WORKSPACE: qa
             TEST_AMI_RUN: true
+      - .: (( inject meta.plan.terminate-ecs-instances ))
       - .: (( inject meta.plan.test-ecs-ami ))
     on_failure:
       do:

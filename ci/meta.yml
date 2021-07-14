@@ -31,6 +31,9 @@
             - |
               python bootstrap_terraform.py
               sed -i '/^assume_role/ d' terraform.tfvars
+              if [ "${TEST_AMI_RUN:-false}" == "true" ]; then
+                sed -i '/^ecs_hardened_ami_id/ d' terraform.tfvars
+              fi
               cp terraform.tf ../terraform-bootstrap
               cp terraform.tfvars ../terraform-bootstrap
               cat ../terraform-bootstrap/terraform.tfvars
@@ -147,6 +150,66 @@
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
 
+    terminate-ecs-instances:
+      task: terminate-ecs-instances
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.docker_awscli_repository))
+            version: ((dataworks.docker_awscli_version))
+            tag: ((dataworks.docker_awscli_version))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              export AWS_DEFAULT_REGION
+              ami_id=$(cat dw-al2-ecs-ami/id)
+              source /assume-role
+              set +x
+              instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-server-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+              for instance_id in $instance_ids;
+                do
+                  aws ec2 terminate-instances --instance-ids "$instance_id"
+                done;
+              desired_capacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name "$ASG_NAME" | jq -r '.AutoScalingGroups[0].DesiredCapacity')
+              count=0
+              max_retries="$MAX_RETRIES"
+              while [ "$count" -lt "$max_retries" ]
+                do
+                  sleep "$SLEEP_TIME"
+                  instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-server-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+                  if [ ${#instance_ids} -ge 1 ]; then
+                    instance_count=$(echo $instance_ids | wc -l)
+                  else
+                    instance_count=0
+                  fi
+                  if [[ $instance_count -eq $desired_capacity ]]; then
+                    image_ids="$(aws ec2 describe-instances --instance-ids $instance_ids | jq -r '.Reservations[] | .Instances[] | .ImageId')"
+                    for i in $image_ids; do
+                      if [ ! "$i" == "$ami_id" ]; then
+                        echo "Instance found with wrong AMI ID, Exiting..."
+                        exit 1
+                      fi;
+                    done;
+                    echo "All desired instances are running untested AMI, Exiting with success..."
+                    exit 0
+                  fi;
+                  let "count+=1"
+                done;
+              echo "Cluster was unable to start desired instances with untested AMI in expected timeframe, Exiting with error..."
+              exit 1
+        inputs:
+          - name: dw-al2-ecs-ami
+      params:
+        AWS_DEFAULT_REGION: ((dataworks.aws_region))
+        AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+        ASG_NAME: data-egress-cluster
+        SLEEP_TIME: 60
+        MAX_RETRIES: 10
+
     test-ecs-ami:
       task: test-ecs-ami
       config:
@@ -166,7 +229,7 @@
               source /assume-role
               set +x
               max_retries=5
-              task_json="$(aws ecs run-task --cluster "$CLUSTER_NAME" --task-definition test_ecs_ami --overrides "{\"containerOverrides\": [{\"name\": \"test-ecs-ami\", \"command\": [\"sh\", \"-c\", \"sleep 300\"]}]}")"
+              task_json="$(aws ecs run-task --cluster "$CLUSTER_NAME" --task-definition ami_ecs_test_td --overrides "{\"containerOverrides\": [{\"name\": \"test-ecs-ami\", \"command\": [\"sh\", \"-c\", \"sleep 300\"]}]}")"
               task_arn=$(echo $task_json | jq -r '.tasks[0].taskArn')
               while [ $max_retries > 0 ]
               do
@@ -182,7 +245,8 @@
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
-        CLUSTER_NAME: metrics
+        CLUSTER_NAME: data-egress
+        CAPACITY_PROVIDER: data-egress-cluster
 
     ami-test-results:
       task: ami-test-result
