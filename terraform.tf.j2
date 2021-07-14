@@ -21,8 +21,6 @@ locals {
   name        = "dataworks-aws-data-egress"
   environment = terraform.workspace == "default" ? "development" : terraform.workspace
 
-  primary_role_index = 0
-
   account = {
     {%- for key, value in accounts.items() %}
       {{key}} = "{{value}}"
