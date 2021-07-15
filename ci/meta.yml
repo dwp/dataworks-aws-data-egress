@@ -182,7 +182,7 @@
                   sleep "$SLEEP_TIME"
                   instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-server-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
                   if [ ${#instance_ids} -ge 1 ]; then
-                    instance_count=$(echo $instance_ids | wc -l)
+                    instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
                   else
                     instance_count=0
                   fi
