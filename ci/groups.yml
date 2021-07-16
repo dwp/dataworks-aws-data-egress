@@ -11,6 +11,10 @@ groups:
   jobs:
     - dataworks-aws-data-egress-pr
 
+- name: ami-test
+  jobs:
+    - apply-and-test-with-ami
+
 - name: update-pipeline
   jobs:
     - update-pipeline

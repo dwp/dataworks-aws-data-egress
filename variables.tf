@@ -102,3 +102,10 @@ variable "sft_agent_image_version" {
   type        = string
   default     = "0.0.31"
 }
+
+variable "test_ami" {
+  description = "Defines if cluster should test untested ECS AMI"
+  type        = bool
+  default     = false
+}
+
