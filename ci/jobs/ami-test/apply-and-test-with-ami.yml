@@ -10,6 +10,8 @@ jobs:
             resource: untested-dw-al2-ecs-ami
             trigger: true
           - get: dataworks-aws-data-egress
+            passed:
+              - qa
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
