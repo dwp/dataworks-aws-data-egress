@@ -94,3 +94,59 @@ data "aws_iam_policy_document" "data_egress_server_tagging_policy" {
     ]
   }
 }
+
+
+data "aws_iam_policy_document" "config_bucket_for_hiverunnner" {
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:ListBucket",
+      "s3:GetBucketLocation",
+    ]
+
+    resources = [
+      data.terraform_remote_state.common.outputs.config_bucket.arn,
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObject",
+    ]
+
+    resources = [
+      "${data.terraform_remote_state.common.outputs.config_bucket.arn}/*",
+    ]
+  }
+
+  statement {
+    sid    = "AllowKMSDecryptionOfS3BucketObj"
+    effect = "Allow"
+
+    actions = [
+      "kms:Decrypt",
+      "kms:GenerateDataKey",
+    ]
+
+    resources = [
+      data.terraform_remote_state.common.outputs.config_bucket_cmk.arn,
+    ]
+  }
+}
+
+
+resource "aws_iam_policy" "config_bucket_for_hiverunnner" {
+  name   = "config_bucket_for_hiverunnner"
+  policy = data.aws_iam_policy_document.config_bucket_for_hiverunnner.json
+}
+
+resource "aws_iam_role_policy_attachment" "config_bucket_for_hiverunnner" {
+  role       = aws_iam_role.data_egress_server.name
+  policy_arn = aws_iam_policy.config_bucket_for_hiverunnner.arn
+}
+
+

@@ -187,11 +187,11 @@ data "template_file" "hive_runner_definition" {
     name               = "hive-runner"
     group_name         = "hive-runner"
     cpu                = var.fargate_cpu
-    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_hive_runner_url, var.data_egress_image_version)
+    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_hive_runner_url, "latest")
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
     user               = "nobody"
-    ports              = jsonencode([var.data_egress_port])
+    ports              = jsonencode([8081])
     ulimits            = jsonencode([])
     region             = data.aws_region.current.name
     essential          = true
@@ -201,8 +201,8 @@ data "template_file" "hive_runner_definition" {
 
     mount_points = jsonencode([
       {
-        "container_path" : "/hive-runner",
-        "source_volume" : "hive-runner"
+        "container_path" : "/data-egress",
+        "source_volume" : "data-egress"
       }
     ])
 
