@@ -119,6 +119,27 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"
     ]
   }
+  
+  statement {
+    sid = "CompactionBucketTestingObjectGet"
+    actions = [
+    "s3:GetObject",
+    ]
+    resources = ["${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn}/*"]
+  }
+
+  statement {
+    sid = "CompactionBucketKMSDecrypt"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
+    resources = [data.terraform_remote_state.internal_compute.outputs.compaction_bucket_cmk.arn]
+  }
+
   statement {
     sid       = "DataEgressGetCAMgmtCertS3"
     effect    = "Allow"
