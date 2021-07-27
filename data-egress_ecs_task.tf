@@ -28,7 +28,7 @@ data "template_file" "data_egress_definition" {
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, var.data_egress_image_version)
     memory             = var.receiver_memory
     memory_reservation = var.fargate_memory
-    user               = "nobody"
+    user               = "root"
     ports              = jsonencode([var.data_egress_port])
     ulimits            = jsonencode([])
     log_group          = aws_cloudwatch_log_group.data_egress_cluster.name
