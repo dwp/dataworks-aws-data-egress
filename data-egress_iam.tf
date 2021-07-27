@@ -121,15 +121,23 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
   
   statement {
-    sid = "CompactionBucketTestingObjectGetList"
+    sid = "CompactionBucketTestingObjectGet"
     actions = [
-      "s3:ListBucket",
-      "s3:GetBucketLocation",
-      "s3:GetObject"
+    "s3:GetObject",
     ]
-    resources = [
-      data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn
+    resources = ["${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn}/*"]
+  }
+
+  statement {
+    sid = "CompactionBucketKMSDecrypt"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
     ]
+    resources = [data.terraform_remote_state.internal_compute.outputs.compaction_bucket_cmk.arn]
   }
 
   statement {
