@@ -23,6 +23,31 @@ resource "aws_dynamodb_table" "data_egress" {
   )
 }
 
+resource "aws_dynamodb_table_item" "rtg_pdm_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  for_each = { for configitem in local.rtg_pdm_queries : configitem.source_prefix => configitem }
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "${each.value.source_prefix}"},
+    "pipeline_name":                {"S":     "RTG_S3"},
+    "recipient_name":               {"S":     "RTG"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
+    "decrypt":                      {"bool":   ${each.value.decrypt}},
+    "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
+    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
+    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
+
+  }
+  ITEM
+}
+
 
 resource "aws_dynamodb_table_item" "rtg_incremental_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name

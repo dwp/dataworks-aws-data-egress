@@ -213,6 +213,14 @@ data "aws_secretsmanager_secret_version" "rtg_secret_incremental_collections" {
   secret_id = data.aws_secretsmanager_secret.rtg_secret_incremental_collections.id
 }
 
+data "aws_secretsmanager_secret" "rtg_secret_pdm_queries" {
+  name = local.secret_name_for_pdm_queries
+}
+
+data "aws_secretsmanager_secret_version" "rtg_secret_pdm_queries" {
+  secret_id = data.aws_secretsmanager_secret.rtg_secret_pdm_queries.id
+}
+
 provider "aws" {
   version = "~> 3.42.0"
   region  = var.region
