@@ -170,13 +170,15 @@ resource "aws_dynamodb_table_item" "housing_SAS_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":          {"S":    "dataegress/sas/ucs_housing/export/*"},
-    "pipeline_name":          {"S":    "DWX-SAS-SFT01"},
-    "recipient_name":         {"S":    "Housing"},
-    "transfer_type":          {"S":    "SFT"},
-    "source_bucket":          {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_prefix":     {"S":    "/data-egress/sas/"},
-    "decrypt":                {"bool":   true}
+    "source_prefix":                {"S":    "dataegress/sas/ucs_housing/export/*"},
+    "pipeline_name":                {"S":    "DWX-SAS-SFT01"},
+    "recipient_name":               {"S":    "Housing"},
+    "transfer_type":                {"S":    "SFT"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":    "/data-egress/sas/"},
+    "decrypt":                      {"bool": false},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
   }
   ITEM
 }
