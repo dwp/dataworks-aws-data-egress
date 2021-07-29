@@ -36,7 +36,7 @@ resource "aws_dynamodb_table_item" "rtg_pdm_data_egress_config" {
     "pipeline_name":                {"S":     "RTG_S3"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"}.
     "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
