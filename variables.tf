@@ -64,8 +64,14 @@ variable "receiver_cpu" {
 }
 
 variable "receiver_memory" {
-  default = "1024"
-  type    = string
+  type = map(string)
+  default = {
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "4096"
+    production  = "4096"
+  }
 }
 
 variable "data_egress_port" {
