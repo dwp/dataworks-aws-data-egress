@@ -170,7 +170,7 @@ resource "aws_dynamodb_table_item" "housing_SAS_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":    "dataegress/sas/ucs_housing/export/*"},
+    "source_prefix":                {"S":    "dataegress/sas/ucs_housing/export/$TODAYS_DATE/*"},
     "pipeline_name":                {"S":    "DWX-SAS-SFT01"},
     "recipient_name":               {"S":    "Housing"},
     "transfer_type":                {"S":    "SFT"},
