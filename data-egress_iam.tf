@@ -110,7 +110,8 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/opsmi/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/cbol-report/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*",
-      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/sas/*"
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/sas/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/rtg-pdm-exports/*"
     ]
   }
 
