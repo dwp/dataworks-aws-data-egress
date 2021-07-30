@@ -3,7 +3,7 @@ resource "aws_ecs_task_definition" "data-egress" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
   cpu                      = "2048"
-  memory                   = "4096"
+  memory                   = "10240"
   task_role_arn            = aws_iam_role.data_egress_server_task.arn
   execution_role_arn       = data.terraform_remote_state.common.outputs.ecs_task_execution_role.arn
   container_definitions    = "[${data.template_file.data_egress_definition.rendered}, ${data.template_file.sft_agent_definition.rendered}]"
@@ -26,7 +26,7 @@ data "template_file" "data_egress_definition" {
     group_name         = local.data-egress_group_name
     cpu                = var.fargate_cpu
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, var.data_egress_image_version)
-    memory             = var.receiver_memory
+    memory             = var.receiver_memory[local.environment]
     memory_reservation = var.fargate_memory
     user               = "root"
     ports              = jsonencode([var.data_egress_port])
@@ -105,7 +105,7 @@ data "template_file" "sft_agent_definition" {
     group_name         = local.sft_agent_group_name
     cpu                = var.fargate_cpu
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_sft_agent_url, var.sft_agent_image_version)
-    memory             = var.receiver_memory
+    memory             = var.receiver_memory[local.environment]
     memory_reservation = var.fargate_memory
     user               = "root"
     ports              = jsonencode([9996])
@@ -114,7 +114,7 @@ data "template_file" "sft_agent_definition" {
     region             = data.aws_region.current.name
     config_bucket      = data.terraform_remote_state.common.outputs.config_bucket.id
     s3_prefix          = local.sft_agent_config_s3_prefix
-    essential          = false
+    essential          = true
 
     mount_points = jsonencode([
       {

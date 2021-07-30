@@ -124,11 +124,11 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"
     ]
   }
-  
+
   statement {
     sid = "CompactionBucketTestingObjectGet"
     actions = [
-    "s3:GetObject",
+      "s3:GetObject",
     ]
     resources = ["${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn}/*"]
   }
