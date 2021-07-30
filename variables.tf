@@ -69,8 +69,8 @@ variable "receiver_memory" {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "4096"
-    production  = "4096"
+    preprod     = "8192"
+    production  = "8192"
   }
 }
 
@@ -82,7 +82,7 @@ variable "data_egress_port" {
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = string
-  default     = "0.0.40"
+  default     = "0.0.41"
 }
 
 variable "name" {
