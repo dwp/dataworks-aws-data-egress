@@ -89,6 +89,7 @@ variable "data_egress_image_version" {
     preprod     = "0.0.41"
     production  = "0.0.41"
   }
+}
 
 variable "name" {
   description = "cluster name, used in dns"
