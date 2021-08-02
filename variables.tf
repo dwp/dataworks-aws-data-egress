@@ -81,9 +81,14 @@ variable "data_egress_port" {
 
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
-  type        = string
-  default     = "0.0.41"
-}
+  type = map(string)
+  default = {
+    development = "latest"
+    qa          = "0.0.41"
+    integration = "0.0.41"
+    preprod     = "0.0.41"
+    production  = "0.0.41"
+  }
 
 variable "name" {
   description = "cluster name, used in dns"
