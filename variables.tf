@@ -84,10 +84,10 @@ variable "data_egress_image_version" {
   type = map(string)
   default = {
     development = "latest"
-    qa          = "0.0.41"
-    integration = "0.0.41"
-    preprod     = "0.0.41"
-    production  = "0.0.47"
+    qa          = "0.0.50"
+    integration = "0.0.50"
+    preprod     = "0.0.50"
+    production  = "0.0.50"
   }
 }
 
