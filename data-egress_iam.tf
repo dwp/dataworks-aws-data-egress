@@ -126,7 +126,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     ]
   }
 
-  //RTG Temporary bucket
+  # RTG Temporary bucket
   statement {
     sid = "RTGTempBucketPut"
      actions = [
