@@ -38,11 +38,6 @@ resource "aws_s3_bucket" "rtg_temp" {
     enabled = false
   }
 
-#   logging {
-#     target_bucket = data.terraform_remote_state.security-tools.outputs.logstore_bucket.id
-#     target_prefix = "S3Logs/${random_id.rtg_temp_bucket.hex}/ServerLogs"
-#   }
-
   lifecycle_rule {
     id      = "DeleteBucketData"
     prefix  = ""
