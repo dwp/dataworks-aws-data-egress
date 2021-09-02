@@ -58,15 +58,6 @@ resource "aws_s3_bucket" "rtg_temp" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "rtg_temp" {
-  bucket = aws_s3_bucket.rtg_temp.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  restrict_public_buckets = true
-  ignore_public_acls      = true
-}
-
 data "aws_iam_policy_document" "rtg_temp_bucket" {
   statement {
     sid     = "BlockHTTP"
@@ -94,6 +85,19 @@ data "aws_iam_policy_document" "rtg_temp_bucket" {
 resource "aws_s3_bucket_policy" "rtg_temp" {
   bucket = aws_s3_bucket.rtg_temp.id
   policy = data.aws_iam_policy_document.rtg_temp_bucket.json
+}
+
+resource "aws_s3_bucket_public_access_block" "rtg_temp" {
+  bucket = aws_s3_bucket.rtg_temp.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+  ignore_public_acls      = true
+
+  depends_on = [
+    aws_s3_bucket_policy.rtg_temp
+  ]
 }
 
 output "rtg_temp_bucket" {
