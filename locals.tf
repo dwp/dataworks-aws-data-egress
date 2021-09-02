@@ -204,8 +204,8 @@ locals {
   secret_name_for_rtg_full_collections        = "/concourse/dataworks/rtg/full"
   secret_name_for_rtg_incremental_collections = "/concourse/dataworks/rtg/incremental"
 
-  rtg_pdm_queries             = csvdecode("${data.aws_secretsmanager_secret_version.rtg_secret_pdm_queries.secret_binary}")
-  rtg_full_collections        = csvdecode("${data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary}")
-  rtg_incremental_collections = csvdecode("${data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary}")
+  rtg_pdm_queries             = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_pdm_queries.secret_binary)
+  rtg_full_collections        = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary)
+  rtg_incremental_collections = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary)
 
 }
