@@ -126,6 +126,15 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     ]
   }
 
+  # RTG Temporary bucket
+  statement {
+    sid = "RTGTempBucketPut"
+     actions = [
+      "s3:PutObject"
+    ]
+    resources = ["${aws_s3_bucket.rtg_temp.arn}/*"]
+  }
+
   statement {
     sid = "CompactionBucketObjectGet"
      actions = [
@@ -140,7 +149,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = ["${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn}"]
+    resources = [data.terraform_remote_state.internal_compute.outputs.compaction_bucket.arn]
   }
 
   statement {
