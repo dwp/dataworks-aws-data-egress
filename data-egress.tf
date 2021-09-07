@@ -256,7 +256,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  for_each = toset(local.ris_collections)
+  for_each = toset([for ris_collection in local.ris_collections : ris_collection if ris_collection != "NOT_SET"])
 
   item = <<ITEM
   {
