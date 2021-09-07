@@ -208,5 +208,5 @@ locals {
   rtg_pdm_queries             = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_pdm_queries.secret_binary)
   rtg_full_collections        = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary)
   rtg_incremental_collections = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary)
-  ris_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_binary)))
+  ris_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_string)))
 }
