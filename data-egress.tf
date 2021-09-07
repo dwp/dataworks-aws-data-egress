@@ -268,7 +268,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
     "destination_prefix":           {"S":     "/data-egress/sas/"},
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
-    "encrypting_key_ssm_parm_name": {"S":     ""}
+    "encrypting_key_ssm_parm_name": {"S":     "${base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_binary)}"}
   }
   ITEM
 }
