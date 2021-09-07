@@ -256,7 +256,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  for_each = toset(local.ris_collections)
+  for_each = toset([for collection in local.ris_collections : collection if collection != ""])
 
   item = <<ITEM
   {
@@ -266,9 +266,9 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.htme_s3_bucket.id}"},
     "destination_prefix":           {"S":     "/data-egress/sas/"},
-    "decrypt":                      {"bool":   true},
-    "rewrap_datakey":               {"bool":   false},
-    "encrypting_key_ssm_parm_name": {"S":     ""},
+    "decrypt":                      {"bool":  true},
+    "rewrap_datakey":               {"bool":  false},
+    "encrypting_key_ssm_parm_name": {"S":     ""}
   }
   ITEM
 }
