@@ -221,6 +221,14 @@ data "aws_secretsmanager_secret_version" "rtg_secret_pdm_queries" {
   secret_id = data.aws_secretsmanager_secret.rtg_secret_pdm_queries.id
 }
 
+data "aws_secretsmanager_secret" "secret_for_ris_collections" {
+  name = local.secret_name_for_ris_collections
+}
+
+data "aws_secretsmanager_secret_version" "secret_for_ris_collections" {
+  secret_id = data.aws_secretsmanager_secret.secret_for_ris_collections.id
+}
+
 provider "aws" {
   version = "~> 3.42.0"
   region  = var.region
