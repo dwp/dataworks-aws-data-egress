@@ -137,6 +137,18 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
+    sid = "RTGTempBucketKMSEncrypt"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
+    resources = [aws_kms_key.rtg_temp_bucket_cmk.arn]
+  }
+
+  statement {
     sid = "CompactionBucketObjectGet"
      actions = [
       "s3:GetObject"
