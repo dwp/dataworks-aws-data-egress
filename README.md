@@ -28,11 +28,13 @@ a configuration DynamoDb item for the message and then sending files to a destin
 ![Data Egress Diagram](./Egress.png)
 
 1. Data is uploaded to source s3 bucket
-2. `success.flag` file is uploaded to same file path as data
-3. New SQS item added on new success.flag file upload with path to file as datasource
-4. Egress service pickes up jobs from SQS queue
+2. `pipeline_success.flag` file is uploaded to same file path as data
+3. New SQS item added on new `pipeline_success.flag` file upload with path to file as datasource
+4. Egress service picks up jobs from SQS queue
 5. Egress service queries Dynamo to get what action needs to be taken with the data (set in `data-egress.tf`)
-6. If `transfer_type` is SFT the data is sent to the corresponding datawarehouse location in prod or the `stub-hdfs-***` bucket in non-prod
+6. If `transfer_type` is SFT the data is copied to a local directory and picked up by the SFT Service
+   1. Prod environment: the data is sent to the corresponding data warehouse location
+   2. Non-prod environment: the data is sent to the `stub-hdfs-***` bucket
 7. If `transfer_type` is S3 the data is sent to the corresponding S3 location
 
 ### Database items
