@@ -239,7 +239,7 @@ resource "aws_dynamodb_table_item" "data_warehouse_config" {
   item = <<ITEM
   {
     "source_prefix":                {"S":    "dwh/zip/*"},
-    "pipeline_name":                {"S":    "DWh-Transform-Json"},
+    "pipeline_name":                {"S":    "DWH-Transform-Json"},
     "recipient_name":               {"S":    "DataWarehouse"},
     "transfer_type":                {"S":    "SFT"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
