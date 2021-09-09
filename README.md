@@ -25,6 +25,18 @@ In addition, you may want to do the following:
 The [data egress](https://github.com/dwp/dataworks-data-egress) task is responsible for receiving messages from a SQS queue, retrieving
 a configuration DynamoDb item for the message and then sending files to a destination location (another S3 bucket or to disk).
 
+![Data Egress Diagram](./Egress.png)
+
+1. Data is uploaded to source s3 bucket
+2. `pipeline_success.flag` file is uploaded to same file path as data
+3. New SQS item added on new `pipeline_success.flag` file upload with path to file as datasource
+4. Egress service picks up jobs from SQS queue
+5. Egress service queries Dynamo to get what action needs to be taken with the data (set in `data-egress.tf`)
+6. If `transfer_type` is SFT the data is copied to a local directory and picked up by the SFT Service
+   1. Prod environment: the data is sent to the corresponding data warehouse location
+   2. Non-prod environment: the data is sent to the `stub-hdfs-***` bucket
+7. If `transfer_type` is S3 the data is sent to the corresponding S3 location
+
 ### Database items
 | Row      | Description |
 | ----------- | ----------- |
