@@ -260,7 +260,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "ucdata/$TODAYS_DATE/incremental/${each.key}/*"},
+    "source_prefix":                {"S":     "ucdata/$TODAYS_DATE/incremental/${each.key}-*"},
     "pipeline_name":                {"S":     "RIS_SFT"},
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
