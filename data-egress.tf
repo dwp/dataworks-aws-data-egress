@@ -244,7 +244,7 @@ resource "aws_dynamodb_table_item" "data_warehouse_config" {
     "transfer_type":                {"S":    "SFT"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":    "/data-egress/warehouse/"},
-    "decrypt":                      {"bool": false},
+    "decrypt":                      {"bool": true},
     "rewrap_datakey":               {"bool": false},
     "encrypting_key_ssm_parm_name": {"S":    ""}
   }
