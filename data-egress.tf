@@ -285,9 +285,10 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.htme_s3_bucket.id}"},
-    "destination_prefix":           {"S":     "/data-egress/RIS/"},
+    "destination_prefix":           {"S":     "/data-egress/RIS/${each.key}" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
+    "metadata_prefix":              {"S":     "${each.key}-$TODAYS_DATE"},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
   ITEM
