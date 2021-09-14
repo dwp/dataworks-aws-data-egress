@@ -238,7 +238,7 @@ resource "aws_dynamodb_table_item" "data_warehouse_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":    "dwh/zip/*"},
+    "source_prefix":                {"S":    "dataegress/dwh/*"},
     "pipeline_name":                {"S":    "DWH-Transform-Json"},
     "recipient_name":               {"S":    "DataWarehouse"},
     "transfer_type":                {"S":    "SFT"},
