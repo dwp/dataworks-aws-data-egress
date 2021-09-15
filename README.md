@@ -53,7 +53,8 @@ If source data is required to be sent via S3 and SFT, append the transfer type t
 ```
 pipeline_name#sft
 ```
-
+# Note
+Ensure the soure prefix is in data-egress_iam.tf
 
 
 ## SFT Agent
