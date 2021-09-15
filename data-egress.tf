@@ -302,8 +302,8 @@ resource "aws_dynamodb_table_item" "sas_extracts_analyst_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "/dataegress/sas/analyst_data/export/$TODAYS_DATE/"},
-    "pipeline_name":                {"S":     "SasExtractsAnalystSft"},
+    "source_prefix":                {"S":     "dataegress/sas/analyst_data/export/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":     "SAS_ANALYST_SFT"},
     "recipient_name":               {"S":     "SAS"},
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
@@ -322,8 +322,8 @@ resource "aws_dynamodb_table_item" "sas_extracts_health_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "/dataegress/sas/health/export/$TODAYS_DATE/"},
-    "pipeline_name":                {"S":     "SasExtractsHealthSft"},
+    "source_prefix":                {"S":     "dataegress/sas/health/export/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":     "SAS_HEALTH_SFT"},
     "recipient_name":               {"S":     "SAS"},
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
