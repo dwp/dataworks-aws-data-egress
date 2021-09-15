@@ -231,6 +231,26 @@ resource "aws_dynamodb_table_item" "housing_SAS_data_egress_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "data_warehouse_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "dataegress/dwh/*"},
+    "pipeline_name":                {"S":    "DWH-Transform-Json"},
+    "recipient_name":               {"S":    "DataWarehouse"},
+    "transfer_type":                {"S":    "SFT"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":    "/data-egress/warehouse/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
 resource "aws_dynamodb_table_item" "natstats_SAS_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -260,14 +280,16 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "ucdata/$TODAYS_DATE/incremental/${each.key}/*"},
+    "source_prefix":                {"S":     "businessdata/mongo/ucdata/$TODAYS_DATE/incremental/${each.key}-*"},
     "pipeline_name":                {"S":     "RIS_SFT"},
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.htme_s3_bucket.id}"},
-    "destination_prefix":           {"S":     "/data-egress/sas/"},
+    "destination_prefix":           {"S":     "/data-egress/RIS/${each.key}" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
+    "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE"},
+    "timestamp_files":              {"bool":  true},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
   ITEM
