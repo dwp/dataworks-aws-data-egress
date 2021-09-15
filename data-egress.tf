@@ -308,7 +308,7 @@ resource "aws_dynamodb_table_item" "sas_extracts_analyst_data_egress_config" {
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":     "/data-egress/sas/"},
-    "decrypt":                      {"bool":   true},
+    "decrypt":                      {"bool":   false},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
   }
@@ -328,7 +328,7 @@ resource "aws_dynamodb_table_item" "sas_extracts_health_data_egress_config" {
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":     "/data-egress/sas/"},
-    "decrypt":                      {"bool":   true},
+    "decrypt":                      {"bool":   false},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
   }
