@@ -129,7 +129,7 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk" {
   }
 
   statement {
-    sid    = "AllowAwsCliveServiceGrant"
+    sid    = "AllowAwsDataEgressServiceGrant"
     effect = "Allow"
 
     principals {
@@ -199,7 +199,7 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk_encrypt" {
 }
 
 resource "aws_iam_policy" "data_egress_ebs_cmk_encrypt" {
-  name        = "AwsCliveEbsCmkEncrypt"
+  name        = "AwsDataEgressEbsCmkEncrypt"
   description = "Allow encryption and decryption using the data_egress EBS CMK"
   policy      = data.aws_iam_policy_document.data_egress_ebs_cmk_encrypt.json
 }
