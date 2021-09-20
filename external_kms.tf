@@ -154,7 +154,7 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk" {
 resource "aws_kms_external_key" "data_egress_ebs_cmk" {
   description             = "Encrypts data egress EBS volume. Key material is uploaded manually"
   deletion_window_in_days = 7
-  enabled                 = true
+  enabled                 = false
 
   tags = merge(
     local.common_tags,
