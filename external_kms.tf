@@ -129,7 +129,7 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk" {
   }
 
   statement {
-    sid    = "AllowAwsCliveServiceGrant"
+    sid    = "AllowAwsDataEgressServiceGrant"
     effect = "Allow"
 
     principals {
