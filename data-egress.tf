@@ -82,7 +82,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_manifest_rtg_data_egress_co
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "${each.value.source_prefix}"},
+    "source_prefix":                {"S":     "${join("/",[dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
     "pipeline_name":                {"S":     "HTME_Manifest_RTG_Incremental"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
@@ -132,7 +132,7 @@ resource "aws_dynamodb_table_item" "htme_full_manifest_rtg_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "${each.value.source_prefix}"},
+    "source_prefix":                {"S":     "${join("/",[dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
     "pipeline_name":                {"S":     "HTME_Manifest_RTG_Full"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
