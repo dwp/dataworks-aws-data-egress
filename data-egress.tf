@@ -288,7 +288,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
     "destination_prefix":           {"S":     "/data-egress/RIS" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
-    "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE"},
+    "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE.control"},
     "timestamp_files":              {"bool":  true},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
