@@ -82,7 +82,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_manifest_rtg_data_egress_co
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "${join("/",[dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
+    "source_prefix":                {"S":     "${join("/", [dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
     "pipeline_name":                {"S":     "HTME_Manifest_RTG_Incremental"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
@@ -132,7 +132,7 @@ resource "aws_dynamodb_table_item" "htme_full_manifest_rtg_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "${join("/",[dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
+    "source_prefix":                {"S":     "${join("/", [dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
     "pipeline_name":                {"S":     "HTME_Manifest_RTG_Full"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
@@ -289,6 +289,28 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
     "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE.control"},
+    "timestamp_files":              {"bool":  true},
+    "encrypting_key_ssm_parm_name": {"S":     ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "common-model-inputs/data/site/*"},
+    "pipeline_name":                {"S":     "RIS_SFT"},
+    "recipient_name":               {"S":     "DSP"},
+    "transfer_type":                {"S":     "SFT"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":     "/data-egress/RIS" },
+    "decrypt":                      {"bool":  true},
+    "rewrap_datakey":               {"bool":  false},
+    "control_file_prefix":          {"S":     "initial-organisation-files-$TODAYS_DATE.control"},
     "timestamp_files":              {"bool":  true},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
