@@ -81,7 +81,7 @@ variable "data_egress_port" {
 
 variable "data_egress_image_version" {
   description = "pinned image versions to use"
-  type = map(string)
+  type        = map(string)
   default = {
     development = "0.0.55"
     qa          = "0.0.55"
