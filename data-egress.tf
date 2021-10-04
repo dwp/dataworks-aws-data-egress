@@ -304,10 +304,11 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
 
   item = <<ITEM
   {
+    "source_prefix":                {"S":     "businessdata/mongo/ucdata/$TODAYS_DATE/incremental/${each.key}-*"},
     "pipeline_name":                {"S":     "RIS_SFT"},
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
-    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.htme_s3_bucket.id}"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":     "/data-egress/RIS" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
