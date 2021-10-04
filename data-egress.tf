@@ -310,7 +310,7 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
     "destination_prefix":           {"S":     "/data-egress/RIS" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
-    "control_file_prefix":          {"S":     "initial-organistion-files-$TODAYS_DATE.control"},
+    "control_file_prefix":          {"S":     "initial-organisation-files-$TODAYS_DATE.control"},
     "timestamp_files":              {"bool":  true},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
