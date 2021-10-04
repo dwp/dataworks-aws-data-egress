@@ -302,7 +302,7 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "common-model-inputs/data/site/${each.key}-*"},
+    "source_prefix":                {"S":     "common-model-inputs/data/site/*"},
     "pipeline_name":                {"S":     "RIS_SFT"},
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
@@ -310,7 +310,7 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
     "destination_prefix":           {"S":     "/data-egress/RIS" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
-    "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE.control"},
+    "control_file_prefix":          {"S":     "*-$TODAYS_DATE.control"},
     "timestamp_files":              {"bool":  true},
     "encrypting_key_ssm_parm_name": {"S":     ""}
   }
