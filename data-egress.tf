@@ -300,11 +300,9 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  for_each = toset([for ris_collection in local.ris_collections : ris_collection if ris_collection != "NOT_SET"])
-
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "businessdata/mongo/ucdata/$TODAYS_DATE/incremental/${each.key}-*"},
+    "source_prefix":                {"S":     "common-model-inputs/data/site/${each.key}-*"},
     "pipeline_name":                {"S":     "RIS_SFT"},
     "recipient_name":               {"S":     "DSP"},
     "transfer_type":                {"S":     "SFT"},
