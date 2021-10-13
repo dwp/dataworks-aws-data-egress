@@ -202,7 +202,7 @@ resource "aws_dynamodb_table_item" "oneservice_data_egress_config" {
     "recipient_name":               {"S":     "ONESERVICE"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_bucket":           {"S":     "${local.opsmi[local.environment].bucket_name}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "oneservice/$TODAYS_DATE/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
