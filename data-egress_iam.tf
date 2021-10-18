@@ -42,6 +42,24 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     resources = ["arn:aws:kms:eu-west-2:${local.opsmi[local.environment].account_id}:key/*"]
   }
   statement {
+    sid = "OneServiceBucketObjectPut"
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectAcl"
+    ]
+    resources = ["arn:aws:s3:::${local.oneservice[local.environment].bucket_name}/*", "arn:aws:s3:::${local.oneservice[local.environment].bucket_name}"]
+  }
+
+  statement {
+    sid = "OneServiceBucketKMSDecrypt"
+    actions = [
+      "kms:Decrypt",
+      "kms:GenerateDataKey",
+      "kms:DescribeKey"
+    ]
+    resources = ["arn:aws:kms:eu-west-2:${local.oneservice[local.environment].account_id}:key/*"]
+  }
+  statement {
     sid = "AllowDataEgressEC2ToPollSQS"
     actions = [
       # Due to a tf/AWS bug, currently requires SQS to be capitalised.
