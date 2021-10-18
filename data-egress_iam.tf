@@ -152,7 +152,9 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   # RTG Temporary bucket
   statement {
     sid = "RTGTempBucketPut"
-    actions = [
+    actions = [      
+      "s3:ListBucket",
+      "s3:GetObject",
       "s3:PutObject"
     ]
     resources = ["${aws_s3_bucket.rtg_temp.arn}/*"]
