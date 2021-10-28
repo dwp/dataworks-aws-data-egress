@@ -134,7 +134,8 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/businessdata/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/dwh/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/oneservice/*",
-      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*"
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/ers/*"
     ]
   }
 
