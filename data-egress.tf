@@ -212,20 +212,106 @@ resource "aws_dynamodb_table_item" "oneservice_data_egress_config" {
 }
 
 
-resource "aws_dynamodb_table_item" "ers_cyi_data_egress_config" {
+
+resource "aws_dynamodb_table_item" "ers_cyidb_alldata_weeks_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/*"},
+    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/cyidb_alldata_weeks/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_weeks/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_cyidb_alldata_date_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/cyidb_alldata_date/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_date/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_cyidb_alldata_totals_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/cyidb_alldata_totals/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_totals/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_cyidb_enter_byhour_pct_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/cyidb_enter_byhour_pct/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "cyi/cyidb_enter_byhour_pct/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_cyidb_help_messages_pct_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/cyi/$TODAYS_DATE/cyidb_help_messages_pct/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "cyi/cyidb_help_messages_pct/$TODAYS_DATE/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
