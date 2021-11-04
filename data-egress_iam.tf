@@ -153,7 +153,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   # RTG Temporary bucket
   statement {
     sid = "RTGTempBucketGetandPutObject"
-    actions = [            
+    actions = [
       "s3:GetObject",
       "s3:PutObject"
     ]
@@ -162,7 +162,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
 
   statement {
     sid = "RTGTempBucketList"
-    actions = [      
+    actions = [
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
