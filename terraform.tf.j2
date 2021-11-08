@@ -84,14 +84,6 @@ locals {
          } {%- endfor %}
      }
 
-    rtg = {
-     {%- for environment,contents in rtg.items() %}
-         {{ environment }} = {
-           {%- for key, value in contents.items() %}
-             {{ key }} = "{{ value }}"{% endfor %}
-         } {%- endfor %}
-     }
-
      pdm_rtg = {
      {%- for environment,contents in pdm_rtg.items() %}
          {{ environment }} = {
