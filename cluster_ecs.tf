@@ -112,6 +112,9 @@ resource "aws_launch_template" "data_egress_server" {
   }))
   instance_initiated_shutdown_behavior = "terminate"
 
+  encrypted = true
+  kms_key_id = aws_kms_external_key.data_egress_ebs_cmk.id
+
   iam_instance_profile {
     arn = aws_iam_instance_profile.data_egress_server.arn
   }
