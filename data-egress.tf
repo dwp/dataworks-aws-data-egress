@@ -66,10 +66,7 @@ resource "aws_dynamodb_table_item" "htme_incremental_rtg_data_egress_config" {
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.htme_incr_rtg[local.environment].rtg_role_arn}"}
-    
-
+    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"}
   }
   ITEM
 }
@@ -117,9 +114,7 @@ resource "aws_dynamodb_table_item" "htme_full_rtg_data_egress_config" {
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.htme_full_rtg[local.environment].rtg_role_arn}"}
-
+    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"}
   }
   ITEM
 }
