@@ -217,26 +217,26 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     resources = ["${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.arn}/*"]
   }
 
-  statement {
-    sid       = "DataEgressAssumePDM2RTGRole"
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
-    resources = [local.pdm_rtg[local.environment].rtg_role_arn]
-  }
+  # statement {
+  #   sid       = "DataEgressAssumePDM2RTGRole"
+  #   effect    = "Allow"
+  #   actions   = ["sts:AssumeRole"]
+  #   resources = [local.pdm_rtg[local.environment].rtg_role_arn]
+  # }
 
-  statement {
-    sid       = "DataEgressAssumeHTMEIncr2RTGRole"
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
-    resources = [local.htme_incr_rtg[local.environment].rtg_role_arn]
-  }
+  # statement {
+  #   sid       = "DataEgressAssumeHTMEIncr2RTGRole"
+  #   effect    = "Allow"
+  #   actions   = ["sts:AssumeRole"]
+  #   resources = [local.htme_incr_rtg[local.environment].rtg_role_arn]
+  # }
 
-  statement {
-    sid       = "DataEgressAssumeHTMEFull2RTGRole"
-    effect    = "Allow"
-    actions   = ["sts:AssumeRole"]
-    resources = [local.htme_full_rtg[local.environment].rtg_role_arn]
-  }
+  # statement {
+  #   sid       = "DataEgressAssumeHTMEFull2RTGRole"
+  #   effect    = "Allow"
+  #   actions   = ["sts:AssumeRole"]
+  #   resources = [local.htme_full_rtg[local.environment].rtg_role_arn]
+  # }
 
 }
 
