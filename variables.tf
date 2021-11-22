@@ -127,8 +127,8 @@ variable "task_definition_memory" {
     development = "10240"
     qa          = "10240"
     integration = "10240"
-    preprod     = "30720"
-    production  = "30720"
+    preprod     = "26624"
+    production  = "26624"
   }
 }
 
