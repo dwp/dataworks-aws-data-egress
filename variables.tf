@@ -50,12 +50,12 @@ variable "truststore_aliases" {
 }
 variable "fargate_cpu" {
   type    = string
-  default = "512"
+  default = "1024"
 }
 
 variable "fargate_memory" {
   type    = string
-  default = "512"
+  default = "1024"
 }
 
 variable "receiver_cpu" {
@@ -69,8 +69,8 @@ variable "receiver_memory" {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "8192"
-    production  = "8192"
+    preprod     = "16384"
+    production  = "16384"
   }
 }
 
