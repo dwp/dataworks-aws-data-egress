@@ -12,9 +12,9 @@ variable "region" {
 variable "data_egress_server_ec2_instance_type" {
   type = map(string)
   default = {
-    development = "m5.2xlarge"
-    qa          = "m5.2xlarge"
-    integration = "m5.2xlarge"
+    development = "m5.xlarge"
+    qa          = "m5.xlarge"
+    integration = "m5.xlarge"
     preprod     = "m5.2xlarge"
     production  = "m5.2xlarge"
   }
