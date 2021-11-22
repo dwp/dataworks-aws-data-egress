@@ -121,3 +121,24 @@ variable "test_ami" {
   default     = false
 }
 
+variable "task_definition_memory" {
+  type = map(string)
+  default = {
+    development = "10240"
+    qa          = "10240"
+    integration = "10240"
+    preprod     = "30720"
+    production  = "30720"
+  }
+}
+
+variable "task_definition_cpu" {
+  type = map(string)
+  default = {
+    development = "2048"
+    qa          = "2048"
+    integration = "2048"
+    preprod     = "4096"
+    production  = "4096"
+  }
+}

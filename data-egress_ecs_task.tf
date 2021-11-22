@@ -2,8 +2,8 @@ resource "aws_ecs_task_definition" "data-egress" {
   family                   = "data-egress"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  cpu                      = "4096"
-  memory                   = "30720"
+  cpu                      = var.task_definition_cpu[local.environment]
+  memory                   = var.task_definition_memory[local.environment]
   task_role_arn            = aws_iam_role.data_egress_server_task.arn
   execution_role_arn       = data.terraform_remote_state.common.outputs.ecs_task_execution_role.arn
   container_definitions    = "[${data.template_file.data_egress_definition.rendered}, ${data.template_file.sft_agent_definition.rendered}]"
