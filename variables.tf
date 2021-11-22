@@ -69,8 +69,8 @@ variable "receiver_memory" {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "16384"
-    production  = "16384"
+    preprod     = "10240"
+    production  = "10240"
   }
 }
 
