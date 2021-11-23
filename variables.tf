@@ -63,14 +63,25 @@ variable "receiver_cpu" {
   default = "512"
 }
 
-variable "receiver_memory" {
+variable "data_egress_receiver_memory" {
   type = map(string)
   default = {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "10240"
-    production  = "10240"
+    preprod     = "8192"
+    production  = "8192"
+  }
+}
+
+variable "sft_receiver_memory" {
+  type = map(string)
+  default = {
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "18432"
+    production  = "18432"
   }
 }
 

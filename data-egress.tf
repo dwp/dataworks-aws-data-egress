@@ -581,7 +581,7 @@ resource "aws_dynamodb_table_item" "natstats_SAS_data_egress_config" {
   {
     "source_prefix":                {"S":    "dataegress/sas/uc_natstats/export/$TODAYS_DATE/*"},
     "pipeline_name":                {"S":    "DWX-SAS-SFT02"},
-    "recipient_name":               {"S":    "Housing"},
+    "recipient_name":               {"S":    "NatStats"},
     "transfer_type":                {"S":    "SFT"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":    "/data-egress/sas/"},

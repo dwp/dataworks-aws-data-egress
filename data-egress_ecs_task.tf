@@ -26,7 +26,7 @@ data "template_file" "data_egress_definition" {
     group_name         = local.data-egress_group_name
     cpu                = var.fargate_cpu
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.dataworks_data_egress_url, var.data_egress_image_version[local.environment])
-    memory             = var.receiver_memory[local.environment]
+    memory             = var.data_egress_receiver_memory[local.environment]
     memory_reservation = var.fargate_memory
     user               = "root"
     ports              = jsonencode([var.data_egress_port])
@@ -105,7 +105,7 @@ data "template_file" "sft_agent_definition" {
     group_name         = local.sft_agent_group_name
     cpu                = var.fargate_cpu
     image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_sft_agent_url, var.sft_agent_image_version)
-    memory             = var.receiver_memory[local.environment]
+    memory             = var.sft_receiver_memory[local.environment]
     memory_reservation = var.fargate_memory
     user               = "root"
     ports              = jsonencode([9996])
