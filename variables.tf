@@ -80,8 +80,8 @@ variable "sft_receiver_memory" {
     development = "1024"
     qa          = "1024"
     integration = "1024"
-    preprod     = "16384"
-    production  = "16384"
+    preprod     = "18432"
+    production  = "18432"
   }
 }
 
