@@ -104,7 +104,7 @@ data "template_file" "sft_agent_definition" {
     name               = "sft-agent"
     group_name         = local.sft_agent_group_name
     cpu                = var.fargate_cpu
-    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_sft_agent_url, var.sft_agent_image_version)
+    image_url          = format("%s:%s", data.terraform_remote_state.management.outputs.ecr_sft_agent_url, var.sft_agent_image_version[local.environment])
     memory             = var.sft_receiver_memory[local.environment]
     memory_reservation = var.fargate_memory
     user               = "root"

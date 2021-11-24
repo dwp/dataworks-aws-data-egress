@@ -122,8 +122,14 @@ variable "sft_agent_port" {
 
 variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
-  type        = string
-  default     = "0.0.31"
+  type        = map(string)
+  default = {
+    development = "0.0.32"
+    qa          = "0.0.32"
+    integration = "0.0.31"
+    preprod     = "0.0.31"
+    production  = "0.0.31"
+  }
 }
 
 variable "test_ami" {
