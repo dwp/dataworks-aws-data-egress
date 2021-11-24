@@ -126,9 +126,9 @@ variable "sft_agent_image_version" {
   default = {
     development = "0.0.32"
     qa          = "0.0.32"
-    integration = "0.0.31"
-    preprod     = "0.0.31"
-    production  = "0.0.31"
+    integration = "0.0.32"
+    preprod     = "0.0.32"
+    production  = "0.0.32"
   }
 }
 
