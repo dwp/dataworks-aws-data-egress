@@ -49,8 +49,14 @@ variable "truststore_aliases" {
   default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2"]
 }
 variable "fargate_cpu" {
-  type    = string
-  default = "1024"
+  type = map(string)
+  default = {
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "2048"
+    production  = "2048"
+  }
 }
 
 variable "fargate_memory" {
@@ -126,9 +132,9 @@ variable "sft_agent_image_version" {
   default = {
     development = "0.0.32"
     qa          = "0.0.32"
-    integration = "0.0.31"
-    preprod     = "0.0.31"
-    production  = "0.0.31"
+    integration = "0.0.32"
+    preprod     = "0.0.32"
+    production  = "0.0.32"
   }
 }
 
