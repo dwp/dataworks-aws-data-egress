@@ -52,10 +52,10 @@ variable "fargate_cpu" {
   type = map(string)
   default = {
     development = "1024"
-    qa = "1024"
+    qa          = "1024"
     integration = "1024"
-    preprod = "2048"
-    production = "2048"
+    preprod     = "2048"
+    production  = "2048"
   }
 }
 
