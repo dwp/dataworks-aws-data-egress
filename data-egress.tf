@@ -176,7 +176,7 @@ resource "aws_dynamodb_table_item" "ers_cyidb_alldata_weeks_data_egress_config" 
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/cyidb_alldata_weeks/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_weeks/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -198,7 +198,7 @@ resource "aws_dynamodb_table_item" "ers_cyidb_alldata_date_data_egress_config" {
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/cyidb_alldata_date/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_date/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -219,7 +219,7 @@ resource "aws_dynamodb_table_item" "ers_cyidb_alldata_totals_data_egress_config"
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/cyidb_alldata_totals/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_alldata_totals/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -240,7 +240,7 @@ resource "aws_dynamodb_table_item" "ers_cyidb_enter_byhour_pct_data_egress_confi
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/cyidb_enter_byhour_pct/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_enter_byhour_pct/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -261,7 +261,7 @@ resource "aws_dynamodb_table_item" "ers_cyidb_help_messages_pct_data_egress_conf
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "cyi/cyidb_help_messages_pct/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "cyi/cyidb_help_messages_pct/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -282,7 +282,7 @@ resource "aws_dynamodb_table_item" "ers_govverify_data_egress_config" {
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "verify/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "verifyweekly/weeklysite/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -304,7 +304,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_by_week_data_egress_co
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_by_week/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_newidvs_bwa_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -326,7 +326,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_byidv_week_data_egress
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_byidv_week/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_newidvs_bwa_byidv_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -348,7 +348,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_cocs_bwa_by_week_data_egress_confi
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_cocs_bwa_by_week/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_cocs_bwa_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -370,7 +370,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_week_data_egress_
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_week/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_bwa_all_calls_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -392,7 +392,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_date_data_egress_
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_date/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_bwa_all_calls_by_date/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -415,7 +415,7 @@ resource "aws_dynamodb_table_item" "ers_wdr_decs_report_all_data_data_egress_con
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_all_data/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_all_data/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -437,7 +437,7 @@ resource "aws_dynamodb_table_item" "ers_wdr_decs_report_4wks_summary_data_egress
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_4wks_summary/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_4wks_summary/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -459,7 +459,7 @@ resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_all_data_data_egress_
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_all_data/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_all_data/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -481,7 +481,7 @@ resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_4wks_summary_data_egr
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_4wks_summary/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_4wks_summary/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -502,7 +502,7 @@ resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_site_data_data_egress
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_site_data/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_site_data/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
