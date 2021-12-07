@@ -15,8 +15,8 @@ variable "data_egress_server_ec2_instance_type" {
     development = "m5.xlarge"
     qa          = "m5.xlarge"
     integration = "m5.xlarge"
-    preprod     = "m5.xlarge"
-    production  = "m5.xlarge"
+    preprod     = "m5.2xlarge"
+    production  = "m5.2xlarge"
   }
 }
 variable "data_egress_server_ebs_volume_size" {
@@ -49,13 +49,19 @@ variable "truststore_aliases" {
   default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2"]
 }
 variable "fargate_cpu" {
-  type    = string
-  default = "512"
+  type = map(string)
+  default = {
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "2048"
+    production  = "2048"
+  }
 }
 
 variable "fargate_memory" {
   type    = string
-  default = "512"
+  default = "1024"
 }
 
 variable "receiver_cpu" {
@@ -63,7 +69,7 @@ variable "receiver_cpu" {
   default = "512"
 }
 
-variable "receiver_memory" {
+variable "data_egress_receiver_memory" {
   type = map(string)
   default = {
     development = "1024"
@@ -71,6 +77,17 @@ variable "receiver_memory" {
     integration = "1024"
     preprod     = "8192"
     production  = "8192"
+  }
+}
+
+variable "sft_receiver_memory" {
+  type = map(string)
+  default = {
+    development = "1024"
+    qa          = "1024"
+    integration = "1024"
+    preprod     = "18432"
+    production  = "18432"
   }
 }
 
@@ -83,11 +100,11 @@ variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = map(string)
   default = {
-    development = "0.0.55"
-    qa          = "0.0.55"
-    integration = "0.0.55"
-    preprod     = "0.0.55"
-    production  = "0.0.55"
+    development = "0.0.59"
+    qa          = "0.0.59"
+    integration = "0.0.59"
+    preprod     = "0.0.59"
+    production  = "0.0.59"
   }
 }
 
@@ -111,8 +128,14 @@ variable "sft_agent_port" {
 
 variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
-  type        = string
-  default     = "0.0.31"
+  type        = map(string)
+  default = {
+    development = "0.0.32"
+    qa          = "0.0.32"
+    integration = "0.0.32"
+    preprod     = "0.0.32"
+    production  = "0.0.32"
+  }
 }
 
 variable "test_ami" {
@@ -121,3 +144,24 @@ variable "test_ami" {
   default     = false
 }
 
+variable "task_definition_memory" {
+  type = map(string)
+  default = {
+    development = "10240"
+    qa          = "10240"
+    integration = "10240"
+    preprod     = "26624"
+    production  = "26624"
+  }
+}
+
+variable "task_definition_cpu" {
+  type = map(string)
+  default = {
+    development = "2048"
+    qa          = "2048"
+    integration = "2048"
+    preprod     = "4096"
+    production  = "4096"
+  }
+}

@@ -14,6 +14,59 @@ data "aws_iam_role" "aws_config" {
   name = "aws_config"
 }
 
+resource "aws_kms_external_key" "data_egress_ebs_cmk" {
+  description             = "Encrypts data egress EBS volume. Key material is uploaded manually"
+  deletion_window_in_days = 7
+  enabled                 = true
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = local.data_egress_friendly_name
+    }
+  )
+
+  policy = data.aws_iam_policy_document.data_egress_ebs_cmk.json
+}
+
+resource "aws_kms_alias" "data_egress_ebs_cmk" {
+  name          = "alias/data_egress_ebs_cmk"
+  target_key_id = aws_kms_external_key.data_egress_ebs_cmk.id
+}
+
+data "aws_iam_policy_document" "data_egress_ebs_cmk_encrypt" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey",
+    ]
+
+    resources = [aws_kms_external_key.data_egress_ebs_cmk.arn]
+  }
+
+  statement {
+    effect = "Allow"
+
+    actions = ["kms:CreateGrant"]
+
+    resources = [aws_kms_external_key.data_egress_ebs_cmk.arn]
+    condition {
+      test     = "Bool"
+      variable = "kms:GrantIsForAWSResource"
+      values   = ["true"]
+    }
+  }
+}
+
+data "aws_iam_role" "AWSServiceRoleForAutoScaling" {
+  name = "AWSServiceRoleForAutoScaling"
+}
+
 data "aws_iam_policy_document" "data_egress_ebs_cmk" {
   statement {
     sid    = "EnableIAMPermissionsBreakglass"
@@ -147,31 +200,31 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk" {
       values   = ["true"]
     }
   }
-}
 
-
-
-resource "aws_kms_external_key" "data_egress_ebs_cmk" {
-  description             = "Encrypts data egress EBS volume. Key material is uploaded manually"
-  deletion_window_in_days = 7
-  enabled                 = false
-
-  tags = merge(
-    local.common_tags,
-    {
-      Name = local.data_egress_friendly_name
-    }
-  )
-}
-
-resource "aws_kms_alias" "data_egress_ebs_cmk" {
-  name          = "alias/data_egress_ebs_cmk"
-  target_key_id = aws_kms_external_key.data_egress_ebs_cmk.id
-}
-
-data "aws_iam_policy_document" "data_egress_ebs_cmk_encrypt" {
   statement {
+    sid    = "Enable access control with IAM policies"
     effect = "Allow"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws:iam::${local.account[local.environment]}:root"]
+    }
+
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid    = "Allow use of the CMK by ASGs"
+    effect = "Allow"
+
+    principals {
+      type = "AWS"
+
+      identifiers = [
+        data.aws_iam_role.AWSServiceRoleForAutoScaling.arn,
+      ]
+    }
 
     actions = [
       "kms:Encrypt",
@@ -181,21 +234,28 @@ data "aws_iam_policy_document" "data_egress_ebs_cmk_encrypt" {
       "kms:DescribeKey",
     ]
 
-    resources = [aws_kms_external_key.data_egress_ebs_cmk.arn]
+    resources = ["*"]
   }
 
   statement {
+    sid    = "Allow attachment of persistent resources"
     effect = "Allow"
 
-    actions = ["kms:CreateGrant"]
+    principals {
+      type        = "AWS"
+      identifiers = [data.aws_iam_role.AWSServiceRoleForAutoScaling.arn]
+    }
 
-    resources = [aws_kms_external_key.data_egress_ebs_cmk.arn]
+    actions   = ["kms:CreateGrant"]
+    resources = ["*"]
+
     condition {
       test     = "Bool"
       variable = "kms:GrantIsForAWSResource"
       values   = ["true"]
     }
   }
+
 }
 
 resource "aws_iam_policy" "data_egress_ebs_cmk_encrypt" {

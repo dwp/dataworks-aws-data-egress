@@ -84,14 +84,29 @@ locals {
          } {%- endfor %}
      }
 
-    rtg = {
-     {%- for environment,contents in rtg.items() %}
+     pdm_rtg = {
+     {%- for environment,contents in pdm_rtg.items() %}
          {{ environment }} = {
            {%- for key, value in contents.items() %}
              {{ key }} = "{{ value }}"{% endfor %}
          } {%- endfor %}
      }
 
+     htme_incr_rtg = {
+     {%- for environment,contents in htme_incr_rtg.items() %}
+         {{ environment }} = {
+           {%- for key, value in contents.items() %}
+             {{ key }} = "{{ value }}"{% endfor %}
+         } {%- endfor %}
+     }
+
+     htme_full_rtg = {
+     {%- for environment,contents in htme_full_rtg.items() %}
+         {{ environment }} = {
+           {%- for key, value in contents.items() %}
+             {{ key }} = "{{ value }}"{% endfor %}
+         } {%- endfor %}
+     }
 }
 
 data "terraform_remote_state" "common" {

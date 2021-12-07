@@ -36,13 +36,13 @@ resource "aws_dynamodb_table_item" "pdm_rtg_data_egress_config" {
     "pipeline_name":                {"S":     "PDM_RTG"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.pdm_rtg[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
     "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
+    "role_arn":                     {"S":     "${local.pdm_rtg[local.environment].rtg_role_arn}"}
 
   }
   ITEM
@@ -61,39 +61,14 @@ resource "aws_dynamodb_table_item" "htme_incremental_rtg_data_egress_config" {
     "pipeline_name":                {"S":     "HTME_RTG_Incremental"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.htme_incr_rtg[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
     "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
-
-  }
-  ITEM
-}
-
-resource "aws_dynamodb_table_item" "htme_incremental_manifest_rtg_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
-
-  for_each = { for configitem in local.rtg_incremental_collections : configitem.source_prefix => configitem }
-
-  item = <<ITEM
-  {
-    "source_prefix":                {"S":     "${join("/", [dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
-    "pipeline_name":                {"S":     "HTME_Manifest_RTG_Incremental"},
-    "recipient_name":               {"S":     "RTG"},
-    "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
-    "decrypt":                      {"bool":   ${each.value.decrypt}},
-    "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
-
+    "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
+    "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"}
   }
   ITEM
 }
@@ -111,39 +86,14 @@ resource "aws_dynamodb_table_item" "htme_full_rtg_data_egress_config" {
     "pipeline_name":                {"S":     "HTME_RTG_Full"},
     "recipient_name":               {"S":     "RTG"},
     "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.htme_full_rtg[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
     "decrypt":                      {"bool":   ${each.value.decrypt}},
     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
     "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
-
-  }
-  ITEM
-}
-
-resource "aws_dynamodb_table_item" "htme_full_manifest_rtg_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
-
-  for_each = { for configitem in local.rtg_full_collections : configitem.source_prefix => configitem }
-
-  item = <<ITEM
-  {
-    "source_prefix":                {"S":     "${join("/", [dirname("${each.value.source_prefix}"), "manifest", basename("${each.value.source_prefix}")])}"},
-    "pipeline_name":                {"S":     "HTME_Manifest_RTG_Full"},
-    "recipient_name":               {"S":     "RTG"},
-    "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_bucket":           {"S":     "${local.rtg[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
-    "decrypt":                      {"bool":   ${each.value.decrypt}},
-    "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "role_arn":                     {"S":     "${local.rtg[local.environment].rtg_role_arn}"}
-
+    "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
+    "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"}
   }
   ITEM
 }
@@ -340,6 +290,227 @@ resource "aws_dynamodb_table_item" "ers_govverify_data_egress_config" {
   ITEM
 }
 
+
+resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_by_week_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/bwa/$TODAYS_DATE/wbwar_newidvs_bwa_by_week/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_by_week/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_byidv_week_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/bwa/$TODAYS_DATE/wbwar_newidvs_bwa_byidv_week/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_byidv_week/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wbwar_cocs_bwa_by_week_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/bwa/$TODAYS_DATE/wbwar_cocs_bwa_by_week/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_cocs_bwa_by_week/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_week_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/bwa/$TODAYS_DATE/wbwar_bwa_all_calls_by_week/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_week/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_date_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/bwa/$TODAYS_DATE/wbwar_bwa_all_calls_by_date/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_date/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+
+resource "aws_dynamodb_table_item" "ers_wdr_decs_report_all_data_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/weekly_declarations/$TODAYS_DATE/wdr_decs_report_all_data/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_all_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wdr_decs_report_4wks_summary_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/weekly_declarations/$TODAYS_DATE/wdr_decs_report_4wks_summary/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "weekly_declarations/wdr_decs_report_4wks_summary/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_all_data_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/weekly_declarations_ni/$TODAYS_DATE/wdr_ni_decs_report_all_data/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_all_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
+resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_4wks_summary_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/weekly_declarations_ni/$TODAYS_DATE/wdr_ni_decs_report_4wks_summary/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_4wks_summary/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_wdr_ni_decs_report_site_data_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/weekly_declarations_ni/$TODAYS_DATE/wdr_ni_decs_report_site_data/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "weekly_declarations_ni/wdr_ni_decs_report_site_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+
 resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -410,7 +581,7 @@ resource "aws_dynamodb_table_item" "natstats_SAS_data_egress_config" {
   {
     "source_prefix":                {"S":    "dataegress/sas/uc_natstats/export/$TODAYS_DATE/*"},
     "pipeline_name":                {"S":    "DWX-SAS-SFT02"},
-    "recipient_name":               {"S":    "Housing"},
+    "recipient_name":               {"S":    "NatStats"},
     "transfer_type":                {"S":    "SFT"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":    "/data-egress/sas/"},
@@ -503,6 +674,26 @@ resource "aws_dynamodb_table_item" "sas_extracts_health_data_egress_config" {
     "decrypt":                      {"bool":   false},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "best_start_grant_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "dataegress/best-start/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "BEST-START-SFT"},
+    "recipient_name":               {"S":    "BestStart"},
+    "transfer_type":                {"S":    "SFT"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":    "/data-egress/sas/"},
+    "decrypt":                      {"bool": false},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
   }
   ITEM
 }

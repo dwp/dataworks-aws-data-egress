@@ -6,12 +6,7 @@ sender:
     redeliveryDelay: 600000
   routes: 
     - 
-      actions: 
-        - 
-          name: renameFile
-          properties: 
-            rename_regex: (.+)
-            rename_replacement: AWS_$1
+      actions:
         - 
           name: httpRequest
           properties: 
@@ -19,17 +14,12 @@ sender:
       deleteOnSend: true
       errorFolder: /data-egress/error/warehouse
       filenameRegex: .*
-      maxThreadPoolSize: 5
+      maxThreadPoolSize: 3
       name: DA/Dataworks_UCFS_data
       source: /data-egress/warehouse/
-      threadPoolSize: 5
+      threadPoolSize: 3
     - 
-      actions: 
-        - 
-          name: renameFile
-          properties: 
-            rename_regex: (.+)
-            rename_replacement: AWS_$1
+      actions:
         - 
           name: httpRequest
           properties: 
@@ -37,17 +27,12 @@ sender:
       deleteOnSend: true
       errorFolder: /data-egress/error/sas
       filenameRegex: .*
-      maxThreadPoolSize: 5
+      maxThreadPoolSize: 3
       name: DA/Dataworks_UCFS_tactical
       source: /data-egress/sas/
-      threadPoolSize: 5
+      threadPoolSize: 3
     - 
-      actions: 
-        - 
-          name: renameFile
-          properties: 
-            rename_regex: (.+)
-            rename_replacement: AWS_$1
+      actions:
         - 
           name: httpRequest
           properties: 
@@ -55,17 +40,12 @@ sender:
       deleteOnSend: true
       errorFolder: /data-egress/error/RIS
       filenameRegex: .*
-      maxThreadPoolSize: 5
+      maxThreadPoolSize: 3
       name: DSP/Dataworks_UCFS_data
       source: /data-egress/RIS/
-      threadPoolSize: 5
+      threadPoolSize: 3
     - 
-      actions: 
-        - 
-          name: renameFile
-          properties: 
-            rename_regex: (.+)
-            rename_replacement: AWS_$1
+      actions:
         - 
           name: httpRequest
           properties: 
@@ -73,7 +53,7 @@ sender:
       deleteOnSend: true
       errorFolder: /data-egress/error/test
       filenameRegex: .*
-      maxThreadPoolSize: 5
+      maxThreadPoolSize: 3
       name: startupTest
       source: /data-egress/test/
-      threadPoolSize: 5
+      threadPoolSize: 3

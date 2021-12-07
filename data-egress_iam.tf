@@ -135,6 +135,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/dwh/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/oneservice/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/best-start/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/ers/*"
     ]
   }
@@ -153,7 +154,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   # RTG Temporary bucket
   statement {
     sid = "RTGTempBucketGetandPutObject"
-    actions = [            
+    actions = [
       "s3:GetObject",
       "s3:PutObject"
     ]
@@ -162,7 +163,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
 
   statement {
     sid = "RTGTempBucketList"
-    actions = [      
+    actions = [
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
@@ -218,10 +219,24 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   }
 
   statement {
-    sid       = "DataEgressAssumeRTGRole"
+    sid       = "DataEgressAssumePDM2RTGRole"
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = [local.rtg[local.environment].rtg_role_arn]
+    resources = [local.pdm_rtg[local.environment].rtg_role_arn]
+  }
+
+  statement {
+    sid       = "DataEgressAssumeHTMEIncr2RTGRole"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = [local.htme_incr_rtg[local.environment].rtg_role_arn]
+  }
+
+  statement {
+    sid       = "DataEgressAssumeHTMEFull2RTGRole"
+    effect    = "Allow"
+    actions   = ["sts:AssumeRole"]
+    resources = [local.htme_full_rtg[local.environment].rtg_role_arn]
   }
 
 }

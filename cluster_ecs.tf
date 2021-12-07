@@ -112,6 +112,7 @@ resource "aws_launch_template" "data_egress_server" {
   }))
   instance_initiated_shutdown_behavior = "terminate"
 
+
   iam_instance_profile {
     arn = aws_iam_instance_profile.data_egress_server.arn
   }
@@ -122,6 +123,7 @@ resource "aws_launch_template" "data_egress_server" {
     ebs {
       volume_size           = var.data_egress_server_ebs_volume_size[local.environment]
       volume_type           = var.data_egress_server_ebs_volume_type[local.environment]
+      kms_key_id            = aws_kms_external_key.data_egress_ebs_cmk.arn
       delete_on_termination = true
       encrypted             = true
     }
