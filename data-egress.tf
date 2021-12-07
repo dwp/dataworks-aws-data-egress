@@ -304,7 +304,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_by_week_data_egress_co
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_by_week/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_newidvs_bwa_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -326,7 +326,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_byidv_week_data_egress
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_newidvs_bwa_byidv_week/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_newidvs_bwa_byidv_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -348,7 +348,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_cocs_bwa_by_week_data_egress_confi
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_cocs_bwa_by_week/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_cocs_bwa_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -370,7 +370,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_week_data_egress_
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_week/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_bwa_all_calls_by_week/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -392,7 +392,7 @@ resource "aws_dynamodb_table_item" "ers_wbwar_bwa_all_calls_by_date_data_egress_
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "bank_wizard_absolute/wbwar_bwa_all_calls_by_date/"},
+    "destination_prefix":           {"S":     "bwa/wbwar_bwa_all_calls_by_date/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
