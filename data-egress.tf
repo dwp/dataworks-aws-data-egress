@@ -282,7 +282,7 @@ resource "aws_dynamodb_table_item" "ers_govverify_data_egress_config" {
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "verify/"},
+    "destination_prefix":           {"S":     "verifyweekly/weeklysite/"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
