@@ -518,7 +518,7 @@ resource "aws_dynamodb_table_item" "ers_ad_summary_stats_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/ad_survey/ad_summary_stats/*"},
+    "source_prefix":                {"S":     "dataegress/ers/ad_survey/$TODAYS_DATE/ucds/ad_survey/ad_summary_stats/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -539,7 +539,7 @@ resource "aws_dynamodb_table_item" "ers_ad_responses_recent_data_egress_config" 
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/ad_survey/ad_responses_recent/*"},
+    "source_prefix":                {"S":     "dataegress/ers/ad_survey/$TODAYS_DATE/ucds/ad_survey/ad_responses_recent/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -560,7 +560,7 @@ resource "aws_dynamodb_table_item" "ers_weekly_agent_online_counts_data_egress_c
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/agents_by_role/weekly_agent_online_counts/*"},
+    "source_prefix":                {"S":     "dataegress/ers/agents_by_role/$TODAYS_DATE/ucds/agents_by_role/weekly_agent_online_counts/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -581,7 +581,7 @@ resource "aws_dynamodb_table_item" "ers_appointment_status_summary_data_egress_c
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/appointment_status_summary/*"},
+    "source_prefix":                {"S":     "dataegress/ers/appointments/$TODAYS_DATE/ucds/appointment_status_summary/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -602,7 +602,7 @@ resource "aws_dynamodb_table_item" "ers_appointment_counts_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/appointment_counts/*"},
+    "source_prefix":                {"S":     "dataegress/ers/appointments/$TODAYS_DATE/ucds/appointment_counts/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -624,7 +624,7 @@ resource "aws_dynamodb_table_item" "ers_daily_audit_events_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/daily_audit_events/*"},
+    "source_prefix":                {"S":     "dataegress/ers/audit_events/$TODAYS_DATE/ucds/daily_audit_events/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -645,7 +645,7 @@ resource "aws_dynamodb_table_item" "ers_contracts_stats_summary_data_egress_conf
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/contracts_stats_summary/*"},
+    "source_prefix":                {"S":     "dataegress/ers/claimant_mi/$TODAYS_DATE/ucds/contracts_stats_summary/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -667,7 +667,7 @@ resource "aws_dynamodb_table_item" "ers_count_euss_all_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/count_euss_all/*"},
+    "source_prefix":                {"S":     "dataegress/ers/euss/$TODAYS_DATE/ucds/count_euss_all/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -689,7 +689,7 @@ resource "aws_dynamodb_table_item" "ers_todo_summary_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/knowingme_knowingtodo/todo_summary/*"},
+    "source_prefix":                {"S":     "dataegress/ers/knowingme_knowingtodo/$TODAYS_DATE/ucds/knowingme_knowingtodo/todo_summary/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -710,7 +710,7 @@ resource "aws_dynamodb_table_item" "ers_todos_by_day_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/knowingme_knowingtodo/todos_by_day/*"},
+    "source_prefix":                {"S":     "dataegress/ers/knowingme_knowingtodo/$TODAYS_DATE/ucds/knowingme_knowingtodo/todos_by_day/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
@@ -732,7 +732,7 @@ resource "aws_dynamodb_table_item" "ers_late_payments_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/$TODAYS_DATE/ucds/late_payments/weekly/*"},
+    "source_prefix":                {"S":     "dataegress/ers/paid_on_time/$TODAYS_DATE/ucds/late_payments/weekly/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
