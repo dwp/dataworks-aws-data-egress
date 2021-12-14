@@ -12,34 +12,54 @@ jobs:
           - get: dataworks-aws-data-egress
             passed:
               - qa
+          - get: dataworks-behavioural-framework
+            trigger: false
+      - .: (( inject meta.plan.check-ami-test-results ))
+        input_mapping:
+          untested_ami: dw-al2-ecs-ami
       - .: (( inject meta.plan.terraform-bootstrap ))
         config:
           params:
             AWS_ACC: ((aws_account.qa))
             TEST_AMI_RUN: true
+          inputs:
+            - name: previous_success
       - .: (( inject meta.plan.terraform-apply ))
         config:
           params:
             TF_WORKSPACE: qa
             TEST_AMI_RUN: true
+          inputs:
+            - name: previous_success
       - .: (( inject meta.plan.terraform-plan ))
         config:
           params:
             TF_WORKSPACE: qa
             TEST_AMI_RUN: true
+          inputs:
+            - name: previous_success
+      - .: (( inject meta.plan.e2e-tests))
+        config:
+          params:
+            TF_WORKSPACE: qa
+            TEST_AMI_RUN: true
+            AWS_ACC: ((aws_account.qa))
+            AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+          inputs:
+            - name: previous_success
       - .: (( inject meta.plan.terminate-ecs-instances ))
       - .: (( inject meta.plan.test-ecs-ami ))
-    on_failure:
-      do:
-        - .: (( inject meta.plan.ami-test-results ))
-          task: ami-test-result-fail
-          config:
-            params:
-              RESULT: FAILED
-    on_success:
-      do:
-        - .: (( inject meta.plan.ami-test-results ))
-          task: ami-test-result-success
-          config:
-            params:
-              RESULT: SUCCESS
+        on_failure:
+          do:
+            - .: (( inject meta.plan.ami-test-results ))
+              task: ami-test-result-fail
+              config:
+                params:
+                  RESULT: FAILED
+        on_success:
+          do:
+            - .: (( inject meta.plan.ami-test-results ))
+              task: ami-test-result-success
+              config:
+                params:
+                  RESULT: SUCCESS
