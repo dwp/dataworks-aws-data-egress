@@ -29,6 +29,9 @@
           args:
             - -exc
             - |
+              if [ -f ../previous_success/exit-if-succeeded.sh ]; then
+                source ../previous_success/exit-if-succeeded.sh
+              fi
               python bootstrap_terraform.py
               sed -i '/^assume_role/ d' terraform.tfvars
               if [ "${TEST_AMI_RUN:-false}" == "true" ]; then
@@ -54,6 +57,9 @@
           args:
             - -exc
             - |
+              if [ -f ../previous_success/exit-if-succeeded.sh ]; then
+                source ../previous_success/exit-if-succeeded.sh
+              fi
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
               terraform workspace show
               cp ../terraform-bootstrap/terraform.tf .
@@ -77,6 +83,9 @@
           args:
             - -exc
             - |
+              if [ -f ../previous_success/exit-if-succeeded.sh ]; then
+                source ../previous_success/exit-if-succeeded.sh
+              fi
               export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
@@ -165,27 +174,30 @@
           args:
             - -exc
             - |
+              source ./previous_success/exit-if-succeeded.sh
+
               export AWS_DEFAULT_REGION
               ami_id=$(cat dw-al2-ecs-ami/id)
               source /assume-role
               set +x
-              instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-server-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+
+              instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+
               for instance_id in $instance_ids;
                 do
                   aws ec2 terminate-instances --instance-ids "$instance_id"
                 done;
+
               desired_capacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name "$ASG_NAME" | jq -r '.AutoScalingGroups[0].DesiredCapacity')
+
               count=0
               max_retries="$MAX_RETRIES"
+
               while [ "$count" -lt "$max_retries" ]
                 do
                   sleep "$SLEEP_TIME"
-                  instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-server-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
-                  if [ ${#instance_ids} -ge 1 ]; then
-                    instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
-                  else
-                    instance_count=0
-                  fi
+                  instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+                  instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
                   if [[ $instance_count -eq $desired_capacity ]]; then
                     image_ids="$(aws ec2 describe-instances --instance-ids $instance_ids | jq -r '.Reservations[] | .Instances[] | .ImageId')"
                     for i in $image_ids; do
@@ -203,6 +215,7 @@
               exit 1
         inputs:
           - name: dw-al2-ecs-ami
+          - name: previous_success
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
@@ -225,11 +238,12 @@
           args:
             - -exc
             - |
+              source ./previous_success/exit-if-succeeded.sh
               export AWS_DEFAULT_REGION
               source /assume-role
               set +x
               max_retries=5
-              task_json="$(aws ecs run-task --cluster "$CLUSTER_NAME" --task-definition ami_ecs_test_td --overrides "{\"containerOverrides\": [{\"name\": \"test-ecs-ami\", \"command\": [\"sh\", \"-c\", \"sleep 300\"]}]}")"
+              task_json="$(aws ecs run-task --cluster "$CLUSTER_NAME" --capacity-provider-strategy 'capacityProvider=data-egress-cluster' --task-definition ami_ecs_test_td --overrides "{\"containerOverrides\": [{\"name\": \"test-ecs-ami\", \"command\": [\"sh\", \"-c\", \"sleep 300\"]}]}")"
               task_arn=$(echo $task_json | jq -r '.tasks[0].taskArn')
               while [ $max_retries > 0 ]
               do
@@ -242,6 +256,8 @@
                 let "max_retries-=1"
               done
               exit 1
+        inputs:
+          - name: previous_success
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
         AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
@@ -268,17 +284,76 @@
             - -exc
             - |
               set +x
+              source ./previous_success/exit-if-succeeded.sh
+
               AMI_ID=$(cat dw-al2-ecs-ami/id)
               DATE=$(date -u)
               PIPELINE="$(cat meta/build_pipeline_name)"
+
               git config --global user.name "${GIT_USERNAME}"
               git config --global user.email "${GIT_EMAIL}"
+
               git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/dwp/ami-builder-configs
               cd ami-builder-configs/results
+
               echo "$AMI_ID $RESULT" > "$PIPELINE.test"
+
               git add "$PIPELINE.test"
               git commit -m "Updating $PIPELINE AMI test on ${DATE}"
               git push https://${GITHUB_TOKEN}:x-oauth-basic@github.com/dwp/ami-builder-configs
         inputs:
           - name: meta
           - name: dw-al2-ecs-ami
+          - name: previous_success
+
+    check-ami-test-results:
+      task: check-ami-test-result
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: ((dataworks.terraform_repository))
+            tag: ((dataworks.terraform_13_version))
+        params:
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          GIT_USERNAME: ((dataworks.concourse_github_username))
+          GIT_EMAIL: ((dataworks.concourse_github_email))
+          GITHUB_TOKEN: ((dataworks-secrets.concourse_github_pat))
+        run:
+          path: sh
+          args:
+            - -exc
+            - |
+              set +x
+              PREVIOUS_SUCCESS=false
+              AMI_ID=$(cat untested_ami/id)
+              DATE=$(date -u)
+              PIPELINE="$(cat meta/build_pipeline_name)"
+              PATH_TO_RESULTS="ami-builder-configs/results"
+
+              git config --global user.name "${GIT_USERNAME}"
+              git config --global user.email "${GIT_EMAIL}"
+              git clone https://${GITHUB_TOKEN}:x-oauth-basic@github.com/dwp/ami-builder-configs
+
+              if [ -f "./$PATH_TO_RESULTS/$PIPELINE.test" ]; then
+                set +e
+                grep "$AMI_ID SUCCESS" "./$PATH_TO_RESULTS/$PIPELINE.test"
+                if [ $? -eq 0 ]; then
+                  PREVIOUS_SUCCESS=true
+                fi
+                set -e
+              fi
+
+              touch ./previous_success/exit-if-succeeded.sh
+
+              if $PREVIOUS_SUCCESS; then
+                 echo 'echo "AMI already passed. Exiting..."; exit 0' > ./previous_success/exit-if-succeeded.sh
+              fi
+
+              chmod +x ./previous_success/exit-if-succeeded.sh
+        outputs:
+          - name: previous_success
+        inputs:
+          - name: meta
+          - name: untested_ami
