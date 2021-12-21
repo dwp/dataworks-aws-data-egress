@@ -746,6 +746,27 @@ resource "aws_dynamodb_table_item" "ers_late_payments_data_egress_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "ers_contract_payment_characteristics_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/contract_payment_characteristics/$TODAYS_DATE/ucds/contract_payment_characteristics/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/contract_payment_characteristics"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
 resource "aws_dynamodb_table_item" "dataworks_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
