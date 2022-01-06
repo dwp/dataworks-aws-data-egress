@@ -94,3 +94,5 @@ This wrapper is then manually uploaded alongside the token via breakglass to eac
 All the manual steps are done in the AWS console in the KMS section. 
 
 Now that the key is uploaded, [we can use this external KMS key to encrypt the EBS volumes.](https://github.com/dwp/dataworks-aws-data-egress/blob/master/cluster_ecs.tf#L126)
+
+Some more information is available in our [common wiki](https://github.ucds.io/dip/aws-common-infrastructure/wiki/Data-Egress-BYOK-Encryption)
