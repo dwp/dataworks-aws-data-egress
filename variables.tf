@@ -130,11 +130,11 @@ variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = map(string)
   default = {
-    development = "0.0.35"
-    qa          = "0.0.35"
-    integration = "0.0.35"
-    preprod     = "0.0.35"
-    production  = "0.0.35"
+    development = "0.0.36"
+    qa          = "0.0.36"
+    integration = "0.0.36"
+    preprod     = "0.0.36"
+    production  = "0.0.36"
   }
 }
 
