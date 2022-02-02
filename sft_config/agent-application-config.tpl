@@ -49,7 +49,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/DA"
+            destination: "https://${destination_url}:8091/internal/DA/inbound/Test"
       deleteOnSend: true
       errorFolder: /data-egress/error/test
       filenameRegex: .*
