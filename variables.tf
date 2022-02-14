@@ -22,7 +22,7 @@ variable "data_egress_server_ec2_instance_type" {
 variable "data_egress_server_ebs_volume_size" {
   type = map(string)
   default = {
-    development = "15000"
+    development = "1000"
     qa          = "1000"
     integration = "1000"
     preprod     = "1000"
@@ -32,7 +32,7 @@ variable "data_egress_server_ebs_volume_size" {
 variable "data_egress_server_ebs_volume_type" {
   type = map(string)
   default = {
-    development = "st1"
+    development = "gp3"
     qa          = "gp3"
     integration = "gp3"
     preprod     = "gp3"
