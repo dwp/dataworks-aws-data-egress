@@ -126,6 +126,8 @@ resource "aws_launch_template" "data_egress_server" {
       kms_key_id            = aws_kms_external_key.data_egress_ebs_cmk.arn
       delete_on_termination = true
       encrypted             = true
+      iops                  = 6000
+      throughput            = 1000
     }
   }
 
