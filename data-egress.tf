@@ -935,6 +935,26 @@ resource "aws_dynamodb_table_item" "sas_extracts_analyst_data_egress_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "sas_extracts_welfare_grant_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/sas/welfare_grant/export/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":     "SAS_WELFARE_GRANT_SFT"},
+    "recipient_name":               {"S":     "SAS"},
+    "transfer_type":                {"S":     "SFT"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":     "/data-egress/sas/"},
+    "decrypt":                      {"bool":   false},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}  
+  
 resource "aws_dynamodb_table_item" "sas_extracts_health_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
