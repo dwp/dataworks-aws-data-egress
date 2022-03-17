@@ -100,11 +100,11 @@ variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = map(string)
   default = {
-    development = "0.0.59"
-    qa          = "0.0.59"
-    integration = "0.0.59"
-    preprod     = "0.0.59"
-    production  = "0.0.59"
+    development = "0.0.61"
+    qa          = "0.0.61"
+    integration = "0.0.61"
+    preprod     = "0.0.61"
+    production  = "0.0.61"
   }
 }
 
