@@ -11,3 +11,7 @@ output "sft_agent_service" {
     desired_count  = local.sft_agent_service_desired_count[local.environment]
   }
 }
+
+output "data_egress_ebs_cmk" {
+  value = aws_kms_external_key.data_egress_ebs_cmk
+}
