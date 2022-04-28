@@ -48,57 +48,57 @@ resource "aws_dynamodb_table_item" "pdm_rtg_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "htme_incremental_rtg_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
+# resource "aws_dynamodb_table_item" "htme_incremental_rtg_data_egress_config" {
+#   table_name = aws_dynamodb_table.data_egress.name
+#   hash_key   = aws_dynamodb_table.data_egress.hash_key
+#   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  for_each = { for configitem in local.rtg_incremental_collections : configitem.source_prefix => configitem }
+#   for_each = { for configitem in local.rtg_incremental_collections : configitem.source_prefix => configitem }
 
-  item = <<ITEM
-  {
-    "source_prefix":                {"S":     "${each.value.source_prefix}-"},
-    "pipeline_name":                {"S":     "HTME_RTG_Incremental"},
-    "recipient_name":               {"S":     "RTG"},
-    "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
-    "destination_bucket":           {"S":     "${local.htme_incr_rtg[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
-    "decrypt":                      {"bool":   ${each.value.decrypt}},
-    "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
-    "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"},
-    "role_arn":                     {"S":     "${local.pdm_rtg[local.environment].rtg_role_arn}"}
-  }
-  ITEM
-}
+#   item = <<ITEM
+#   {
+#     "source_prefix":                {"S":     "${each.value.source_prefix}-"},
+#     "pipeline_name":                {"S":     "HTME_RTG_Incremental"},
+#     "recipient_name":               {"S":     "RTG"},
+#     "transfer_type":                {"S":     "S3"},
+#     "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+#     "destination_bucket":           {"S":     "${local.htme_incr_rtg[local.environment].bucket_name}"},
+#     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
+#     "decrypt":                      {"bool":   ${each.value.decrypt}},
+#     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
+#     "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
+#     "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
+#     "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"},
+#     "role_arn":                     {"S":     "${local.pdm_rtg[local.environment].rtg_role_arn}"}
+#   }
+#   ITEM
+# }
 
-resource "aws_dynamodb_table_item" "htme_full_rtg_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
+# resource "aws_dynamodb_table_item" "htme_full_rtg_data_egress_config" {
+#   table_name = aws_dynamodb_table.data_egress.name
+#   hash_key   = aws_dynamodb_table.data_egress.hash_key
+#   range_key  = aws_dynamodb_table.data_egress.range_key
 
-  for_each = { for configitem in local.rtg_full_collections : configitem.source_prefix => configitem }
+#   for_each = { for configitem in local.rtg_full_collections : configitem.source_prefix => configitem }
 
-  item = <<ITEM
-  {
-    "source_prefix":                {"S":     "${each.value.source_prefix}-"},
-    "pipeline_name":                {"S":     "HTME_RTG_Full"},
-    "recipient_name":               {"S":     "RTG"},
-    "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
-    "destination_bucket":           {"S":     "${local.htme_full_rtg[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
-    "decrypt":                      {"bool":   ${each.value.decrypt}},
-    "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
-    "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
-    "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
-    "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"},
-    "role_arn":                     {"S":     "${local.pdm_rtg[local.environment].rtg_role_arn}"}
-  }
-  ITEM
-}
+#   item = <<ITEM
+#   {
+#     "source_prefix":                {"S":     "${each.value.source_prefix}-"},
+#     "pipeline_name":                {"S":     "HTME_RTG_Full"},
+#     "recipient_name":               {"S":     "RTG"},
+#     "transfer_type":                {"S":     "S3"},
+#     "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.compaction_bucket.id}"},
+#     "destination_bucket":           {"S":     "${local.htme_full_rtg[local.environment].bucket_name}"},
+#     "destination_prefix":           {"S":     "${each.value.destination_prefix}"},
+#     "decrypt":                      {"bool":   ${each.value.decrypt}},
+#     "rewrap_datakey":               {"bool":   ${each.value.rewrap_datakey}},
+#     "encrypting_key_ssm_parm_name": {"S":     "${each.value.encrypting_key_ssm_parm_name}"},
+#     "manifest_file_name":           {"S":     "${each.value.manifest_file_name}"},
+#     "manifest_file_encryption":     {"S":     "${each.value.manifest_file_encryption}"},
+#     "role_arn":                     {"S":     "${local.pdm_rtg[local.environment].rtg_role_arn}"}
+#   }
+#   ITEM
+# }
 
 resource "aws_dynamodb_table_item" "opsmi_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
