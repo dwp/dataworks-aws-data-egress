@@ -810,6 +810,279 @@ resource "aws_dynamodb_table_item" "ers_qa_checks_data_egress_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "ers_service_goal_2_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_2/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_2/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_3_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_3/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_3/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_4_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_4/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_4/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_5_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_5/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_5/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_6_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_6/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_6/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_7_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_7/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_7/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_service_goal_8_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/service_goals/$TODAYS_DATE/ucds/service_goals/service_goal_8/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/service_goals/service_goal_8/headline"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_retro_2_outcomes_codes_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/retro_2/$TODAYS_DATE/ucds/retro_2/retro_2_outcomes_codes/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/retro_2/outcomes"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_retro_2_ame_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/retro_2/$TODAYS_DATE/ucds/retro_2/retro_2_ame/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/retro_2/ame"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_retro_2_mvfe_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/retro_2/$TODAYS_DATE/ucds/retro_2/retro_2_mvfe/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/retro_2/mvfe"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_backfill_logins_by_time_summary_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/logins_by_time/$TODAYS_DATE/ucds/logins_by_time/backfill_logins_by_time_summary/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/logins_by_time/claimant_backfill"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_trial_allocation_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/update_trial_allocation/$TODAYS_DATE/ucds/update_trial_allocation/trial_allocation/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/trial_allocation"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_frontier_workers_summary_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/update_frontier_workers/$TODAYS_DATE/ucds/update_frontier_workers/frontier_workers_summary/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/frontiers_workers_dashboard/frontier_workers_summary"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
 resource "aws_dynamodb_table_item" "ers_late_payments_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
