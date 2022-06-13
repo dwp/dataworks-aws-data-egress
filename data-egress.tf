@@ -1041,7 +1041,7 @@ resource "aws_dynamodb_table_item" "ers_backfill_logins_by_time_summary_data_egr
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ers_trial_allocation_data_egress_config" {
+resource "aws_dynamodb_table_item" "ers_update_trial_allocation_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
@@ -1062,7 +1062,7 @@ resource "aws_dynamodb_table_item" "ers_trial_allocation_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ers_frontier_workers_summary_data_egress_config" {
+resource "aws_dynamodb_table_item" "ers_update_frontier_workers_summary_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
@@ -1076,6 +1076,27 @@ resource "aws_dynamodb_table_item" "ers_frontier_workers_summary_data_egress_con
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "ucds/frontiers_workers_dashboard/frontier_workers_summary"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_update_timely_payments_summary_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/update_timely_payments/$TODAYS_DATE/ucds/update_timely_payments/monthly_payments_late/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "ucds/late_payments/monthly"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
