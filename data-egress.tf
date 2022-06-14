@@ -957,14 +957,14 @@ resource "aws_dynamodb_table_item" "ers_service_goal_8_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ers_retro_2_outcomes_codes_data_egress_config" {
+resource "aws_dynamodb_table_item" "ers_retro_2_outcome_codes_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/retro_2/$TODAYS_DATE/ucds/retro_2/retro_2_outcomes_codes/*"},
+    "source_prefix":                {"S":     "dataegress/ers/retro_2/$TODAYS_DATE/ucds/retro_2/retro_2_outcome_codes/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
