@@ -104,7 +104,7 @@ variable "data_egress_image_version" {
     qa          = "0.0.63"
     integration = "0.0.63"
     preprod     = "0.0.66"
-    production  = "0.0.63"
+    production  = "0.0.67"
   }
 }
 
