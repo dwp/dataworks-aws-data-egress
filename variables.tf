@@ -16,7 +16,7 @@ variable "data_egress_server_ec2_instance_type" {
     qa          = "m5.xlarge"
     integration = "m5.xlarge"
     preprod     = "r5.2xlarge"
-    production  = "m5.2xlarge"
+    production  = "r5.2xlarge"
   }
 }
 variable "data_egress_server_ebs_volume_size" {
@@ -76,7 +76,7 @@ variable "data_egress_receiver_memory" {
     qa          = "1024"
     integration = "1024"
     preprod     = "26624"
-    production  = "8192"
+    production  = "26624"
   }
 }
 
@@ -87,7 +87,7 @@ variable "sft_receiver_memory" {
     qa          = "1024"
     integration = "1024"
     preprod     = "26624"
-    production  = "18432"
+    production  = "26624"
   }
 }
 
