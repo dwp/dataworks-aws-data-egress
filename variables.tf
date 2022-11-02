@@ -103,7 +103,7 @@ variable "data_egress_image_version" {
     development = "0.0.63"
     qa          = "0.0.63"
     integration = "0.0.63"
-    preprod     = "0.0.63"
+    preprod     = "0.0.66"
     production  = "0.0.63"
   }
 }
