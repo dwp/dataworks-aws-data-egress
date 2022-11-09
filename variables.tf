@@ -100,9 +100,9 @@ variable "data_egress_image_version" {
   description = "pinned image versions to use"
   type        = map(string)
   default = {
-    development = "0.0.63"
-    qa          = "0.0.63"
-    integration = "0.0.63"
+    development = "0.0.66"
+    qa          = "0.0.66"
+    integration = "0.0.66"
     preprod     = "0.0.66"
     production  = "0.0.66"
   }
@@ -130,10 +130,10 @@ variable "sft_agent_image_version" {
   description = "image version for the SFT agent"
   type        = map(string)
   default = {
-    development = "0.0.37"
-    qa          = "0.0.37"
-    integration = "0.0.37"
-    preprod     = "0.0.37"
+    development = "0.0.41"
+    qa          = "0.0.41"
+    integration = "0.0.41"
+    preprod     = "0.0.41"
     production  = "0.0.37"
   }
 }
