@@ -173,7 +173,8 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "kms:GenerateDataKey*",
       "kms:DescribeKey"
     ]
-    resources = [data.terraform_remote_state.common.outputs.dataworks_ml_published_output_bucket_cmk.arn]
+    resources = [data.terraform_remote_state.common.outputs.dataworks_ml_published_bucket_cmk.arn]
+    #cmk variable incorrectly labeled without the word output (should be dataworks_ml_published_output_bucket_cmk)
   }
 
   # RTG Temporary bucket
