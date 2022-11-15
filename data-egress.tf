@@ -1374,6 +1374,7 @@ resource "aws_dynamodb_table_item" "best_start_grant_egress_config" {
 }
 
 resource "aws_dynamodb_table_item" "ap_ml_preprocessed_data" {
+
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
