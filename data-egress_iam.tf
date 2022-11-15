@@ -137,7 +137,8 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/common-model-inputs/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/best-start/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/ers/*",
-      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/RIS_DSP_Manual/*"
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataegress/RIS_DSP_Manual/*",
+      "${data.terraform_remote_state.common.outputs.published_bucket.arn}/preprocessed_csv/*"
     ]
   }
 
@@ -150,6 +151,30 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/data-egress-testing-output/*",
       "${data.terraform_remote_state.common.outputs.published_bucket.arn}/dataworks-egress-testing-input/*"
     ]
+  }
+
+  #dataworks-ml-model-published-output bucket
+
+  statement {
+    sid = "DataworksMLModelPublishedOutput"
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectAcl"
+    ]
+    resources = ["arn:aws:s3:::${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn}/*", "arn:aws:s3:::${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn}"]
+  }
+
+  statement {
+    sid = "PublishedOutputBucketKMSDecrypt"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey"
+    ]
+    resources = [data.terraform_remote_state.common.outputs.dataworks_ml_published_bucket_cmk.arn]
+    #cmk variable incorrectly labeled without the word output (should be dataworks_ml_published_output_bucket_cmk)
   }
 
   # RTG Temporary bucket
