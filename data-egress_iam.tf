@@ -116,7 +116,10 @@ data "aws_iam_policy_document" "data_egress_server_task" {
       "s3:ListBucket",
       "s3:GetBucketLocation"
     ]
-    resources = [data.terraform_remote_state.common.outputs.published_bucket.arn, "arn:aws:s3:::${local.opsmi[local.environment].bucket_name}"]
+    resources = [data.terraform_remote_state.common.outputs.published_bucket.arn,
+      "arn:aws:s3:::${local.opsmi[local.environment].bucket_name}",
+      data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn]
+
   }
 
   statement {
@@ -158,10 +161,9 @@ data "aws_iam_policy_document" "data_egress_server_task" {
   statement {
     sid = "DataworksMLModelPublishedOutput"
     actions = [
-      "s3:PutObject",
-      "s3:PutObjectAcl"
+      "s3:PutObject"
     ]
-    resources = ["arn:aws:s3:::${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn}/*", "arn:aws:s3:::${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn}"]
+    resources = ["${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn}/*"]
   }
 
   statement {
