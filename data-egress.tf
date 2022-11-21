@@ -1380,13 +1380,13 @@ resource "aws_dynamodb_table_item" "ap_ml_preprocessed_data" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":    "ap_ml/preprocessed_data/journal/$TODAYS_DATE/*"},
+    "source_prefix":                {"S":    "ap_ml/journal/preprocessed_data/$TODAYS_DATE/*"},
     "pipeline_name":                {"S":    "ap_preproc_journal"},
     "recipient_name":               {"S":    "ap_preproc_journal"},
     "transfer_type":                {"S":    "S3"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
-    "destination_prefix":           {"S":    "ap_ml/preprocessed_data/journal/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":    "ap_ml/journal/preprocessed_data/$TODAYS_DATE/"},
     "decrypt":                      {"bool": true},
     "rewrap_datakey":               {"bool": false},
     "encrypting_key_ssm_parm_name": {"S":    ""}
@@ -1401,13 +1401,13 @@ resource "aws_dynamodb_table_item" "ap_ml_preprocessed_training_data" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":    "ap_ml/preprocessed_training_data/journal/$TODAYS_DATE/*"},
+    "source_prefix":                {"S":    "ap_ml/journal/preprocessed_training_data/$TODAYS_DATE/*"},
     "pipeline_name":                {"S":    "ap_preproc_journal"},
     "recipient_name":               {"S":    "ap_preproc_journal_training"},
     "transfer_type":                {"S":    "S3"},
     "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
-    "destination_prefix":           {"S":    "ap_ml/preprocessed_training_data/journal/$TODAYS_DATE/"},
+    "destination_prefix":           {"S":    "ap_ml/journal/preprocessed_training_data/$TODAYS_DATE/"},
     "decrypt":                      {"bool": true},
     "rewrap_datakey":               {"bool": false},
     "encrypting_key_ssm_parm_name": {"S":    ""}
