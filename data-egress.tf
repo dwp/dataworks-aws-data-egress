@@ -1394,6 +1394,27 @@ resource "aws_dynamodb_table_item" "ap_ml_preprocessed_data" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "ap_ml_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "preprocessed_training_data/journal/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_journal"},
+    "recipient_name":               {"S":    "ap_preproc_journal_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "/preprocessed_training_data/journal/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
 resource "aws_acm_certificate" "data_egress_server" {
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
   domain_name               = "${local.data_egress_server_name}.${local.env_prefix[local.environment]}dataworks.dwp.gov.uk"
