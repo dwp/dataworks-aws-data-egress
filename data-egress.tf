@@ -291,27 +291,6 @@ resource "aws_dynamodb_table_item" "ers_cyidb_help_messages_pct_data_egress_conf
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ers_govverify_data_egress_config" {
-  table_name = aws_dynamodb_table.data_egress.name
-  hash_key   = aws_dynamodb_table.data_egress.hash_key
-  range_key  = aws_dynamodb_table.data_egress.range_key
-
-  item = <<ITEM
-  {
-    "source_prefix":                {"S":     "dataegress/ers/goverify/$TODAYS_DATE/*"},
-    "pipeline_name":                {"S":     "ERS"},
-    "recipient_name":               {"S":     "ERS"},
-    "transfer_type":                {"S":     "S3"},
-    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
-    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "ucds/verifyweekly/weeklysite/"},
-    "decrypt":                      {"bool":   true},
-    "rewrap_datakey":               {"bool":   false},
-    "encrypting_key_ssm_parm_name": {"S":      ""}
-  }
-  ITEM
-}
-
 
 resource "aws_dynamodb_table_item" "ers_wbwar_newidvs_bwa_by_week_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
@@ -659,7 +638,6 @@ resource "aws_dynamodb_table_item" "ers_appointment_counts_data_egress_config" {
   ITEM
 }
 
-
 resource "aws_dynamodb_table_item" "ers_daily_audit_events_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -702,7 +680,6 @@ resource "aws_dynamodb_table_item" "ers_contracts_stats_summary_data_egress_conf
   ITEM
 }
 
-
 resource "aws_dynamodb_table_item" "ers_count_euss_all_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -723,7 +700,6 @@ resource "aws_dynamodb_table_item" "ers_count_euss_all_data_egress_config" {
   }
   ITEM
 }
-
 
 resource "aws_dynamodb_table_item" "ers_todo_summary_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
@@ -823,6 +799,90 @@ resource "aws_dynamodb_table_item" "ers_qa_checks_data_egress_config" {
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
     "destination_prefix":           {"S":     "ucds/ukraine/qa_checks"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_homepage_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/homepage/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "journal_dashboard/homepage"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_associations_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/associations/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "journal_dashboard/associations"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_group_messages_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/group_messages/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "journal_dashboard/group_messages"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ers_inefficiencies_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/inefficiencies/*"},
+    "pipeline_name":                {"S":     "ERS"},
+    "recipient_name":               {"S":     "ERS"},
+    "transfer_type":                {"S":     "S3"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
+    "destination_prefix":           {"S":     "journal_dashboard/inefficiencies"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
