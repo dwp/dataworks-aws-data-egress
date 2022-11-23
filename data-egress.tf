@@ -813,13 +813,13 @@ resource "aws_dynamodb_table_item" "ers_homepage_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/homepage/*"},
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/ucds/journal_dashboard/homepage/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "journal_dashboard/homepage"},
+    "destination_prefix":           {"S":     "ucds/journal_dashboard/homepage"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -834,13 +834,13 @@ resource "aws_dynamodb_table_item" "ers_associations_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/associations/*"},
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/ucds/journal_dashboard/associations/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "journal_dashboard/associations"},
+    "destination_prefix":           {"S":     "ucds/journal_dashboard/associations"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -855,13 +855,13 @@ resource "aws_dynamodb_table_item" "ers_group_messages_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/group_messages/*"},
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/ucds/journal_dashboard/group_messages/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "journal_dashboard/group_messages"},
+    "destination_prefix":           {"S":     "ucds/journal_dashboard/group_messages"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -876,13 +876,13 @@ resource "aws_dynamodb_table_item" "ers_inefficiencies_data_egress_config" {
 
   item = <<ITEM
   {
-    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/journal_dashboard/inefficiencies/*"},
+    "source_prefix":                {"S":     "dataegress/ers/journal_dashboard/$TODAYS_DATE/ucds/journal_dashboard/inefficiencies/*"},
     "pipeline_name":                {"S":     "ERS"},
     "recipient_name":               {"S":     "ERS"},
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "journal_dashboard/inefficiencies"},
+    "destination_prefix":           {"S":     "ucds/journal_dashboard/inefficiencies"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
