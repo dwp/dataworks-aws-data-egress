@@ -118,7 +118,7 @@ data "aws_iam_policy_document" "data_egress_server_task" {
     ]
     resources = [data.terraform_remote_state.common.outputs.published_bucket.arn,
       "arn:aws:s3:::${local.opsmi[local.environment].bucket_name}",
-      data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn]
+    data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.arn]
 
   }
 

@@ -216,31 +216,31 @@ locals {
   aws_sft_hub = {
     development = {
       enabled = false
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     qa = {
       enabled = true
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     integration = {
       enabled = false
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     preprod = {
       enabled = true
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     production = {
       enabled = true
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     management-dev = {
       enabled = false
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
     management = {
       enabled = false
-      cidr     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
     }
   }
 }
