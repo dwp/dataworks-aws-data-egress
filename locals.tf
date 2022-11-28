@@ -209,4 +209,8 @@ locals {
   rtg_full_collections        = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary)
   rtg_incremental_collections = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary)
   ris_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_string)))
+
+  # CIDR Ranges for Prod and Non-Prod AWS SFT Hub
+  secret_name_for_aws_sft_hub_cidr = "/concourse/dataworks/sft"
+  aws_sft_hub = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
 }
