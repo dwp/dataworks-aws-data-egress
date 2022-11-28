@@ -216,31 +216,31 @@ locals {
   aws_sft_hub = {
     development = {
       enabled = false
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     qa = {
       enabled = true
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     integration = {
       enabled = false
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     preprod = {
       enabled = true
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     production = {
       enabled = true
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     management-dev = {
       enabled = false
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
     management = {
       enabled = false
-      cidr    = csvdecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_binary)["aws_hub_cidr"]
+      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
     }
   }
 }
