@@ -48,7 +48,7 @@ resource "aws_security_group_rule" "sft_agent_service_to_aws_aft_hub" {
   from_port         = var.sft_agent_port
   to_port           = var.sft_agent_port
   security_group_id = aws_security_group.sft_agent_service.id
-  cidr_blocks       = local.aws_sft_hub
+  cidr_blocks       = ["${local.aws_sft_hub}"]
 }
 
 #Stub nifi routes
