@@ -211,36 +211,6 @@ locals {
   ris_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_string)))
 
   # CIDR Ranges for Prod and Non-Prod AWS SFT Hub
-
   secret_name_for_aws_sft_hub_cidr = "/concourse/dataworks/sft"
-  aws_sft_hub = {
-    development = {
-      enabled = false
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    qa = {
-      enabled = true
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    integration = {
-      enabled = false
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    preprod = {
-      enabled = true
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    production = {
-      enabled = true
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    management-dev = {
-      enabled = false
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-    management = {
-      enabled = false
-      cidr    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
-    }
-  }
+  aws_sft_hub = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
 }
