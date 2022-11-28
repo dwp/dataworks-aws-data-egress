@@ -41,6 +41,17 @@ resource "aws_security_group_rule" "sft_agent_service_to_sdx" {
   cidr_blocks       = ["${data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_vip}/32"]
 }
 
+resource "aws_security_group_rule" "sft_agent_service_to_aws_aft_hub" {
+  count             = local.aws_sft_hub[local.environment]["enabled"] ? 1 : 0
+  description       = "Allow SFT agent to access AWS SFT Hub"
+  type              = "egress"
+  protocol          = "tcp"
+  from_port         = var.sft_agent_port
+  to_port           = var.sft_agent_port
+  security_group_id = aws_security_group.sft_agent_service.id
+  cidr_blocks       = local.aws_sft_hub[local.environment]["cidr"]
+}
+
 #Stub nifi routes
 resource "aws_security_group_rule" "snapshot_sender_egress_to_stub_nifi_lb" {
   count                    = local.use_stub_nifi[local.environment] ? 1 : 0
