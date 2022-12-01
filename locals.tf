@@ -214,11 +214,4 @@ locals {
   secret_name_for_aws_sft_hub_cidr = "/concourse/dataworks/sft"
   aws_sft_hub = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
 
-  sft_url = {
-    development    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_url"]
-    qa             = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_url"]
-    integration    = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_url"]
-    preprod        = data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]
-    production     = data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]
-  }
 }
