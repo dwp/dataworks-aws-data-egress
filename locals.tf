@@ -212,6 +212,8 @@ locals {
 
   # AWS SFT Hub related requirements
   secret_name_for_aws_sft_hub_cidr = "/concourse/dataworks/sft"
-  aws_sft_hub = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
+  secret_name_for_sft_hub_api_key  = "/concourse/dataworks/sft"
+  aws_sft_hub     = jsondecode(data.aws_secretsmanager_secret_version.secret_for_aws_sft_hub_cidr.secret_string)["aws_hub_cidr"]
+  sft_hub_api_key = jsondecode(data.aws_secretsmanager_secret_version.secret_for_sft_hub_api_key.secret_string)["sft_hub_api_key"]
 
 }

@@ -267,6 +267,14 @@ data "aws_secretsmanager_secret_version" "secret_for_aws_sft_hub_cidr" {
   secret_id = data.aws_secretsmanager_secret.secret_for_aws_sft_hub_cidr.id
 }
 
+data "aws_secretsmanager_secret" "secret_for_sft_hub_api_key" {
+  name = local.secret_name_for_sft_hub_api_key
+}
+
+data "aws_secretsmanager_secret_version" "secret_for_sft_hub_api_key" {
+  secret_id = data.aws_secretsmanager_secret.secret_for_sft_hub_api_key.id
+}
+
 provider "aws" {
   region  = var.region
 

@@ -15,13 +15,13 @@ resource "aws_s3_bucket_object" "data_egress_sft_agent_application_config" {
 data "template_file" "data_egress_sft_agent_config_tpl" {
   template = file("${path.module}/sft_config/${local.agent_config_file[local.environment]}")
   vars = {
-    apiKey = local.data_egress[local.environment].sft_agent_api_key
+    apiKey = local.sft_hub_api_key
   }
 }
 
 data "template_file" "data_egress_sft_agent_application_config_tpl" {
   template = file("${path.module}/sft_config/${local.config_file}")
   vars = {
-    destination_url = local.use_stub_nifi[local.environment] ? local.stub_nifi_alb_fqdn : local.sft_url[local.environment] #data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]
+    destination_url = local.use_stub_nifi[local.environment] ? local.stub_nifi_alb_fqdn : data.terraform_remote_state.aws_sdx.outputs.sdx_f5_endpoint_1_name[0]
   }
 }
