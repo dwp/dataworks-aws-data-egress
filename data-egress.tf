@@ -1871,7 +1871,7 @@ resource "aws_dynamodb_table_item" "ap_ml_model_10_preprocessed_data" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ap_ml_ model_10_preprocessed_training_data" {
+resource "aws_dynamodb_table_item" "ap_ml_model_10_preprocessed_training_data" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
