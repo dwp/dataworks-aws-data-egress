@@ -1474,6 +1474,423 @@ resource "aws_dynamodb_table_item" "ap_ml_preprocessed_training_data" {
   }
   ITEM
 }
+resource "aws_dynamodb_table_item" "ap_ml_model_1_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_1/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_1"},
+    "recipient_name":               {"S":    "ap_preproc_model_1"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_1/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_1_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_1/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_1"},
+    "recipient_name":               {"S":    "ap_preproc_model_1_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_1/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_2_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_2/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_2"},
+    "recipient_name":               {"S":    "ap_preproc_model_2"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_2/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_2_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_2/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_2"},
+    "recipient_name":               {"S":    "ap_preproc_model_2_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_2/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_3_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_3/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_3"},
+    "recipient_name":               {"S":    "ap_preproc_model_3"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_3/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_3_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_3/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_3"},
+    "recipient_name":               {"S":    "ap_preproc_model_3_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_3/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_4_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_4/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_4"},
+    "recipient_name":               {"S":    "ap_preproc_model_4"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_4/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_4_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_4/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_4"},
+    "recipient_name":               {"S":    "ap_preproc_model_4_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_4/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_5_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_5/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_5"},
+    "recipient_name":               {"S":    "ap_preproc_model_5"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_5/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_5_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_5/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_5"},
+    "recipient_name":               {"S":    "ap_preproc_model_5_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_5/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_6_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_6/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_6"},
+    "recipient_name":               {"S":    "ap_preproc_model_6"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_6/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_6_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_6/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_6"},
+    "recipient_name":               {"S":    "ap_preproc_model_6_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_6/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_7_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_7/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_7"},
+    "recipient_name":               {"S":    "ap_preproc_model_7"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_7/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_7_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_7/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_7"},
+    "recipient_name":               {"S":    "ap_preproc_model_7_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_7/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+resource "aws_dynamodb_table_item" "ap_ml_model_8_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_8/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_8"},
+    "recipient_name":               {"S":    "ap_preproc_model_8"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_8/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_8_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_8/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_8"},
+    "recipient_name":               {"S":    "ap_preproc_model_8_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_8/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+resource "aws_dynamodb_table_item" "ap_ml_model_9_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_9/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_9"},
+    "recipient_name":               {"S":    "ap_preproc_model_9"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_9/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_9_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_9/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_9"},
+    "recipient_name":               {"S":    "ap_preproc_model_9_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_9/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_model_10_preprocessed_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_10/preprocessed_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_10"},
+    "recipient_name":               {"S":    "ap_preproc_model_10"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_10/preprocessed_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "ap_ml_ model_10_preprocessed_training_data" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":    "ap_ml/model_10/preprocessed_training_data/$TODAYS_DATE/*"},
+    "pipeline_name":                {"S":    "ap_preproc_model_10"},
+    "recipient_name":               {"S":    "ap_preproc_model_10_training"},
+    "transfer_type":                {"S":    "S3"},
+    "source_bucket":                {"S":    "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_bucket":           {"S":    "${data.terraform_remote_state.common.outputs.dataworks_model_published_bucket.id}"},
+    "destination_prefix":           {"S":    "ap_ml/model_10/preprocessed_training_data/$TODAYS_DATE/"},
+    "decrypt":                      {"bool": true},
+    "rewrap_datakey":               {"bool": false},
+    "encrypting_key_ssm_parm_name": {"S":    ""}
+  }
+  ITEM
+}
 
 resource "aws_acm_certificate" "data_egress_server" {
   certificate_authority_arn = data.terraform_remote_state.certificate_authority.outputs.root_ca.arn
