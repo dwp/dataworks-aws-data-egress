@@ -59,7 +59,7 @@ sender:
       threadPoolSize: 3
 
     - name: internal/GFTS/inbound/Test
-      source: /data-egress/test
+      source: /data-egress/awstest
       actions:
         - name: renameFile
           properties:
@@ -68,6 +68,6 @@ sender:
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
-      errorFolder: /data-egress/error/test
+      errorFolder: /data-egress/error/awstest
       deleteOnSend: true
       filenameRegex: .*
