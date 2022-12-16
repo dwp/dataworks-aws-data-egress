@@ -258,15 +258,6 @@ data "aws_secretsmanager_secret_version" "secret_for_ris_collections" {
   secret_id = data.aws_secretsmanager_secret.secret_for_ris_collections.id
 }
 
-
-data "aws_secretsmanager_secret" "secret_for_aws_sft_hub_cidr" {
-  name = local.secret_name_for_aws_sft_hub_cidr
-}
-
-data "aws_secretsmanager_secret_version" "secret_for_aws_sft_hub_cidr" {
-  secret_id = data.aws_secretsmanager_secret.secret_for_aws_sft_hub_cidr.id
-}
-
 provider "aws" {
   region  = var.region
 

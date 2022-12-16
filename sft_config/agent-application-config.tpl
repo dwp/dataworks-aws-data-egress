@@ -10,7 +10,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/DA/Dataworks_UCFS_data"
+            destination: "https://${oph_destination_url}:8091/DA/Dataworks_UCFS_data"
       deleteOnSend: true
       errorFolder: /data-egress/error/warehouse
       filenameRegex: .*
@@ -23,7 +23,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/DA/Dataworks_UCFS_tactical"
+            destination: "https://${oph_destination_url}:8091/DA/Dataworks_UCFS_tactical"
       deleteOnSend: true
       errorFolder: /data-egress/error/sas
       filenameRegex: .*
@@ -36,7 +36,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/DSP/Dataworks_UCFS_data"
+            destination: "https://${oph_destination_url}:8091/DSP/Dataworks_UCFS_data"
       deleteOnSend: true
       errorFolder: /data-egress/error/RIS
       filenameRegex: .*
@@ -49,7 +49,7 @@ sender:
         - 
           name: httpRequest
           properties: 
-            destination: "https://${destination_url}:8091/DA"
+            destination: "https://${oph_destination_url}:8091/DA"
       deleteOnSend: true
       errorFolder: /data-egress/error/test
       filenameRegex: .*
@@ -57,3 +57,17 @@ sender:
       name: startupTest
       source: /data-egress/test/
       threadPoolSize: 3
+
+    - name: internal/GFTS/inbound/Test
+      source: /data-egress/awstest
+      actions:
+        - name: renameFile
+          properties:
+              rename_regex: (.+)
+              rename_replacement: AWS_$1
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+      errorFolder: /data-egress/error/awstest
+      deleteOnSend: true
+      filenameRegex: .*
