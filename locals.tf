@@ -194,7 +194,7 @@ locals {
     qa             = ""
     integration    = ""
     management-dev = ""
-    preprod        = ""
+    preprod        = "true"
     production     = "true"
     management     = ""
   }
