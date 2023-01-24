@@ -58,7 +58,7 @@ sender:
       source: /data-egress/test/
       threadPoolSize: 3
 
-    - name: internal/GFTS/inbound/Test
+    - name: internal/DA/inbound/Test
       source: /data-egress/awstest
       actions:
         - name: renameFile
