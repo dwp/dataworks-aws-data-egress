@@ -37,7 +37,7 @@ locals {
     development = "True"
     qa          = "True"
     integration = "True"
-    preprod     = "False"
+    preprod     = "True"
     production  = "False"
   }
 
