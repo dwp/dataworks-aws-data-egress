@@ -93,7 +93,7 @@ locals {
     development = "agent-config.tpl"
     qa          = "agent-config.tpl"
     integration = "agent-config.tpl"
-    preprod     = "agent-config.tpl"
+    preprod     = "agent-config-with-tls.tpl"
     production  = "agent-config-with-tls.tpl"
   }
 
