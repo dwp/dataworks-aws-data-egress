@@ -35,7 +35,7 @@
               python bootstrap_terraform.py
               sed -i '/^assume_role/ d' terraform.tfvars
               if [ "${TEST_AMI_RUN:-false}" == "true" ]; then
-                sed -i '/^ecs_hardened_ami_id/ d' terraform.tfvars
+                sed -i '/^dw_al2_ecs_ami_id/ d' terraform.tfvars
               fi
               cp terraform.tf ../terraform-bootstrap
               cp terraform.tfvars ../terraform-bootstrap
@@ -60,7 +60,7 @@
               if [ -f ../previous_success/exit-if-succeeded.sh ]; then
                 source ../previous_success/exit-if-succeeded.sh
               fi
-              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
+              export TF_VAR_dw_al2_ecs_ami_id=$(cat ../dw-al2-ecs-ami/id)
               terraform workspace show
               cp ../terraform-bootstrap/terraform.tf .
               terraform init
@@ -86,7 +86,7 @@
               if [ -f ../previous_success/exit-if-succeeded.sh ]; then
                 source ../previous_success/exit-if-succeeded.sh
               fi
-              export TF_VAR_ecs_hardened_ami_id=$(cat ../dw-al2-ecs-ami/id)
+              export TF_VAR_dw_al2_ecs_ami_id=$(cat ../dw-al2-ecs-ami/id)
               cp ../terraform-bootstrap/terraform.tf .
               terraform workspace show
               terraform init

@@ -1,6 +1,16 @@
 #!/bin/bash
 echo ECS_CLUSTER=${cluster_name} >> /etc/ecs/ecs.config
 echo ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config
+
+# extend relevant vga
+# for /var/lib/docker
+lvextend -l 50%FREE /dev/rootvg/varvol
+xfs_growfs /dev/mapper/rootvg-varvol
+
+# root vol
+lvextend -l 100%FREE /dev/rootvg/rootvol
+xfs_growfs /dev/mapper/rootvg-rootvol
+
 mkdir ${folder}
 /usr/bin/s3fs -o iam_role=${instance_role} -o url=https://s3-${region}.amazonaws.com -o endpoint=${region} -o dbglevel=info -o curldbg -o allow_other -o use_cache=/tmp -o umask=0007,uid=65534,gid=65533 ${mnt_bucket} ${folder}
 

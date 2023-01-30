@@ -93,7 +93,7 @@ resource "aws_autoscaling_group" "data_egress_server" {
 
 resource "aws_launch_template" "data_egress_server" {
   name          = local.data_egress_friendly_name
-  image_id      = var.ecs_hardened_ami_id
+  image_id      = var.dw_al2_ecs_ami_id
   instance_type = var.data_egress_server_ec2_instance_type[local.environment]
   network_interfaces {
     associate_public_ip_address = false
@@ -118,7 +118,7 @@ resource "aws_launch_template" "data_egress_server" {
   }
 
   block_device_mappings {
-    device_name = "/dev/xvda"
+    device_name = "/dev/sda1"
 
     ebs {
       volume_size           = var.data_egress_server_ebs_volume_size[local.environment]
