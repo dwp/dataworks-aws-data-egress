@@ -38,6 +38,11 @@ jobs:
             TEST_AMI_RUN: true
           inputs:
             - name: previous_success
+      - .: (( inject meta.plan.cycle-containers ))
+        params:
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+          CLUSTER: data-egress
+          SERVICE: data-egress
       - .: (( inject meta.plan.e2e-tests))
         config:
           params:
@@ -56,6 +61,30 @@ jobs:
               config:
                 params:
                   RESULT: FAILED
+            - get: dw-al2-ecs-ami-restored
+              resource: dw-al2-ecs-ami
+              trigger: false
+            - .: (( inject meta.plan.terraform-bootstrap ))
+              config:
+                params:
+                  AWS_ACC: ((aws_account.qa))
+            - .: (( inject meta.plan.terraform-apply ))
+              config:
+                params:
+                  TF_WORKSPACE: qa
+              input_mapping:
+                dw-al2-ecs-ami: dw-al2-ecs-ami-restored
+            - .: (( inject meta.plan.terraform-plan ))
+              config:
+                params:
+                  TF_WORKSPACE: qa
+              input_mapping:
+                dw-al2-ecs-ami: dw-al2-ecs-ami-restored
+            - .: (( inject meta.plan.cycle-containers ))
+              params:
+                AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+                CLUSTER: data-egress
+                SERVICE: data-egress
         on_success:
           do:
             - .: (( inject meta.plan.ami-test-results ))
