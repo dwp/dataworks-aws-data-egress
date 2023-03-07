@@ -61,13 +61,11 @@ sender:
     - name: internal/DA/inbound/Test
       source: /data-egress/awstest/
       actions:
-        - name: renameFile
-          properties:
-              rename_regex: (.+)
-              rename_replacement: AWS_$1
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
       errorFolder: /data-egress/error/awstest
       deleteOnSend: true
       filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
