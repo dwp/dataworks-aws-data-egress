@@ -58,7 +58,7 @@ sender:
       source: /data-egress/test/
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Test
+    - name: internal/DA/inbound/Test2
       source: /data-egress/awstest/
       actions:
         - name: httpRequest
