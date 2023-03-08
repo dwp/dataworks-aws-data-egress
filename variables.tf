@@ -133,7 +133,7 @@ variable "sft_agent_image_version" {
     development = "0.0.42"
     qa          = "0.0.42"
     integration = "0.0.42"
-    preprod     = "0.0.43"
+    preprod     = "0.0.44"
     production  = "0.0.42"
 
   }
