@@ -953,7 +953,7 @@ resource "aws_dynamodb_table_item" "ers_weekly_summary_all_data_egress_config" {
   ITEM
 }
 
-resource "aws_dynamodb_table_item" "ers_weekly_summary_data_egress_config" {
+resource "aws_dynamodb_table_item" "ers_ecs_weekly_summary_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
   range_key  = aws_dynamodb_table.data_egress.range_key
