@@ -66,14 +66,6 @@ data "template_file" "data_egress_definition" {
         value = local.truststore_certs[local.environment]
       },
       {
-        name  = "keystore_aliases",
-        value = local.keystore_aliases[local.environment]
-      },
-      {
-        name  = "keystore_certs",
-        value = local.keystore_certs[local.environment]
-      },
-      {
         name  = "private_key_alias",
         value = "data_egress"
       },
