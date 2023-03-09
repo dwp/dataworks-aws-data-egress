@@ -46,7 +46,7 @@ variable "dw_al2_ecs_ami_id" {
 variable "truststore_aliases" {
   description = "comma seperated truststore aliases"
   type        = list(string)
-  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2"]
+  default     = ["dataworks_root_ca", "dataworks_mgt_root_ca", "sdx1", "sdx2", "aws_sft_hub_signed"]
 }
 variable "fargate_cpu" {
   type = map(string)
