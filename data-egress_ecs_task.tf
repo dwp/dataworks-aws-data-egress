@@ -181,6 +181,10 @@ data "template_file" "sft_agent_definition" {
         value = local.sft_test_dir[local.environment]
       },
       {
+        name  = "ssl_debug",
+        value = local.ssl_debug[local.environment]
+      },
+      {
         name  = "CONFIGURE_SSL",
         value = local.configure_ssl[local.environment]
       },
