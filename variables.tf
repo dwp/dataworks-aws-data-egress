@@ -54,6 +54,7 @@ variable "keystore_aliases" {
   type        = list(string)
   default     = ["aws_sft_hub_signed"]
 }
+
 variable "fargate_cpu" {
   type = map(string)
   default = {
@@ -139,7 +140,7 @@ variable "sft_agent_image_version" {
     development = "0.0.42"
     qa          = "0.0.42"
     integration = "0.0.42"
-    preprod     = "0.0.45"
+    preprod     = "0.0.46"
     production  = "0.0.42"
 
   }
