@@ -200,8 +200,8 @@ locals {
     qa             = "ssl"
     integration    = "ssl"
     management-dev = "ssl"
-    preprod        = "all"
-    production     = "all"
+    preprod        = "ssl"
+    production     = "ssl"
     management     = "ssl"
   }
 
