@@ -3,6 +3,9 @@ httpClient:
   connectionTimeout: 20000ms
   connectionRequestTimeout: 20000ms
   tls:
+    validateCerts: false
+    validatePeers: false
+    needClientAuth: true
     verifyHostname: false
     keyStorePath: KEY_STORE_PATH
     keyStorePassword: KEYSTORE_PASSWORD
