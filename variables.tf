@@ -55,11 +55,6 @@ variable "keystore_aliases" {
   default     = ["aws_sft_hub_signed"]
 }
 
-variable "keystore_aliases" {
-  description = "comma seperated keystore aliases"
-  type        = list(string)
-  default     = ["aws_sft_hub_signed"]
-}
 variable "fargate_cpu" {
   type = map(string)
   default = {
