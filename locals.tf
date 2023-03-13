@@ -148,7 +148,7 @@ locals {
     qa          = "dataworks_root_ca,dataworks_mgt_root_ca"
     integration = "dataworks_root_ca,dataworks_mgt_root_ca"
     preprod     = "dataworks_root_ca,dataworks_mgt_root_ca,sdx1,sdx2,sft_hub_root_ca"
-    production  = "dataworks_root_ca,dataworks_mgt_root_ca,sdx1,sdx2,"
+    production  = "dataworks_root_ca,dataworks_mgt_root_ca,sdx1,sdx2"
   }
 
   truststore_certs = {
