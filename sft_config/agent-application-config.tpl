@@ -58,12 +58,12 @@ sender:
       source: /data-egress/test/
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Test2
+    - name: internal/DandARed/inbound/Test
       source: /data-egress/awstest/
       actions:
         - name: httpRequest
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+            destination: "https://${aws_destination_url}:8091/internal/DandARed/inbound/Test"
       errorFolder: /data-egress/error/awstest
       deleteOnSend: true
       filenameRegex: .*
