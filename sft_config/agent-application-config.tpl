@@ -5,57 +5,53 @@ sender:
     maximumRedeliveryDelay: 3600000
     redeliveryDelay: 600000
   routes: 
-    - 
-      actions:
-        - 
-          name: httpRequest
-          properties: 
-            destination: "https://${oph_destination_url}:8091/DA/Dataworks_UCFS_data"
-      deleteOnSend: true
-      errorFolder: /data-egress/error/warehouse
-      filenameRegex: .*
-      maxThreadPoolSize: 3
-      name: DA/Dataworks_UCFS_data
-      source: /data-egress/warehouse/
-      threadPoolSize: 3
-    - 
-      actions:
-        - 
-          name: httpRequest
-          properties: 
-            destination: "https://${oph_destination_url}:8091/DA/Dataworks_UCFS_tactical"
-      deleteOnSend: true
-      errorFolder: /data-egress/error/sas
-      filenameRegex: .*
-      maxThreadPoolSize: 3
-      name: DA/Dataworks_UCFS_tactical
-      source: /data-egress/sas/
-      threadPoolSize: 3
-    - 
-      actions:
-        - 
-          name: httpRequest
-          properties: 
-            destination: "https://${oph_destination_url}:8091/DSP/Dataworks_UCFS_data"
-      deleteOnSend: true
-      errorFolder: /data-egress/error/RIS
-      filenameRegex: .*
-      maxThreadPoolSize: 3
-      name: DSP/Dataworks_UCFS_data
+  
+    - name: internal/DSPRIS/inbound/Dataworks/UCFS/data
       source: /data-egress/RIS/
-      threadPoolSize: 3
-    - 
       actions:
-        - 
-          name: httpRequest
-          properties: 
-            destination: "https://${oph_destination_url}:8091/DA"
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DSPRIS/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/RIS
       deleteOnSend: true
-      errorFolder: /data-egress/error/test
       filenameRegex: .*
       maxThreadPoolSize: 3
-      name: startupTest
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/Dataworks_UCFS_Tactical
+      source: /data-egress/sas/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Dataworks/UCFS/tactical"
+      errorFolder: /data-egress/error/sas
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/Dataworks/UCFS/data
+      source: /data-egress/warehouse/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/warehouse
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: startupTest
       source: /data-egress/test/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DandARed/inbound/Test"
+      errorFolder: /data-egress/error/test
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
       threadPoolSize: 3
 
     - name: internal/DandARed/inbound/Test
