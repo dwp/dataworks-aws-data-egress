@@ -149,6 +149,14 @@ data "template_file" "sft_agent_definition" {
         value = local.truststore_certs[local.environment]
       },
       {
+        name  = "keystore_aliases",
+        value = local.keystore_aliases[local.environment]
+      },
+      {
+        name  = "keystore_certs",
+        value = local.keystore_certs[local.environment]
+      },
+      {
         name  = "private_key_alias",
         value = "data_egress"
       },
@@ -171,6 +179,10 @@ data "template_file" "sft_agent_definition" {
       {
         name  = "TEST_DIRECTORY",
         value = local.sft_test_dir[local.environment]
+      },
+      {
+        name  = "ssl_debug",
+        value = local.ssl_debug[local.environment]
       },
       {
         name  = "CONFIGURE_SSL",

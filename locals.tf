@@ -159,6 +159,22 @@ locals {
     production  = "s3://${local.env_certificate_bucket}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.mgmt_ca.outputs.public_cert_bucket.id}/ca_certificates/dataworks/dataworks_root_ca.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_1/sdx_mitm.pem,s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/service_2/sdx_mitm.pem"
   }
 
+  keystore_aliases = {
+    development = "aws_sft_hub_signed"
+    qa          = "aws_sft_hub_signed"
+    integration = "aws_sft_hub_signed"
+    preprod     = "aws_sft_hub_signed"
+    production  = "aws_sft_hub_signed"
+  }
+
+  keystore_certs = {
+    development = "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/aws_sft_hub/aws_sft_hub_signed.crt"
+    qa          = "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/aws_sft_hub/aws_sft_hub_signed.crt"
+    integration = "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/aws_sft_hub/aws_sft_hub_signed.crt"
+    preprod     = "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/aws_sft_hub/aws_sft_hub_signed.crt"
+    production  = "s3://${data.terraform_remote_state.certificate_authority.outputs.public_cert_bucket.id}/server_certificates/sdx/aws_sft_hub/aws_sft_hub_signed.crt"
+  }
+
   test_sft = {
     development    = "TRUE"
     qa             = "TRUE"
@@ -185,7 +201,7 @@ locals {
     integration    = "ssl"
     management-dev = "ssl"
     preprod        = "ssl"
-    production     = "all"
+    production     = "ssl"
     management     = "ssl"
   }
 
