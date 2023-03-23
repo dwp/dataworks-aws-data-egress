@@ -47,7 +47,7 @@ sender:
       actions:
         - name: httpRequest
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/DandARed/inbound/Test"
+            destination: "https://${aws_destination_url}:8091/DA"
       errorFolder: /data-egress/error/test
       deleteOnSend: true
       filenameRegex: .*
