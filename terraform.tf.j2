@@ -27,6 +27,18 @@ locals {
   name        = "dataworks-aws-data-egress"
   environment = terraform.workspace == "default" ? "development" : terraform.workspace
 
+  # Configured as per Tagging doc requirements https://engineering.dwp.gov.uk/policies/hcs-cloud-hosting-policies/resource-identification-tagging/
+  # Also required as per Tenable documentation https://engineering.dwp.gov.uk/products/gold-images/agents/tenable/
+  hcs_environment = {
+    development    = "Dev"
+    qa             = "Test"
+    integration    = "Stage"
+    preprod        = "Stage"
+    production     = "Production"
+    management     = "SP_Tooling"
+    management-dev = "DT_Tooling"
+  }
+
   account = {
     {%- for key, value in accounts.items() %}
       {{key}} = "{{value}}"
@@ -34,23 +46,19 @@ locals {
   }
 
   tags = {
-  {% for key, value in common_tags.items() %}
-    {{key}} = "{{value}}"{% endfor %}
-    Name         = "dataworks-aws-data-egress"
-    Environment  = local.environment
-    Project      = "dataworks-aws-data-egress"
-    Application  = "dataworks-aws-data-egress"
-    Persistence  = "Ignore"
-    AutoShutdown = "False"
+    Name            = "dataworks-aws-data-egress"
+    DWX_Environment = local.environment
+    DWX_Application = "dataworks-aws-data-egress"
+    Persistence     = "Ignore"
+    AutoShutdown    = "False"
   }
 
   common_tags = {
     {%- for key, value in common_tags.items() %}
       {{key}} = "{{value}}"
     {%- endfor %}
-    Environment  = local.environment
-    Application  = local.name
-    Team         = "DataWorks"
+    DWX_Environment = local.environment
+    DWX_Application = local.name
   }
 
   cidr_block = {
@@ -260,6 +268,15 @@ data "aws_secretsmanager_secret_version" "secret_for_ris_collections" {
 
 provider "aws" {
   region  = var.region
+
+  default_tags {
+    tags = {
+      Application      = "DataWorks"                              # As per our definition on ServiceNow
+      Function         = "Data and Analytics"                     # As per our definition on ServiceNow
+      Environment      = local.hcs_environment[local.environment] # Set up locals as per Tagging doc requirements https://engineering.dwp.gov.uk/policies/hcs-cloud-hosting-policies/resource-identification-tagging/
+      Business-Project = "PRJ0022507"                             # This seems to replace costcode as per the doc https://engineering.dwp.gov.uk/policies/hcs-cloud-hosting-policies/resource-identification-tagging/
+    }
+  }
 
   assume_role {
     role_arn = "arn:aws:iam::${lookup(local.account, local.environment)}:role/${var.assume_role}"
