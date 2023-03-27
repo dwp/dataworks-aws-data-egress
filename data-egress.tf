@@ -2080,7 +2080,7 @@ data "local_file" "data_egress_server_logrotate_script" {
   filename = "files/data_egress_server.logrotate"
 }
 
-resource "aws_s3_bucket_object" "data_egress_server_logrotate_script" {
+resource "aws_s3_object" "data_egress_server_logrotate_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/data-egress-server/data-egress-server.logrotate"
   content = data.local_file.data_egress_server_logrotate_script.content
@@ -2097,7 +2097,7 @@ data "local_file" "data_egress_server_cloudwatch_script" {
   filename = "files/data_egress_server_cloudwatch.sh"
 }
 
-resource "aws_s3_bucket_object" "data_egress_server_cloudwatch_script" {
+resource "aws_s3_object" "data_egress_server_cloudwatch_script" {
   bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
   key     = "component/data-egress-server/data-egress-server-cloudwatch.sh"
   content = data.local_file.data_egress_server_cloudwatch_script.content
