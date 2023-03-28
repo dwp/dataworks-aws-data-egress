@@ -65,3 +65,19 @@ sender:
       filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
+
+    - name: internal/DA/inbound/Test
+      source: /data-egress/pptest/
+      actions:
+        - name: renameFile
+          properties:
+          rename_regex: (.+)
+          rename_replacement: TEST_$1
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+      errorFolder: /data-egress/error/pptest
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
