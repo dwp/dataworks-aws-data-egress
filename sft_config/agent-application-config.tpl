@@ -71,8 +71,8 @@ sender:
       actions:
         - name: renameFile
           properties:
-          rename_regex: (.+)
-          rename_replacement: TEST_$1
+            rename_regex: (.+)
+            rename_replacement: TEST_$1
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
