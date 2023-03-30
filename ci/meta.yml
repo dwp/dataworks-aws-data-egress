@@ -396,12 +396,12 @@
                   instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
                   instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
                   if [[ $instance_count -eq $desired_capacity ]]; then
-                    echo "ASG instances replaced and associated with ECS Cluster, Exiting with success..."
+                    echo "ASG instances replaced and associated with ECS Cluster..."
                     exit 0
                   fi;
                   let "count+=1"
                 done;
-              echo "Cluster was unable to start desired instances in expected timeframe possibly due to updated ami, Exiting with error..."
+              echo "Cluster was unable to start desired instances in expected timeframe possibly due to updated ami..."
               exit 1
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
