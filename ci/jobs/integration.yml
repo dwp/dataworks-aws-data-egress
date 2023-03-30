@@ -17,6 +17,7 @@ jobs:
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: 'integration'
+    .: (( inject meta.plan.notify ))
 
   - name: cycle-data-egress-integration
     plan:
@@ -25,3 +26,4 @@ jobs:
           AWS_ROLE_ARN: arn:aws:iam::((aws_account.integration)):role/ci
           CLUSTER: data-egress
           SERVICE: data-egress
+    .: (( inject meta.plan.notify ))

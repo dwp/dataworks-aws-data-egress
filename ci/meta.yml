@@ -378,7 +378,10 @@
               source /assume-role
               set +x
 
+              AMI_ID=$(cat dw-al2-ecs-ami/id)
+
               instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$INSTANCE_PREFIX-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+              echo "Terminating $ASG_NAME instances in $TF_WORKSPACE..."
 
               for instance_id in $instance_ids;
                 do
@@ -396,17 +399,66 @@
                   instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$INSTANCE_PREFIX-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
                   instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
                   if [[ $instance_count -eq $desired_capacity ]]; then
-                    echo "$ASG_NAME instances replaced and associated with ECS Cluster..."
+                    echo "$ASG_NAME instances replaced in $TF_WORKSPACE using $AMI_ID and associated with ECS Cluster..."
                     exit 0
                   fi;
                   let "count+=1"
                 done;
-              echo "Cluster was unable to start desired instances in expected timeframe possibly due to updated ami..."
+              echo "$ASG_NAME was unable to start desired instances $TF_WORKSPACE within expected timeframe with $AMI_ID"
               exit 1
-      params:
-        AWS_DEFAULT_REGION: ((dataworks.aws_region))
-        AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
-        ASG_NAME: data-egress-cluster
-        INSTANCE_PREFIX: data-egress
-        SLEEP_TIME: 60
-        MAX_RETRIES: 10
+        params:
+          AWS_DEFAULT_REGION: ((dataworks.aws_region))
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+          ASG_NAME: data-egress-cluster
+          INSTANCE_PREFIX: data-egress
+          SLEEP_TIME: 60
+          MAX_RETRIES: 10
+        inputs:
+          - name: dw-al2-ecs-ami
+    notify:
+      on_success:
+        put: slack
+        attempts: 1
+        params:
+          channel: "#dataworks-concourse-notifications"
+          icon_emoji: ":concourse-green:"
+          attachments:
+            - color: "#27bd06"
+              text: |
+                The <https://ci.dataworks.dwp.gov.uk/builds/$BUILD_ID|$BUILD_JOB_NAME> stage for <https://ci.dataworks.dwp.gov.uk/teams/dataworks/pipelines/$BUILD_PIPELINE_NAME|*$BUILD_PIPELINE_NAME*> has completed successfully.
+              attachment_type: "default"
+      on_failure:
+        put: slack
+        attempts: 1
+        params:
+          channel: "#dataworks-concourse-notifications"
+          icon_emoji: ":concourse-red:"
+          attachments:
+            - color: "#ed0707"
+              text: |
+                The <https://ci.dataworks.dwp.gov.uk/builds/$BUILD_ID|$BUILD_JOB_NAME> stage for <https://ci.dataworks.dwp.gov.uk/teams/dataworks/pipelines/$BUILD_PIPELINE_NAME|*$BUILD_PIPELINE_NAME*> has failed.
+              attachment_type: "default"
+      on_error:
+        put: slack
+        attempts: 1
+        params:
+          channel: "#dataworks-concourse-notifications"
+          icon_emoji: ":concourse-red:"
+          attachments:
+            - color: "#eff702"
+              text: |
+                The <https://ci.dataworks.dwp.gov.uk/builds/$BUILD_ID|$BUILD_JOB_NAME> stage for <https://ci.dataworks.dwp.gov.uk/teams/dataworks/pipelines/$BUILD_PIPELINE_NAME|*$BUILD_PIPELINE_NAME*> has errored.
+              attachment_type: "default"
+      on_abort:
+        put: slack
+        attempts: 1
+        params:
+          channel: "#dataworks-concourse-notifications"
+          icon_emoji: ":concourse:"
+          attachments:
+            - color: "#472102"
+              text: |
+                The <https://ci.dataworks.dwp.gov.uk/builds/$BUILD_ID|$BUILD_JOB_NAME> stage for <https://ci.dataworks.dwp.gov.uk/teams/dataworks/pipelines/$BUILD_PIPELINE_NAME|*$BUILD_PIPELINE_NAME*> has been aborted.
+              attachment_type: "default"
+
+

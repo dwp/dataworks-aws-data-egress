@@ -28,6 +28,7 @@ jobs:
           TF_WORKSPACE: qa
           AWS_ACC: ((aws_account.qa))
           AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
+    .: (( inject meta.plan.notify ))
 
   - name: cycle-data-egress-qa
     plan:
@@ -36,4 +37,5 @@ jobs:
           AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
           CLUSTER: data-egress
           SERVICE: data-egress
+    .: (( inject meta.plan.notify ))
 
