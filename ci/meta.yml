@@ -358,54 +358,54 @@
           - name: meta
           - name: untested_ami
 
-    terminate-ecs-instances-pre-e2e:
-      task: terminate-ecs-instances-pre-e2e
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: ((dataworks.docker_awscli_repository))
-            version: ((dataworks.docker_awscli_version))
-            tag: ((dataworks.docker_awscli_version))
-        run:
-          path: sh
-          args:
-            - -exc
-            - |
+    # terminate-ecs-instances-pre-e2e:
+    #   task: terminate-ecs-instances-pre-e2e
+    #   config:
+    #     platform: linux
+    #     image_resource:
+    #       type: docker-image
+    #       source:
+    #         repository: ((dataworks.docker_awscli_repository))
+    #         version: ((dataworks.docker_awscli_version))
+    #         tag: ((dataworks.docker_awscli_version))
+    #     run:
+    #       path: sh
+    #       args:
+    #         - -exc
+    #         - |
 
-              export AWS_DEFAULT_REGION
-              source /assume-role
-              set +x
+    #           export AWS_DEFAULT_REGION
+    #           source /assume-role
+    #           set +x
 
-              instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+    #           instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
 
-              for instance_id in $instance_ids;
-                do
-                  aws ec2 terminate-instances --instance-ids "$instance_id"
-                done;
+    #           for instance_id in $instance_ids;
+    #             do
+    #               aws ec2 terminate-instances --instance-ids "$instance_id"
+    #             done;
 
-              desired_capacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name "$ASG_NAME" | jq -r '.AutoScalingGroups[0].DesiredCapacity')
+    #           desired_capacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name "$ASG_NAME" | jq -r '.AutoScalingGroups[0].DesiredCapacity')
 
-              count=0
-              max_retries="$MAX_RETRIES"
+    #           count=0
+    #           max_retries="$MAX_RETRIES"
 
-              while [ "$count" -lt "$max_retries" ]
-                do
-                  sleep "$SLEEP_TIME"
-                  instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
-                  instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
-                  if [[ $instance_count -eq $desired_capacity ]]; then
-                    echo "ASG instances replaced and associated with ECS Cluster, Exiting with success..."
-                    exit 0
-                  fi;
-                  let "count+=1"
-                done;
-              echo "Cluster was unable to start desired instances in expected timeframe possibly due to updated ami, Exiting with error..."
-              exit 1
-      params:
-        AWS_DEFAULT_REGION: ((dataworks.aws_region))
-        AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
-        ASG_NAME: data-egress-cluster
-        SLEEP_TIME: 60
-        MAX_RETRIES: 10
+    #           while [ "$count" -lt "$max_retries" ]
+    #             do
+    #               sleep "$SLEEP_TIME"
+    #               instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=data-egress-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
+    #               instance_count=$(echo $instance_ids | tr ' ' '\n' | wc -l)
+    #               if [[ $instance_count -eq $desired_capacity ]]; then
+    #                 echo "ASG instances replaced and associated with ECS Cluster, Exiting with success..."
+    #                 exit 0
+    #               fi;
+    #               let "count+=1"
+    #             done;
+    #           echo "Cluster was unable to start desired instances in expected timeframe possibly due to updated ami, Exiting with error..."
+    #           exit 1
+    #   params:
+    #     AWS_DEFAULT_REGION: ((dataworks.aws_region))
+    #     AWS_ROLE_ARN: arn:aws:iam::((aws_account.development)):role/ci
+    #     ASG_NAME: data-egress-cluster
+    #     SLEEP_TIME: 60
+    #     MAX_RETRIES: 10
