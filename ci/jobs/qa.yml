@@ -18,6 +18,11 @@ jobs:
       - .: (( inject meta.plan.terraform-plan ))
         params:
           TF_WORKSPACE: qa
+      - .: (( inject meta.plan.terminate-ecs-instances-pre-e2e ))
+        params:
+          TF_WORKSPACE: qa
+          AWS_ACC: ((aws_account.qa))
+          AWS_ROLE_ARN: arn:aws:iam::((aws_account.qa)):role/ci
       - .: (( inject meta.plan.e2e-tests))
         params:
           TF_WORKSPACE: qa
