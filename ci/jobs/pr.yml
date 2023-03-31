@@ -29,3 +29,4 @@ jobs:
           params:
             path: dataworks-aws-data-egress-pr
             status: success
+    .: (( inject meta.plan.notify ))
