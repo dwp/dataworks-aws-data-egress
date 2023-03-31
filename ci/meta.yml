@@ -404,7 +404,7 @@
                   fi;
                   let "count+=1"
                 done;
-              echo "$ASG_NAME was unable to start desired instances $TF_WORKSPACE within expected timeframe with $AMI_ID"
+              echo "$ASG_NAME was unable to start desired instances in $TF_WORKSPACE within expected timeframe using $AMI_ID"
               exit 1
         params:
           AWS_DEFAULT_REGION: ((dataworks.aws_region))
