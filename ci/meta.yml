@@ -383,10 +383,15 @@
               instance_ids=$(aws ec2 describe-instances --filters Name=tag:Name,Values=$INSTANCE_PREFIX-* Name=instance-state-name,Values=running | jq -r '.Reservations[].Instances[].InstanceId')
               echo "Terminating $ASG_NAME instances in $TF_WORKSPACE..."
 
-              for instance_id in $instance_ids;
-                do
-                  aws ec2 terminate-instances --instance-ids "$instance_id"
-                done;
+              if [ ! -z "$instance_ids" ]; then
+                for instance_id in $instance_ids;
+                  do
+                    aws ec2 terminate-instances --instance-ids "$instance_id"
+                  done;
+              else    
+                echo "No $ASG_NAME instances found for termination.  Continuing..."
+                exit 0
+              fi;
 
               desired_capacity=$(aws autoscaling describe-auto-scaling-groups --auto-scaling-group-name "$ASG_NAME" | jq -r '.AutoScalingGroups[0].DesiredCapacity')
 
