@@ -17,6 +17,10 @@ httpClient:
       TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
       TLS_RSA_WITH_AES_256_GCM_SHA384,
       TLS_RSA_WITH_AES_128_GCM_SHA256]
+readLock:
+  checkInterval: 20000
+  timeout: 60000
+  minAge: 20000
 logging:
   appenders:
     - type: console
