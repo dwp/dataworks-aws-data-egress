@@ -2109,3 +2109,37 @@ resource "aws_s3_object" "data_egress_server_cloudwatch_script" {
     },
   )
 }
+
+data "local_file" "data_egress_server_logging_script" {
+  filename = "files/logging.sh"
+}
+
+resource "aws_s3_object" "data_egress_server_logging_script" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/data-egress-server/data-egress-server-logging.sh"
+  content = data.local_file.data_egress_server_logging_script.content
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "data-egress-server-logging-script"
+    },
+  )
+}
+
+data "local_file" "data_egress_server_config_hcs_script" {
+  filename = "files/config_hcs.sh"
+}
+
+resource "aws_s3_object" "data_egress_server_config_hcs_script" {
+  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
+  key     = "component/data-egress-server/data-egress-server-config-hcs.sh"
+  content = data.local_file.data_egress_server_config_hcs_script.content
+
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "data-egress-server-config-hcs-script"
+    },
+  )
+}

@@ -173,3 +173,9 @@ variable "task_definition_cpu" {
     production  = "4096"
   }
 }
+
+variable "proxy_port" {
+  description = "proxy port"
+  type        = string
+  default     = "3128"
+}
