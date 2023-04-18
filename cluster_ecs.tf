@@ -118,7 +118,7 @@ resource "aws_launch_template" "data_egress_server" {
     s3_script_logging_shell                          = aws_s3_bucket_object.data_egress_server_logging_script.id
     s3_script_config_hcs_shell                       = aws_s3_bucket_object.data_egress_server_config_hcs_script.id
     cwa_namespace                                    = local.cw_data_egress_server_agent_namespace
-    cwa_log_group_name                               = ${local.cw_data_egress_server_agent_namespace}-${local.environment}
+    cwa_log_group_name                               = "${local.cw_data_egress_server_agent_namespace}-${local.environment}"
     cwa_metrics_collection_interval                  = local.cw_agent_metrics_collection_interval
     cwa_cpu_metrics_collection_interval              = local.cw_agent_cpu_metrics_collection_interval
     cwa_disk_measurement_metrics_collection_interval = local.cw_agent_disk_measurement_metrics_collection_interval
