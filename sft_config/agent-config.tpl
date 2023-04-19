@@ -2,6 +2,10 @@ httpClient:
   timeout: 3600000ms
   connectionTimeout: 20000ms
   connectionRequestTimeout: 20000ms
+readLock:
+  checkInterval: 20000
+  timeout: 60000
+  minAge: 20000
 logging:
   appenders:
     - type: console
