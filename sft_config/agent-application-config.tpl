@@ -18,24 +18,24 @@ sender:
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Dataworks_UCFS_Tactical
+    - name: internal/DandARed/inbound/Dataworks/UCFS/tactical
       source: /data-egress/sas/
       actions:
         - name: httpRequest
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Dataworks/UCFS/tactical"
+            destination: "https://${aws_destination_url}:8091/internal/DandARed/inbound/Dataworks/UCFS/tactical"
       errorFolder: /data-egress/error/sas
       deleteOnSend: true
       filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Dataworks/UCFS/data
+    - name: internal/DandARed/inbound/Dataworks/UCFS/data
       source: /data-egress/warehouse/
       actions:
         - name: httpRequest
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Dataworks/UCFS/data"
+            destination: "https://${aws_destination_url}:8091/internal/DandARed/inbound/Dataworks/UCFS/data"
       errorFolder: /data-egress/error/warehouse
       deleteOnSend: true
       filenameRegex: .*
