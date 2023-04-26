@@ -156,6 +156,7 @@
               for TASK_ID in $TASK_IDS; do
                 aws ecs stop-task --cluster $CLUSTER --task $TASK_ID
               done
+              sleep 60
       params:
         AWS_DEFAULT_REGION: ((dataworks.aws_region))
 
