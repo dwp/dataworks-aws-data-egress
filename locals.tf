@@ -87,6 +87,8 @@ locals {
     production  = false
   }
 
+  config_bucket_arn = data.terraform_remote_state.common.outputs.config_bucket["arn"]
+
   config_file = "agent-application-config.tpl"
 
   agent_config_file = {
