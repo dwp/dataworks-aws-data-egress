@@ -143,7 +143,7 @@ data "aws_iam_policy_document" "data_egress_server_s3_policy" {
     ]
 
     resources = [
-      local.config_bucket_arn
+      local.config_bucket_cmk
     ]
   }
 
