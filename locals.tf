@@ -89,7 +89,7 @@ locals {
 
   use_data_ingress = {
     development = true
-    qa          = false
+    qa          = true
     integration = true
     preprod     = false
     production  = false
