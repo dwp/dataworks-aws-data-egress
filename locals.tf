@@ -87,6 +87,14 @@ locals {
     production  = false
   }
 
+  use_data_ingress = {
+    development = true
+    qa          = false
+    integration = true
+    preprod     = false
+    production  = false
+  }
+
   config_bucket_arn = data.terraform_remote_state.common.outputs.config_bucket["arn"]
 
   config_file = "agent-application-config.tpl"

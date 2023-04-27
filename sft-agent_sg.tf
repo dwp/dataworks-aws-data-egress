@@ -73,3 +73,14 @@ resource "aws_security_group_rule" "stub_nifi_lb_from_sft" {
   security_group_id        = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_lb_sg_id
   source_security_group_id = aws_security_group.sft_agent_service.id
 }
+
+resource "aws_security_group_rule" "sft_agent_service_to_data_ingress_sft" {
+  count                    = local.use_data_ingress[local.environment] ? 1 : 0
+  description              = "Allow outbount requests to data ingress Sft agent"
+  type                     = "ingress"
+  from_port                = var.sft_agent_port
+  to_port                  = var.sft_agent_port
+  protocol                 = "tcp"
+  security_group_id        = data.terraform_remote_state.snapshot_sender.outputs.stub_nifi_lb_sg_id
+  source_security_group_id = aws_security_group.sft_agent_service.id
+}
