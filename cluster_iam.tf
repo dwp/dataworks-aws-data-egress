@@ -94,3 +94,43 @@ data "aws_iam_policy_document" "data_egress_server_tagging_policy" {
     ]
   }
 }
+
+resource "aws_iam_role_policy_attachment" "data_egress_s3_attachment" {
+  role       = aws_iam_role.data_egress_server.name
+  policy_arn = aws_iam_policy.data_egress_server_s3.arn
+}
+
+resource "aws_iam_policy" "data_egress_server_s3" {
+  name        = "DataEgressS3ConfigAccess"
+  description = "Allow Data Egress to access config bucket"
+  policy      = data.aws_iam_policy_document.data_egress_server_s3_policy.json
+}
+
+data "aws_iam_policy_document" "data_egress_server_s3_policy" {
+  statement {
+    sid    = "AllowECSToListConfigBucket"
+    effect = "Allow"
+
+    actions = [
+      "s3:GetBucketLocation",
+      "s3:ListBucket",
+    ]
+
+    resources = [
+      local.config_bucket_arn
+    ]
+  }
+
+  statement {
+    sid    = "AllowECSToGetConfigBucketObjects"
+    effect = "Allow"
+
+    actions = [
+      "s3:GetObject*",
+    ]
+
+    resources = [
+      "${local.config_bucket_arn}/*"
+    ]
+  }
+}
