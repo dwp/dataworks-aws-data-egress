@@ -96,6 +96,8 @@ locals {
   }
 
   config_bucket_arn = data.terraform_remote_state.common.outputs.config_bucket["arn"]
+  config_bucket_cmk = data.terraform_remote_state.common.outputs.config_bucket_cmk["arn"]
+
 
   config_file = "agent-application-config.tpl"
 
