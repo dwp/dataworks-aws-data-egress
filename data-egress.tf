@@ -2081,9 +2081,12 @@ data "local_file" "data_egress_server_logrotate_script" {
 }
 
 resource "aws_s3_object" "data_egress_server_logrotate_script" {
-  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/data-egress-server/data-egress-server.logrotate"
-  content = data.local_file.data_egress_server_logrotate_script.content
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  key        = "component/data-egress-server/data-egress-server.logrotate"
+  content    = data.local_file.data_egress_server_logrotate_script.content
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
+
+
 
   tags = merge(
     local.common_tags,
@@ -2098,9 +2101,10 @@ data "local_file" "data_egress_server_cloudwatch_script" {
 }
 
 resource "aws_s3_object" "data_egress_server_cloudwatch_script" {
-  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/data-egress-server/data-egress-server-cloudwatch.sh"
-  content = data.local_file.data_egress_server_cloudwatch_script.content
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  key        = "component/data-egress-server/data-egress-server-cloudwatch.sh"
+  content    = data.local_file.data_egress_server_cloudwatch_script.content
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
 
   tags = merge(
     local.common_tags,
@@ -2115,9 +2119,10 @@ data "local_file" "data_egress_server_logging_script" {
 }
 
 resource "aws_s3_object" "data_egress_server_logging_script" {
-  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/data-egress-server/data-egress-server-logging.sh"
-  content = data.local_file.data_egress_server_logging_script.content
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  key        = "component/data-egress-server/data-egress-server-logging.sh"
+  content    = data.local_file.data_egress_server_logging_script.content
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
 
   tags = merge(
     local.common_tags,
@@ -2132,9 +2137,10 @@ data "local_file" "data_egress_server_config_hcs_script" {
 }
 
 resource "aws_s3_object" "data_egress_server_config_hcs_script" {
-  bucket  = data.terraform_remote_state.common.outputs.config_bucket.id
-  key     = "component/data-egress-server/data-egress-server-config-hcs.sh"
-  content = data.local_file.data_egress_server_config_hcs_script.content
+  bucket     = data.terraform_remote_state.common.outputs.config_bucket.id
+  key        = "component/data-egress-server/data-egress-server-config-hcs.sh"
+  content    = data.local_file.data_egress_server_config_hcs_script.content
+  kms_key_id = data.terraform_remote_state.common.outputs.config_bucket_cmk.arn
 
   tags = merge(
     local.common_tags,
