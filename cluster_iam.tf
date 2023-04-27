@@ -134,6 +134,7 @@ data "aws_iam_policy_document" "data_egress_server_s3_policy" {
     ]
   }
 
+
   statement {
     effect = "Allow"
 
