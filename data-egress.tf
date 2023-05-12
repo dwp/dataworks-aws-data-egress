@@ -756,7 +756,7 @@ resource "aws_dynamodb_table_item" "ers_all_time_aggregation_data_egress_config"
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "pdmoutput/ucr/all_time_aggregation"},
+    "destination_prefix":           {"S":     "ucds/ucr/all_time_aggregation"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -777,7 +777,7 @@ resource "aws_dynamodb_table_item" "ers_daily_aggregation_data_egress_config" {
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "pdmoutput/ucr/daily_aggregation"},
+    "destination_prefix":           {"S":     "ucds/ucr/daily_aggregation"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -798,7 +798,7 @@ resource "aws_dynamodb_table_item" "ers_monthly_aggregation_data_egress_config" 
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "pdmoutput/ucr/monthly_aggregation"},
+    "destination_prefix":           {"S":     "ucds/ucr/monthly_aggregation"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
@@ -819,7 +819,7 @@ resource "aws_dynamodb_table_item" "ers_qa_checks_ucr_general_data_egress_config
     "transfer_type":                {"S":     "S3"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_bucket":           {"S":     "${local.oneservice[local.environment].bucket_name}"},
-    "destination_prefix":           {"S":     "pdmoutput/ucr/qa_checks"},
+    "destination_prefix":           {"S":     "ucds/ucr/qa_checks"},
     "decrypt":                      {"bool":   true},
     "rewrap_datakey":               {"bool":   false},
     "encrypting_key_ssm_parm_name": {"S":      ""}
