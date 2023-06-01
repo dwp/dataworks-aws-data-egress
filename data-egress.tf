@@ -162,6 +162,26 @@ resource "aws_dynamodb_table_item" "RIS_DSP_Manual_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "CRE_DSP_Manual_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "dataegress/CRE_Manual/*"},
+    "pipeline_name":                {"S":     "CRE_Manual"},
+    "recipient_name":               {"S":     "CRE"},
+    "transfer_type":                {"S":     "SFT"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":     "/data-egress/CRE"},
+    "decrypt":                      {"bool":   true},
+    "rewrap_datakey":               {"bool":   false},
+    "encrypting_key_ssm_parm_name": {"S":      ""}
+  }
+  ITEM
+}
+
 resource "aws_dynamodb_table_item" "oneservice_data_egress_config" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -1499,6 +1519,30 @@ resource "aws_dynamodb_table_item" "htme_incremental_ris_data_egress_config" {
   ITEM
 }
 
+resource "aws_dynamodb_table_item" "htme_incremental_cre_data_egress_config" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  for_each = nonsensitive(toset([for cre_collection in local.cre_collections : cre_collection if cre_collection != "NOT_SET"]))
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "businessdata/mongo/ucdata/$TODAYS_DATE/incremental/${each.key}-*"},
+    "pipeline_name":                {"S":     "CRE_SFT"},
+    "recipient_name":               {"S":     "CRE"},
+    "transfer_type":                {"S":     "SFT"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.internal_compute.outputs.htme_s3_bucket.id}"},
+    "destination_prefix":           {"S":     "/data-egress/CRE" },
+    "decrypt":                      {"bool":  true},
+    "rewrap_datakey":               {"bool":  false},
+    "control_file_prefix":          {"S":     "${each.key}-$TODAYS_DATE.control"},
+    "timestamp_files":              {"bool":  true},
+    "encrypting_key_ssm_parm_name": {"S":     ""}
+  }
+  ITEM
+}
+
 resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
   table_name = aws_dynamodb_table.data_egress.name
   hash_key   = aws_dynamodb_table.data_egress.hash_key
@@ -1512,6 +1556,28 @@ resource "aws_dynamodb_table_item" "pdm_jsons_ris_data_egress" {
     "transfer_type":                {"S":     "SFT"},
     "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
     "destination_prefix":           {"S":     "/data-egress/RIS" },
+    "decrypt":                      {"bool":  true},
+    "rewrap_datakey":               {"bool":  false},
+    "control_file_prefix":          {"S":     "initial-organisation-files-$TODAYS_DATE.control"},
+    "timestamp_files":              {"bool":  true},
+    "encrypting_key_ssm_parm_name": {"S":     ""}
+  }
+  ITEM
+}
+
+resource "aws_dynamodb_table_item" "pdm_jsons_cre_data_egress" {
+  table_name = aws_dynamodb_table.data_egress.name
+  hash_key   = aws_dynamodb_table.data_egress.hash_key
+  range_key  = aws_dynamodb_table.data_egress.range_key
+
+  item = <<ITEM
+  {
+    "source_prefix":                {"S":     "common-model-inputs/data/site/*"},
+    "pipeline_name":                {"S":     "CRE_SFT"},
+    "recipient_name":               {"S":     "DSP"},
+    "transfer_type":                {"S":     "SFT"},
+    "source_bucket":                {"S":     "${data.terraform_remote_state.common.outputs.published_bucket.id}"},
+    "destination_prefix":           {"S":     "/data-egress/CRE" },
     "decrypt":                      {"bool":  true},
     "rewrap_datakey":               {"bool":  false},
     "control_file_prefix":          {"S":     "initial-organisation-files-$TODAYS_DATE.control"},
