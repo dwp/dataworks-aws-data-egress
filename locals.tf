@@ -232,10 +232,12 @@ locals {
   secret_name_for_rtg_full_collections        = "/concourse/dataworks/rtg/full"
   secret_name_for_rtg_incremental_collections = "/concourse/dataworks/rtg/incremental"
   secret_name_for_ris_collections             = "/htme/collections/ris"
+  secret_name_for_cre_collections             = "/htme/collections/cre"
 
   rtg_pdm_queries             = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_pdm_queries.secret_binary)
   rtg_full_collections        = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_full_collections.secret_binary)
   rtg_incremental_collections = csvdecode(data.aws_secretsmanager_secret_version.rtg_secret_incremental_collections.secret_binary)
   ris_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_ris_collections.secret_string)))
+  cre_collections             = split("\n", chomp(base64decode(data.aws_secretsmanager_secret_version.secret_for_cre_collections.secret_string)))
 
 }

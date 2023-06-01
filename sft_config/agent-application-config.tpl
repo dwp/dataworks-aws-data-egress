@@ -18,6 +18,18 @@ sender:
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
+    - name: internal/CRE/inbound/Dataworks/UCFS/data
+      source: /data-egress/CRE/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/CRE/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/CRE
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
     - name: internal/DandARed/inbound/Dataworks/UCFS/tactical
       source: /data-egress/sas/
       actions:
