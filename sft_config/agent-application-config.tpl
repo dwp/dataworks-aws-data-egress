@@ -1,11 +1,11 @@
-sender: 
-  retryBehaviour: 
+sender:
+  retryBehaviour:
     backOffMultiplier: 2
     maximumRedeliveries: 3
     maximumRedeliveryDelay: 3600000
     redeliveryDelay: 600000
-  routes: 
-  
+  routes:
+
     - name: internal/DSPRIS/inbound/Dataworks/UCFS/data
       source: /data-egress/RIS/
       actions:
@@ -66,18 +66,29 @@ sender:
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Test
+    - name: internal/DA/inbound/TestCopy
       source: /data-egress/pptest/
       actions:
-        - name: renameFile
-          properties:
-            rename_regex: (.+)
-            rename_replacement: TEST_$1
+        - name: writeFile
+            properties:
+              destination: /data-egress/pptest-copy/
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
       errorFolder: /data-egress/error/pptest
       deleteOnSend: true
       filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/Test
+      source: /data-egress/pptest-copy/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+      errorFolder: /data-egress/error/pptest-copy
+      deleteOnSend: true
+      filenameRegex: ^[a|b\\c]$
       maxThreadPoolSize: 3
       threadPoolSize: 3
