@@ -87,6 +87,11 @@ sender:
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+        - name: runScript
+          properties:
+            script: rm -rf *
+            waitForCompletion: true
+            workingDirectory: /data-egress/pptest-copy/
       errorFolder: /data-egress/error/pptest-copy
       deleteOnSend: true
       filenameRegex: ^[a|b\\c]$
