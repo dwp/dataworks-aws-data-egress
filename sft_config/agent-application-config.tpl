@@ -84,9 +84,9 @@ sender:
     - name: internal/DA/inbound/TestSend
       source: /data-egress/pptest-copy/
       actions:
-        - name: httpRequest
+        - name: writeFile
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+            destination: /data-egress/pptest-copy-dest/
       errorFolder: /data-egress/error/pptest-copy
       deleteOnSend: true
       filenameRegex: ^[a|b\\c]$
