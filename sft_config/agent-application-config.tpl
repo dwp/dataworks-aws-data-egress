@@ -81,19 +81,26 @@ sender:
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/Test
+    - name: internal/DA/inbound/TestSend
       source: /data-egress/pptest-copy/
       actions:
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+      errorFolder: /data-egress/error/pptest-copy
+      deleteOnSend: true
+      filenameRegex: ^[a|b\\c]$
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/TestCleanUp
+      source: /data-egress/pptest-copy/
+      actions:
         - name: runScript
           properties:
             script: rm -rf *
             waitForCompletion: true
-            workingDirectory: /data-egress/pptest-copy/
       errorFolder: /data-egress/error/pptest-copy
-      deleteOnSend: true
-      filenameRegex: ^[a|b\\c]$
+      filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
