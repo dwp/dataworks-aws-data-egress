@@ -87,7 +87,10 @@ sender:
         - name: writeFile
           properties:
             destination: /data-egress/pptest-copy-dest/
-      errorFolder: /data-egress/error/pptest-copy
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
+      errorFolder: /data-egress/error/pptest-copy-dest
       deleteOnSend: true
       filenameRegex: ^[a|b\\c]$
       maxThreadPoolSize: 3
