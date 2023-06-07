@@ -70,8 +70,8 @@ sender:
       source: /data-egress/pptest/
       actions:
         - name: writeFile
-            properties:
-              destination: /data-egress/pptest-copy/
+          properties:
+            destination: /data-egress/pptest-copy/
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
