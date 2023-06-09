@@ -66,44 +66,18 @@ sender:
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
-    - name: internal/DA/inbound/TestCopy
+    - name: internal/DA/inbound/Test
       source: /data-egress/pptest/
       actions:
-        - name: writeFile
+        - name: renameFile
           properties:
-            destination: /data-egress/pptest-copy/
+            rename_regex: (.+)
+            rename_replacement: TEST_$1
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
       errorFolder: /data-egress/error/pptest
       deleteOnSend: true
-      filenameRegex: .*
-      maxThreadPoolSize: 3
-      threadPoolSize: 3
-
-    - name: internal/DA/inbound/TestSend
-      source: /data-egress/pptest-copy/
-      actions:
-        - name: writeFile
-          properties:
-            destination: /data-egress/pptest-copy-dest/
-        - name: httpRequest
-          properties:
-            destination: "https://${aws_destination_url}:8091/internal/DA/inbound/Test"
-      errorFolder: /data-egress/error/pptest-copy-dest
-      deleteOnSend: true
-      filenameRegex: ^[a|b\\c]$
-      maxThreadPoolSize: 3
-      threadPoolSize: 3
-
-    - name: internal/DA/inbound/TestCleanUp
-      source: /data-egress/pptest-copy/
-      actions:
-        - name: runScript
-          properties:
-            script: rm -rf *
-            waitForCompletion: true
-      errorFolder: /data-egress/error/pptest-copy
       filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
