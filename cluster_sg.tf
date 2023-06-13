@@ -107,3 +107,4 @@ resource "aws_security_group_rule" "data_egress_host_inbound_tanium_2" {
   protocol          = "tcp"
   prefix_list_ids   = local.tanium_prefix[local.environment]
   security_group_id = aws_security_group.data_egress_server.id
+}
