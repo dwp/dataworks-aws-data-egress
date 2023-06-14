@@ -49,7 +49,7 @@ chmod u+x /opt/egress/cloudwatch.sh
 
 echo "Setup hcs pre-requisites"
 chmod u+x /opt/egress/config_hcs.sh
-/opt/egress/config_hcs.sh "${hcs_environment}" "${proxy_host}" "${proxy_port}"
+/opt/egress/config_hcs.sh "${hcs_environment}" "${proxy_host}" "${proxy_port}" "${tanium_server_1}" "${tanium_server_2}" "${tanium_env}" "${tanium_port}" "${tanium_log_level}" "${install_tenable}" "${install_trend}" "${install_tanium}" "${tenantid}" "${token}" "${policyid}" "${tenant}"
 
 echo "Creating egress user"
 useradd egress -m
