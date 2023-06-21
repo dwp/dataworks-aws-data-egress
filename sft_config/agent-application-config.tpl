@@ -81,3 +81,54 @@ sender:
       filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
+
+- name: internal/CRE/inbound/Dataworks/UCFS/data-CopySubsetToBothRISandCRE
+      source: /data-egress/RIS/
+      actions:
+        - name: writeFile
+          properties:
+            destination: /data-egress/ris-tmp/
+        - name: writeFile
+          properties:
+            destination: /data-egress/cre-tmp/
+      errorFolder: /data-egress/error/CRE
+      deleteOnSend: true
+      filenameRegex: db.(core.(statement$|claimant$|contract$)|accepted-data.(address$|childrenCircumstances$|personDetails$)|crypto.(encryptedData-unencrypted$))$
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/CRE/inbound/Dataworks/UCFS/data-CopyOtherThanSubsetToRIS
+      source: /data-egress/RIS/
+      actions:
+        - name: writeFile
+          properties:
+            destination: /data-egress/ris-tmp/
+      errorFolder: /data-egress/error/RIS
+      deleteOnSend: true
+      filenameRegex: db.((?!core.(statement$|claimant$|contract$)|accepted-data.(address$|childrenCircumstances$|personDetails$)|crypto.(encryptedData-unencrypted$)).*)$
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/SendTo-DSPRIS
+      source: /data-egress/ris-tmp/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/DSPRIS/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/RIS
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
+
+    - name: internal/DA/inbound/SendTo-CRE
+      source: /data-egress/cre-tmp/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/CRE/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/CRE
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
