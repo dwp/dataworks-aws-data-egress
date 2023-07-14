@@ -81,3 +81,15 @@ sender:
       filenameRegex: .*
       maxThreadPoolSize: 3
       threadPoolSize: 3
+
+    - name: internal/DA/inbound/SendTo-CRE
+      source: /data-egress/cre-tmp/
+      actions:
+        - name: httpRequest
+          properties:
+            destination: "https://${aws_destination_url}:8091/internal/CRE/inbound/Dataworks/UCFS/data"
+      errorFolder: /data-egress/error/CRE
+      deleteOnSend: true
+      filenameRegex: .*
+      maxThreadPoolSize: 3
+      threadPoolSize: 3
