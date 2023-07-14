@@ -87,7 +87,7 @@ sender:
       actions:
         - name: httpRequest
           properties:
-            destination: "https://${aws_destination_url}:8091/internal/CRE/inbound/Dataworks/UCFS/data"
+            destination: "https://${aws_destination_url}:8091/internal/CEHA/inbound/Dataworks/UCFS/data"
       errorFolder: /data-egress/error/CRE
       deleteOnSend: true
       filenameRegex: .*
