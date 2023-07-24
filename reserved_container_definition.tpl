@@ -26,7 +26,7 @@
   "healthCheck": {
     "command": [
       "CMD-SHELL",
-      "pgrep -f sft-agent.jar"
+      "pgrep -f sft-agent.jar && pgrep -f data-egress.jar"
     ],
     "interval": 5,
     "timeout": 2,
