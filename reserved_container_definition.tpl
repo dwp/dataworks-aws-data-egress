@@ -23,16 +23,6 @@
       softLimit = limit
     }
   ])},
-  "healthCheck": {
-    "command": [
-      "CMD-SHELL",
-      "pgrep -f sft-agent.jar && pgrep -f data-egress.jar"
-    ],
-    "interval": 5,
-    "timeout": 2,
-    "retries": 10,
-    "startPeriod": 300
-  },
   "mountPoints": ${jsonencode([
     for mount in jsondecode(mount_points) : {
       containerPath = mount.container_path,
