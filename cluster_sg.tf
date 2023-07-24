@@ -75,8 +75,8 @@ resource "aws_security_group_rule" "data_egress_host_outbound_tanium_1" {
   from_port                = var.tanium_port_1
   to_port                  = var.tanium_port_1
   protocol                 = "tcp"
-  security_group_id        = data.terraform_remote_state.aws_sdx.outputs.tanium_service_endpoint.sg
-  source_security_group_id = aws_security_group.data_egress_server.id
+  security_group_id        = aws_security_group.data_egress_server.id 
+  source_security_group_id = data.terraform_remote_state.aws_sdx.outputs.tanium_service_endpoint.sg
 }
 
 resource "aws_security_group_rule" "data_egress_host_outbound_tanium_2" {
@@ -85,8 +85,8 @@ resource "aws_security_group_rule" "data_egress_host_outbound_tanium_2" {
   from_port                = var.tanium_port_2
   to_port                  = var.tanium_port_2
   protocol                 = "tcp"
-  security_group_id        = data.terraform_remote_state.aws_sdx.outputs.tanium_service_endpoint.sg
-  source_security_group_id = aws_security_group.data_egress_server.id
+  security_group_id        = aws_security_group.data_egress_server.id 
+  source_security_group_id = data.terraform_remote_state.aws_sdx.outputs.tanium_service_endpoint.sg
 }
 
 resource "aws_security_group_rule" "data_egress_host_inbound_tanium_1" {
