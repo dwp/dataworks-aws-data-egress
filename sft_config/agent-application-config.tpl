@@ -6,15 +6,38 @@ sender:
     redeliveryDelay: 600000
   routes:
 
-    - name: internal/DSPRIS/inbound/Dataworks/UCFS/data
+    - name: internal/CRE/inbound/Dataworks/UCFS/data-CopySubsetToBothRISandCRE
       source: /data-egress/RIS/
+      actions:
+        - name: writeFile
+          properties:
+            destination: /data-egress/ris-tmp/
+        - name: writeFile
+          properties:
+            destination: /data-egress/cre-tmp/
+      errorFolder: /data-egress/error/CRE
+      deleteOnSend: true
+      filenameRegex: ^db.(core.(statement$|claimant$|contract$)|accepted-data.(address$|childrenCircumstances$|personDetails$)|crypto.(encryptedData-unencrypted$).*)$
+
+    - name: internal/CRE/inbound/Dataworks/UCFS/data-CopyOtherThanSubsetToRIS
+      source: /data-egress/RIS/
+      actions:
+        - name: writeFile
+          properties:
+            destination: /data-egress/ris-tmp/
+      errorFolder: /data-egress/error/RIS
+      deleteOnSend: true
+      filenameRegex:  ^db.((?!core.(statement$|claimant$|contract$)|accepted-data.(address$|childrenCircumstances$|personDetails$)|crypto.(encryptedData-unencrypted$)).*)$
+
+    - name: internal/DSPRIS/inbound/Dataworks/UCFS/data
+      source: /data-egress/ris-tmp/
       actions:
         - name: httpRequest
           properties:
             destination: "https://${aws_destination_url}:8091/internal/DSPRIS/inbound/Dataworks/UCFS/data"
       errorFolder: /data-egress/error/RIS
       deleteOnSend: true
-      filenameRegex: .*
+      filenameRegex: ^.*$
       maxThreadPoolSize: 3
       threadPoolSize: 3
 
