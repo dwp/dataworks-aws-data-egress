@@ -27,7 +27,7 @@ sender:
             destination: /data-egress/ris-tmp/
       errorFolder: /data-egress/error/RIS
       deleteOnSend: true
-      filenameRegex:  ^db[.]((?!core[.]\b(statement|claimant|contract)\b|accepted-data[.]\b(address|childrenCircumstances|personDetails)\b|crypto[.]\b(encryptedData-unencrypted)).*)(-[0-9]{3}-[0-9]{3}-[0-9]{6}[.][0-9]{8}[.]txt[.]gz[.]enc)$
+      filenameRegex: .*
 
     - name: internal/DSPRIS/inbound/Dataworks/UCFS/data
       source: /data-egress/ris-tmp/
