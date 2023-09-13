@@ -1,3 +1,6 @@
+# DO NOT USE - MIGRATED TO GITLAB
+
+
 # dataworks-aws-data-egress
 
 ## A repo for Dataworks AWS Data Egress service infrastructure
